@@ -75,7 +75,7 @@ namespace Avalonia.Wayland
 
         internal sealed class WlScreen : Screen, WlOutput.IEvents, IDisposable
         {
-            private static ConcurrentDictionary<string, PropertyInfo> cache = new();
+            private static ConcurrentDictionary<string, FieldInfo> cache = new();
 
             public WlScreen(WlOutput wlOutput) : base(0, PixelRect.Empty, PixelRect.Empty, true)
             {
@@ -89,7 +89,7 @@ namespace Avalonia.Wayland
             {
                 var value = new PixelRect(x, y, Bounds.Width, Bounds.Height);
                 SetProperty(nameof(WorkingArea), value);
-                SetProperty(nameof(Bounds), value);                
+                SetProperty(nameof(Bounds), value);
             }
 
             private void SetProperty(string name, object value)
@@ -97,10 +97,10 @@ namespace Avalonia.Wayland
                 var prop = cache.GetOrAdd(name, (k) =>
                 {
 #pragma warning disable CS8603 // Possible null reference return.
-                    return typeof(Screen).GetProperty(name);
+                    return typeof(Screen).GetField($"<{name}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 #pragma warning restore CS8603 // Possible null reference return.
                 });
-                prop.SetValue(this, value, null);
+                prop.SetValue(this, value);
             }
 
             public void OnMode(WlOutput eventSender, WlOutput.ModeEnum flags, int width, int height, int refresh)
@@ -109,7 +109,7 @@ namespace Avalonia.Wayland
                 {
                     var value = new PixelRect(Bounds.X, Bounds.Y, width, height);
                     SetProperty(nameof(WorkingArea), value);
-                    SetProperty(nameof(Bounds), value);                    
+                    SetProperty(nameof(Bounds), value);
                 }
             }
 
