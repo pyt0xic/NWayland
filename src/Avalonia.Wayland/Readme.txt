@@ -1,0 +1,1 @@
+Taken from https://github.com/affederaffe/Avalonia, still a PR. For 0.10 compatibility.
