@@ -37,7 +37,7 @@ namespace Avalonia.Wayland
                 if (_isLightDismissEnabled)
                 {
                     _xdgPopup.Grab(_platform.WlSeat, _platform.WlInputDevice.UserActionDownSerial);
-                    WlSurface.Commit();
+                    WlSurface?.Commit();
                 }
             }
 
@@ -61,7 +61,7 @@ namespace Avalonia.Wayland
                 _xdgPopup.Reposition(_xdgPositioner, ++_repositionToken);
             }
 
-            WlSurface.Commit();
+            WlSurface?.Commit();
         }
 
         public void OnConfigure(XdgPopup eventSender, int x, int y, int width, int height)

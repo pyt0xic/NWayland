@@ -106,7 +106,7 @@ namespace Avalonia.Wayland
 
         internal WlWindow? Parent { get; set; }
 
-        internal WlSurface WlSurface { get; }
+        internal WlSurface? WlSurface { get; private set; }
 
         internal XdgSurface XdgSurface { get; }
 
@@ -130,7 +130,7 @@ namespace Avalonia.Wayland
             return new ImmediateRenderer(root);
         }
 
-        public void Invalidate(Rect rect) => WlSurface.DamageBuffer((int)rect.X, (int)rect.Y, (int)(rect.Width * RenderScaling), (int)(rect.Height * RenderScaling));
+        public void Invalidate(Rect rect) => WlSurface?.DamageBuffer((int)rect.X, (int)rect.Y, (int)(rect.Width * RenderScaling), (int)(rect.Height * RenderScaling));
 
         public void SetInputRoot(IInputRoot inputRoot) => InputRoot = inputRoot;
 
@@ -149,7 +149,7 @@ namespace Avalonia.Wayland
             if (transparencyLevel == WindowTransparencyLevel.None)
                 SetOpaqueRegion(ClientSize);
             else
-                WlSurface.SetOpaqueRegion(null);
+                WlSurface?.SetOpaqueRegion(null);
             TransparencyLevel = transparencyLevel;
             TransparencyLevelChanged?.Invoke(transparencyLevel);
         }
@@ -158,8 +158,8 @@ namespace Avalonia.Wayland
 
         public void Hide()
         {
-            WlSurface.Attach(null, 0, 0);
-            WlSurface.Commit();
+            WlSurface?.Attach(null, 0, 0);
+            WlSurface?.Commit();
         }
 
         public void Activate() { }
@@ -180,7 +180,7 @@ namespace Avalonia.Wayland
                 return;
             RenderScaling = screen.PixelDensity;
             ScalingChanged?.Invoke(RenderScaling);
-            WlSurface.SetBufferScale((int)RenderScaling);
+            WlSurface?.SetBufferScale((int)RenderScaling);
         }
 
         public void OnLeave(WlSurface eventSender, WlOutput output) => WlOutput = null;
@@ -209,7 +209,9 @@ namespace Avalonia.Wayland
                 LibWaylandEgl.wl_egl_window_destroy(_eglWindow);
             _wlFramebufferSurface.Dispose();
             XdgSurface.Dispose();
-            WlSurface.Dispose();
+            var surf = WlSurface;
+            WlSurface = null;
+            surf?.Dispose();
             Closed?.Invoke();
         }
 
@@ -217,7 +219,7 @@ namespace Avalonia.Wayland
         {
             if (_frameCallback is not null)
                 return;
-            _frameCallback = WlSurface.Frame();
+            _frameCallback = WlSurface?.Frame();
             _frameCallback.Events = this;
         }
 
@@ -242,7 +244,7 @@ namespace Avalonia.Wayland
         {
             using var region = _platform.WlCompositor.CreateRegion();
             region.Add(0, 0, (int)size.Width, (int)size.Height);
-            WlSurface.SetOpaqueRegion(region);
+            WlSurface?.SetOpaqueRegion(region);
         }
     }
 }
