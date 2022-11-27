@@ -8,8 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.RelativePointerUnstableV1
 {
     /// <summary>
-    /// A global interface used for getting the relative pointer object for a
-    /// given pointer.
+    /// A global interface used for getting the relative pointer object for agiven pointer.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpRelativePointerManagerV1 : WlProxy
     {
@@ -38,8 +37,7 @@ namespace NWayland.Protocols.RelativePointerUnstableV1
         }
 
         /// <summary>
-        /// Create a relative pointer interface given a wl_pointer object. See the
-        /// wp_relative_pointer interface for more details.
+        /// Create a relative pointer interface given a wl_pointer object. See thewp_relative_pointer interface for more details.<br/><br/>
         /// </summary>
         public NWayland.Protocols.RelativePointerUnstableV1.ZwpRelativePointerV1 GetRelativePointer(NWayland.Protocols.Wayland.WlPointer @pointer)
         {
@@ -87,10 +85,7 @@ namespace NWayland.Protocols.RelativePointerUnstableV1
     }
 
     /// <summary>
-    /// A wp_relative_pointer object is an extension to the wl_pointer interface
-    /// used for emitting relative pointer events. It shares the same focus as
-    /// wl_pointer objects of the same seat and will only emit events when it has
-    /// focus.
+    /// A wp_relative_pointer object is an extension to the wl_pointer interfaceused for emitting relative pointer events. It shares the same focus aswl_pointer objects of the same seat and will only emit events when it hasfocus.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpRelativePointerV1 : WlProxy
     {
@@ -122,41 +117,12 @@ namespace NWayland.Protocols.RelativePointerUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// Relative x/y pointer motion from the pointer of the seat associated with
-            /// this object.
-            /// <br/>
-            /// <br/>
-            /// A relative motion is in the same dimension as regular wl_pointer motion
-            /// events, except they do not represent an absolute position. For example,
-            /// moving a pointer from (x, y) to (x', y') would have the equivalent
-            /// relative motion (x' - x, y' - y). If a pointer motion caused the
-            /// absolute pointer position to be clipped by for example the edge of the
-            /// monitor, the relative motion is unaffected by the clipping and will
-            /// represent the unclipped motion.
-            /// <br/>
-            /// <br/>
-            /// This event also contains non-accelerated motion deltas. The
-            /// non-accelerated delta is, when applicable, the regular pointer motion
-            /// delta as it was before having applied motion acceleration and other
-            /// transformations such as normalization.
-            /// <br/>
-            /// <br/>
-            /// Note that the non-accelerated delta does not represent 'raw' events as
-            /// they were read from some device. Pointer motion acceleration is device-
-            /// and configuration-specific and non-accelerated deltas and accelerated
-            /// deltas may have the same value on some devices.
-            /// <br/>
-            /// <br/>
-            /// Relative motions are not coupled to wl_pointer.motion events, and can be
-            /// sent in combination with such events, but also independently. There may
-            /// also be scenarios where wl_pointer.motion is sent, but there is no
-            /// relative motion. The order of an absolute and relative motion event
-            /// originating from the same physical motion is not guaranteed.
-            /// <br/>
-            /// <br/>
-            /// If the client needs button events or focus state, it can receive them
-            /// from a wl_pointer object of the same seat that the wp_relative_pointer
-            /// object is associated with.
+            /// Relative x/y pointer motion from the pointer of the seat associated withthis object.<br/><br/>
+            /// A relative motion is in the same dimension as regular wl_pointer motionevents, except they do not represent an absolute position. For example,moving a pointer from (x, y) to (x', y') would have the equivalentrelative motion (x' - x, y' - y). If a pointer motion caused theabsolute pointer position to be clipped by for example the edge of themonitor, the relative motion is unaffected by the clipping and willrepresent the unclipped motion.<br/><br/>
+            /// This event also contains non-accelerated motion deltas. Thenon-accelerated delta is, when applicable, the regular pointer motiondelta as it was before having applied motion acceleration and othertransformations such as normalization.<br/><br/>
+            /// Note that the non-accelerated delta does not represent 'raw' events asthey were read from some device. Pointer motion acceleration is device-and configuration-specific and non-accelerated deltas and accelerateddeltas may have the same value on some devices.<br/><br/>
+            /// Relative motions are not coupled to wl_pointer.motion events, and can besent in combination with such events, but also independently. There mayalso be scenarios where wl_pointer.motion is sent, but there is norelative motion. The order of an absolute and relative motion eventoriginating from the same physical motion is not guaranteed.<br/><br/>
+            /// If the client needs button events or focus state, it can receive themfrom a wl_pointer object of the same seat that the wp_relative_pointerobject is associated with.<br/><br/>
             /// </summary>
             void OnRelativeMotion(NWayland.Protocols.RelativePointerUnstableV1.ZwpRelativePointerV1 eventSender, uint @utimeHi, uint @utimeLo, WlFixed @dx, WlFixed @dy, WlFixed @dxUnaccel, WlFixed @dyUnaccel);
         }

@@ -8,8 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.InputTimestampsUnstableV1
 {
     /// <summary>
-    /// A global interface used for requesting high-resolution timestamps
-    /// for input events.
+    /// A global interface used for requesting high-resolution timestampsfor input events.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpInputTimestampsManagerV1 : WlProxy
     {
@@ -40,15 +39,8 @@ namespace NWayland.Protocols.InputTimestampsUnstableV1
         }
 
         /// <summary>
-        /// Creates a new input timestamps object that represents a subscription
-        /// to high-resolution timestamp events for all wl_keyboard events that
-        /// carry a timestamp.
-        /// <br/>
-        /// <br/>
-        /// If the associated wl_keyboard object is invalidated, either through
-        /// client action (e.g. release) or server-side changes, the input
-        /// timestamps object becomes inert and the client should destroy it
-        /// by calling zwp_input_timestamps_v1.destroy.
+        /// Creates a new input timestamps object that represents a subscriptionto high-resolution timestamp events for all wl_keyboard events thatcarry a timestamp.<br/><br/>
+        /// If the associated wl_keyboard object is invalidated, either throughclient action (e.g. release) or server-side changes, the inputtimestamps object becomes inert and the client should destroy itby calling zwp_input_timestamps_v1.destroy.<br/><br/>
         /// </summary>
         public NWayland.Protocols.InputTimestampsUnstableV1.ZwpInputTimestampsV1 GetKeyboardTimestamps(NWayland.Protocols.Wayland.WlKeyboard @keyboard)
         {
@@ -63,15 +55,8 @@ namespace NWayland.Protocols.InputTimestampsUnstableV1
         }
 
         /// <summary>
-        /// Creates a new input timestamps object that represents a subscription
-        /// to high-resolution timestamp events for all wl_pointer events that
-        /// carry a timestamp.
-        /// <br/>
-        /// <br/>
-        /// If the associated wl_pointer object is invalidated, either through
-        /// client action (e.g. release) or server-side changes, the input
-        /// timestamps object becomes inert and the client should destroy it
-        /// by calling zwp_input_timestamps_v1.destroy.
+        /// Creates a new input timestamps object that represents a subscriptionto high-resolution timestamp events for all wl_pointer events thatcarry a timestamp.<br/><br/>
+        /// If the associated wl_pointer object is invalidated, either throughclient action (e.g. release) or server-side changes, the inputtimestamps object becomes inert and the client should destroy itby calling zwp_input_timestamps_v1.destroy.<br/><br/>
         /// </summary>
         public NWayland.Protocols.InputTimestampsUnstableV1.ZwpInputTimestampsV1 GetPointerTimestamps(NWayland.Protocols.Wayland.WlPointer @pointer)
         {
@@ -86,15 +71,8 @@ namespace NWayland.Protocols.InputTimestampsUnstableV1
         }
 
         /// <summary>
-        /// Creates a new input timestamps object that represents a subscription
-        /// to high-resolution timestamp events for all wl_touch events that
-        /// carry a timestamp.
-        /// <br/>
-        /// <br/>
-        /// If the associated wl_touch object becomes invalid, either through
-        /// client action (e.g. release) or server-side changes, the input
-        /// timestamps object becomes inert and the client should destroy it
-        /// by calling zwp_input_timestamps_v1.destroy.
+        /// Creates a new input timestamps object that represents a subscriptionto high-resolution timestamp events for all wl_touch events thatcarry a timestamp.<br/><br/>
+        /// If the associated wl_touch object becomes invalid, either throughclient action (e.g. release) or server-side changes, the inputtimestamps object becomes inert and the client should destroy itby calling zwp_input_timestamps_v1.destroy.<br/><br/>
         /// </summary>
         public NWayland.Protocols.InputTimestampsUnstableV1.ZwpInputTimestampsV1 GetTouchTimestamps(NWayland.Protocols.Wayland.WlTouch @touch)
         {
@@ -142,9 +120,7 @@ namespace NWayland.Protocols.InputTimestampsUnstableV1
     }
 
     /// <summary>
-    /// Provides high-resolution timestamp events for a set of subscribed input
-    /// events. The set of subscribed input events is determined by the
-    /// zwp_input_timestamps_manager_v1 request used to create this object.
+    /// Provides high-resolution timestamp events for a set of subscribed inputevents. The set of subscribed input events is determined by thezwp_input_timestamps_manager_v1 request used to create this object.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpInputTimestampsV1 : WlProxy
     {
@@ -176,22 +152,9 @@ namespace NWayland.Protocols.InputTimestampsUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// The timestamp event is associated with the first subsequent input event
-            /// carrying a timestamp which belongs to the set of input events this
-            /// object is subscribed to.
-            /// <br/>
-            /// <br/>
-            /// The timestamp provided by this event is a high-resolution version of
-            /// the timestamp argument of the associated input event. The provided
-            /// timestamp is in the same clock domain and is at least as accurate as
-            /// the associated input event timestamp.
-            /// <br/>
-            /// <br/>
-            /// The timestamp is expressed as tv_sec_hi, tv_sec_lo, tv_nsec triples,
-            /// each component being an unsigned 32-bit value. Whole seconds are in
-            /// tv_sec which is a 64-bit value combined from tv_sec_hi and tv_sec_lo,
-            /// and the additional fractional part in tv_nsec as nanoseconds. Hence,
-            /// for valid timestamps tv_nsec must be in [0, 999999999].
+            /// The timestamp event is associated with the first subsequent input eventcarrying a timestamp which belongs to the set of input events thisobject is subscribed to.<br/><br/>
+            /// The timestamp provided by this event is a high-resolution version ofthe timestamp argument of the associated input event. The providedtimestamp is in the same clock domain and is at least as accurate asthe associated input event timestamp.<br/><br/>
+            /// The timestamp is expressed as tv_sec_hi, tv_sec_lo, tv_nsec triples,each component being an unsigned 32-bit value. Whole seconds are intv_sec which is a 64-bit value combined from tv_sec_hi and tv_sec_lo,and the additional fractional part in tv_nsec as nanoseconds. Hence,for valid timestamps tv_nsec must be in [0, 999999999].<br/><br/>
             /// </summary>
             void OnTimestamp(NWayland.Protocols.InputTimestampsUnstableV1.ZwpInputTimestampsV1 eventSender, uint @tvSecHi, uint @tvSecLo, uint @tvNsec);
         }

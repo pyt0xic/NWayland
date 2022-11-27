@@ -8,7 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1
 {
     /// <summary>
-    /// A global interface used for inhibiting the compositor keyboard shortcuts.
+    /// A global interface used for inhibiting the compositor keyboard shortcuts.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpKeyboardShortcutsInhibitManagerV1 : WlProxy
     {
@@ -37,12 +37,8 @@ namespace NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1
         }
 
         /// <summary>
-        /// Create a new keyboard shortcuts inhibitor object associated with
-        /// the given surface for the given seat.
-        /// <br/>
-        /// <br/>
-        /// If shortcuts are already inhibited for the specified seat and surface,
-        /// a protocol error "already_inhibited" is raised by the compositor.
+        /// Create a new keyboard shortcuts inhibitor object associated withthe given surface for the given seat.<br/><br/>
+        /// If shortcuts are already inhibited for the specified seat and surface,a protocol error "already_inhibited" is raised by the compositor.<br/><br/>
         /// </summary>
         public NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1.ZwpKeyboardShortcutsInhibitorV1 InhibitShortcuts(NWayland.Protocols.Wayland.WlSurface @surface, NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -71,7 +67,9 @@ namespace NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// the shortcuts are already inhibited for this surface<br/><br/>
+            /// </summary>
             AlreadyInhibited = 0
         }
 
@@ -99,44 +97,12 @@ namespace NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1
     }
 
     /// <summary>
-    /// A keyboard shortcuts inhibitor instructs the compositor to ignore
-    /// its own keyboard shortcuts when the associated surface has keyboard
-    /// focus. As a result, when the surface has keyboard focus on the given
-    /// seat, it will receive all key events originating from the specified
-    /// seat, even those which would normally be caught by the compositor for
-    /// its own shortcuts.
-    /// <br/>
-    /// <br/>
-    /// The Wayland compositor is however under no obligation to disable
-    /// all of its shortcuts, and may keep some special key combo for its own
-    /// use, including but not limited to one allowing the user to forcibly
-    /// restore normal keyboard events routing in the case of an unwilling
-    /// client. The compositor may also use the same key combo to reactivate
-    /// an existing shortcut inhibitor that was previously deactivated on
-    /// user request.
-    /// <br/>
-    /// <br/>
-    /// When the compositor restores its own keyboard shortcuts, an
-    /// "inactive" event is emitted to notify the client that the keyboard
-    /// shortcuts inhibitor is not effectively active for the surface and
-    /// seat any more, and the client should not expect to receive all
-    /// keyboard events.
-    /// <br/>
-    /// <br/>
-    /// When the keyboard shortcuts inhibitor is inactive, the client has
-    /// no way to forcibly reactivate the keyboard shortcuts inhibitor.
-    /// <br/>
-    /// <br/>
-    /// The user can chose to re-enable a previously deactivated keyboard
-    /// shortcuts inhibitor using any mechanism the compositor may offer,
-    /// in which case the compositor will send an "active" event to notify
-    /// the client.
-    /// <br/>
-    /// <br/>
-    /// If the surface is destroyed, unmapped, or loses the seat's keyboard
-    /// focus, the keyboard shortcuts inhibitor becomes irrelevant and the
-    /// compositor will restore its own keyboard shortcuts but no "inactive"
-    /// event is emitted in this case.
+    /// A keyboard shortcuts inhibitor instructs the compositor to ignoreits own keyboard shortcuts when the associated surface has keyboardfocus. As a result, when the surface has keyboard focus on the givenseat, it will receive all key events originating from the specifiedseat, even those which would normally be caught by the compositor forits own shortcuts.<br/><br/>
+    /// The Wayland compositor is however under no obligation to disableall of its shortcuts, and may keep some special key combo for its ownuse, including but not limited to one allowing the user to forciblyrestore normal keyboard events routing in the case of an unwillingclient. The compositor may also use the same key combo to reactivatean existing shortcut inhibitor that was previously deactivated onuser request.<br/><br/>
+    /// When the compositor restores its own keyboard shortcuts, an"inactive" event is emitted to notify the client that the keyboardshortcuts inhibitor is not effectively active for the surface andseat any more, and the client should not expect to receive allkeyboard events.<br/><br/>
+    /// When the keyboard shortcuts inhibitor is inactive, the client hasno way to forcibly reactivate the keyboard shortcuts inhibitor.<br/><br/>
+    /// The user can chose to re-enable a previously deactivated keyboardshortcuts inhibitor using any mechanism the compositor may offer,in which case the compositor will send an "active" event to notifythe client.<br/><br/>
+    /// If the surface is destroyed, unmapped, or loses the seat's keyboardfocus, the keyboard shortcuts inhibitor becomes irrelevant and thecompositor will restore its own keyboard shortcuts but no "inactive"event is emitted in this case.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpKeyboardShortcutsInhibitorV1 : WlProxy
     {
@@ -169,25 +135,14 @@ namespace NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// This event indicates that the shortcut inhibitor is active.
-            /// <br/>
-            /// <br/>
-            /// The compositor sends this event every time compositor shortcuts
-            /// are inhibited on behalf of the surface. When active, the client
-            /// may receive input events normally reserved by the compositor
-            /// (see zwp_keyboard_shortcuts_inhibitor_v1).
-            /// <br/>
-            /// <br/>
-            /// This occurs typically when the initial request "inhibit_shortcuts"
-            /// first becomes active or when the user instructs the compositor to
-            /// re-enable and existing shortcuts inhibitor using any mechanism
-            /// offered by the compositor.
+            /// This event indicates that the shortcut inhibitor is active.<br/><br/>
+            /// The compositor sends this event every time compositor shortcutsare inhibited on behalf of the surface. When active, the clientmay receive input events normally reserved by the compositor(see zwp_keyboard_shortcuts_inhibitor_v1).<br/><br/>
+            /// This occurs typically when the initial request "inhibit_shortcuts"first becomes active or when the user instructs the compositor tore-enable and existing shortcuts inhibitor using any mechanismoffered by the compositor.<br/><br/>
             /// </summary>
             void OnActive(NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1.ZwpKeyboardShortcutsInhibitorV1 eventSender);
 
             /// <summary>
-            /// This event indicates that the shortcuts inhibitor is inactive,
-            /// normal shortcuts processing is restored by the compositor.
+            /// This event indicates that the shortcuts inhibitor is inactive,normal shortcuts processing is restored by the compositor.<br/><br/>
             /// </summary>
             void OnInactive(NWayland.Protocols.KeyboardShortcutsInhibitUnstableV1.ZwpKeyboardShortcutsInhibitorV1 eventSender);
         }

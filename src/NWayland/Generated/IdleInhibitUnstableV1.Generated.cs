@@ -8,19 +8,8 @@ using NWayland.Interop;
 namespace NWayland.Protocols.IdleInhibitUnstableV1
 {
     /// <summary>
-    /// This interface permits inhibiting the idle behavior such as screen
-    /// blanking, locking, and screensaving.  The client binds the idle manager
-    /// globally, then creates idle-inhibitor objects for each surface.
-    /// <br/>
-    /// <br/>
-    /// Warning! The protocol described in this file is experimental and
-    /// backward incompatible changes may be made. Backward compatible changes
-    /// may be added together with the corresponding interface version bump.
-    /// Backward incompatible changes are done by bumping the version number in
-    /// the protocol and interface names and resetting the interface version.
-    /// Once the protocol is to be declared stable, the 'z' prefix and the
-    /// version number in the protocol and interface names are removed and the
-    /// interface version number is reset.
+    /// This interface permits inhibiting the idle behavior such as screenblanking, locking, and screensaving.  The client binds the idle managerglobally, then creates idle-inhibitor objects for each surface.<br/><br/>
+    /// Warning! The protocol described in this file is experimental andbackward incompatible changes may be made. Backward compatible changesmay be added together with the corresponding interface version bump.Backward incompatible changes are done by bumping the version number inthe protocol and interface names and resetting the interface version.Once the protocol is to be declared stable, the 'z' prefix and theversion number in the protocol and interface names are removed and theinterface version number is reset.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpIdleInhibitManagerV1 : WlProxy
     {
@@ -49,7 +38,7 @@ namespace NWayland.Protocols.IdleInhibitUnstableV1
         }
 
         /// <summary>
-        /// Create a new inhibitor object associated with the given surface.
+        /// Create a new inhibitor object associated with the given surface.<br/><br/>
         /// </summary>
         public NWayland.Protocols.IdleInhibitUnstableV1.ZwpIdleInhibitorV1 CreateInhibitor(NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -97,19 +86,8 @@ namespace NWayland.Protocols.IdleInhibitUnstableV1
     }
 
     /// <summary>
-    /// An idle inhibitor prevents the output that the associated surface is
-    /// visible on from being set to a state where it is not visually usable due
-    /// to lack of user interaction (e.g. blanked, dimmed, locked, set to power
-    /// save, etc.)  Any screensaver processes are also blocked from displaying.
-    /// <br/>
-    /// <br/>
-    /// If the surface is destroyed, unmapped, becomes occluded, loses
-    /// visibility, or otherwise becomes not visually relevant for the user, the
-    /// idle inhibitor will not be honored by the compositor; if the surface
-    /// subsequently regains visibility the inhibitor takes effect once again.
-    /// Likewise, the inhibitor isn't honored if the system was already idled at
-    /// the time the inhibitor was established, although if the system later
-    /// de-idles and re-idles the inhibitor will take effect.
+    /// An idle inhibitor prevents the output that the associated surface isvisible on from being set to a state where it is not visually usable dueto lack of user interaction (e.g. blanked, dimmed, locked, set to powersave, etc.)  Any screensaver processes are also blocked from displaying.<br/><br/>
+    /// If the surface is destroyed, unmapped, becomes occluded, losesvisibility, or otherwise becomes not visually relevant for the user, theidle inhibitor will not be honored by the compositor; if the surfacesubsequently regains visibility the inhibitor takes effect once again.Likewise, the inhibitor isn't honored if the system was already idled atthe time the inhibitor was established, although if the system laterde-idles and re-idles the inhibitor will take effect.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpIdleInhibitorV1 : WlProxy
     {

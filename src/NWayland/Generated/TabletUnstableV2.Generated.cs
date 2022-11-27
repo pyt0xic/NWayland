@@ -8,9 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.TabletUnstableV2
 {
     /// <summary>
-    /// An object that provides access to the graphics tablets available on this
-    /// system. All tablets are associated with a seat, to get access to the
-    /// actual tablets, use wp_tablet_manager.get_tablet_seat.
+    /// An object that provides access to the graphics tablets available on thissystem. All tablets are associated with a seat, to get access to theactual tablets, use wp_tablet_manager.get_tablet_seat.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletManagerV2 : WlProxy
     {
@@ -31,8 +29,7 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Get the wp_tablet_seat object for the given seat. This object
-        /// provides access to all graphics tablets in this seat.
+        /// Get the wp_tablet_seat object for the given seat. This objectprovides access to all graphics tablets in this seat.<br/><br/>
         /// </summary>
         public NWayland.Protocols.TabletUnstableV2.ZwpTabletSeatV2 GetTabletSeat(NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -88,9 +85,7 @@ namespace NWayland.Protocols.TabletUnstableV2
     }
 
     /// <summary>
-    /// An object that provides access to the graphics tablets available on this
-    /// seat. After binding to this interface, the compositor sends a set of
-    /// wp_tablet_seat.tablet_added and wp_tablet_seat.tool_added events.
+    /// An object that provides access to the graphics tablets available on thisseat. After binding to this interface, the compositor sends a set ofwp_tablet_seat.tablet_added and wp_tablet_seat.tool_added events.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletSeatV2 : WlProxy
     {
@@ -124,33 +119,18 @@ namespace NWayland.Protocols.TabletUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// This event is sent whenever a new tablet becomes available on this
-            /// seat. This event only provides the object id of the tablet, any
-            /// static information about the tablet (device name, vid/pid, etc.) is
-            /// sent through the wp_tablet interface.
+            /// This event is sent whenever a new tablet becomes available on thisseat. This event only provides the object id of the tablet, anystatic information about the tablet (device name, vid/pid, etc.) issent through the wp_tablet interface.<br/><br/>
             /// </summary>
             void OnTabletAdded(NWayland.Protocols.TabletUnstableV2.ZwpTabletSeatV2 eventSender, ZwpTabletV2 @id);
 
             /// <summary>
-            /// This event is sent whenever a tool that has not previously been used
-            /// with a tablet comes into use. This event only provides the object id
-            /// of the tool; any static information about the tool (capabilities,
-            /// type, etc.) is sent through the wp_tablet_tool interface.
+            /// This event is sent whenever a tool that has not previously been usedwith a tablet comes into use. This event only provides the object idof the tool; any static information about the tool (capabilities,type, etc.) is sent through the wp_tablet_tool interface.<br/><br/>
             /// </summary>
             void OnToolAdded(NWayland.Protocols.TabletUnstableV2.ZwpTabletSeatV2 eventSender, ZwpTabletToolV2 @id);
 
             /// <summary>
-            /// This event is sent whenever a new pad is known to the system. Typically,
-            /// pads are physically attached to tablets and a pad_added event is
-            /// sent immediately after the wp_tablet_seat.tablet_added.
-            /// However, some standalone pad devices logically attach to tablets at
-            /// runtime, and the client must wait for wp_tablet_pad.enter to know
-            /// the tablet a pad is attached to.
-            /// <br/>
-            /// <br/>
-            /// This event only provides the object id of the pad. All further
-            /// features (buttons, strips, rings) are sent through the wp_tablet_pad
-            /// interface.
+            /// This event is sent whenever a new pad is known to the system. Typically,pads are physically attached to tablets and a pad_added event issent immediately after the wp_tablet_seat.tablet_added.However, some standalone pad devices logically attach to tablets atruntime, and the client must wait for wp_tablet_pad.enter to knowthe tablet a pad is attached to.<br/><br/>
+            /// This event only provides the object id of the pad. All furtherfeatures (buttons, strips, rings) are sent through the wp_tablet_padinterface.<br/><br/>
             /// </summary>
             void OnPadAdded(NWayland.Protocols.TabletUnstableV2.ZwpTabletSeatV2 eventSender, ZwpTabletPadV2 @id);
         }
@@ -197,29 +177,10 @@ namespace NWayland.Protocols.TabletUnstableV2
     }
 
     /// <summary>
-    /// An object that represents a physical tool that has been, or is
-    /// currently in use with a tablet in this seat. Each wp_tablet_tool
-    /// object stays valid until the client destroys it; the compositor
-    /// reuses the wp_tablet_tool object to indicate that the object's
-    /// respective physical tool has come into proximity of a tablet again.
-    /// <br/>
-    /// <br/>
-    /// A wp_tablet_tool object's relation to a physical tool depends on the
-    /// tablet's ability to report serial numbers. If the tablet supports
-    /// this capability, then the object represents a specific physical tool
-    /// and can be identified even when used on multiple tablets.
-    /// <br/>
-    /// <br/>
-    /// A tablet tool has a number of static characteristics, e.g. tool type,
-    /// hardware_serial and capabilities. These capabilities are sent in an
-    /// event sequence after the wp_tablet_seat.tool_added event before any
-    /// actual events from this tool. This initial event sequence is
-    /// terminated by a wp_tablet_tool.done event.
-    /// <br/>
-    /// <br/>
-    /// Tablet tool events are grouped by wp_tablet_tool.frame events.
-    /// Any events received before a wp_tablet_tool.frame event should be
-    /// considered part of the same hardware state change.
+    /// An object that represents a physical tool that has been, or iscurrently in use with a tablet in this seat. Each wp_tablet_toolobject stays valid until the client destroys it; the compositorreuses the wp_tablet_tool object to indicate that the object'srespective physical tool has come into proximity of a tablet again.<br/><br/>
+    /// A wp_tablet_tool object's relation to a physical tool depends on thetablet's ability to report serial numbers. If the tablet supportsthis capability, then the object represents a specific physical tooland can be identified even when used on multiple tablets.<br/><br/>
+    /// A tablet tool has a number of static characteristics, e.g. tool type,hardware_serial and capabilities. These capabilities are sent in anevent sequence after the wp_tablet_seat.tool_added event before anyactual events from this tool. This initial event sequence isterminated by a wp_tablet_tool.done event.<br/><br/>
+    /// Tablet tool events are grouped by wp_tablet_tool.frame events.Any events received before a wp_tablet_tool.frame event should beconsidered part of the same hardware state change.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletToolV2 : WlProxy
     {
@@ -260,41 +221,12 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Sets the surface of the cursor used for this tool on the given
-        /// tablet. This request only takes effect if the tool is in proximity
-        /// of one of the requesting client's surfaces or the surface parameter
-        /// is the current pointer surface. If there was a previous surface set
-        /// with this request it is replaced. If surface is NULL, the cursor
-        /// image is hidden.
-        /// <br/>
-        /// <br/>
-        /// The parameters hotspot_x and hotspot_y define the position of the
-        /// pointer surface relative to the pointer location. Its top-left corner
-        /// is always at (x, y) - (hotspot_x, hotspot_y), where (x, y) are the
-        /// coordinates of the pointer location, in surface-local coordinates.
-        /// <br/>
-        /// <br/>
-        /// On surface.attach requests to the pointer surface, hotspot_x and
-        /// hotspot_y are decremented by the x and y parameters passed to the
-        /// request. Attach must be confirmed by wl_surface.commit as usual.
-        /// <br/>
-        /// <br/>
-        /// The hotspot can also be updated by passing the currently set pointer
-        /// surface to this request with new values for hotspot_x and hotspot_y.
-        /// <br/>
-        /// <br/>
-        /// The current and pending input regions of the wl_surface are cleared,
-        /// and wl_surface.set_input_region is ignored until the wl_surface is no
-        /// longer used as the cursor. When the use as a cursor ends, the current
-        /// and pending input regions become undefined, and the wl_surface is
-        /// unmapped.
-        /// <br/>
-        /// <br/>
-        /// This request gives the surface the role of a wp_tablet_tool cursor. A
-        /// surface may only ever be used as the cursor surface for one
-        /// wp_tablet_tool. If the surface already has another role or has
-        /// previously been used as cursor surface for a different tool, a
-        /// protocol error is raised.
+        /// Sets the surface of the cursor used for this tool on the giventablet. This request only takes effect if the tool is in proximityof one of the requesting client's surfaces or the surface parameteris the current pointer surface. If there was a previous surface setwith this request it is replaced. If surface is NULL, the cursorimage is hidden.<br/><br/>
+        /// The parameters hotspot_x and hotspot_y define the position of thepointer surface relative to the pointer location. Its top-left corneris always at (x, y) - (hotspot_x, hotspot_y), where (x, y) are thecoordinates of the pointer location, in surface-local coordinates.<br/><br/>
+        /// On surface.attach requests to the pointer surface, hotspot_x andhotspot_y are decremented by the x and y parameters passed to therequest. Attach must be confirmed by wl_surface.commit as usual.<br/><br/>
+        /// The hotspot can also be updated by passing the currently set pointersurface to this request with new values for hotspot_x and hotspot_y.<br/><br/>
+        /// The current and pending input regions of the wl_surface are cleared,and wl_surface.set_input_region is ignored until the wl_surface is nolonger used as the cursor. When the use as a cursor ends, the currentand pending input regions become undefined, and the wl_surface isunmapped.<br/><br/>
+        /// This request gives the surface the role of a wp_tablet_tool cursor. Asurface may only ever be used as the cursor surface for onewp_tablet_tool. If the surface already has another role or haspreviously been used as cursor surface for a different tool, aprotocol error is raised.<br/><br/>
         /// </summary>
         public void SetCursor(uint @serial, NWayland.Protocols.Wayland.WlSurface? @surface, int @hotspotX, int @hotspotY)
         {
@@ -318,250 +250,121 @@ namespace NWayland.Protocols.TabletUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// The tool type is the high-level type of the tool and usually decides
-            /// the interaction expected from this tool.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// The tool type is the high-level type of the tool and usually decidesthe interaction expected from this tool.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnType(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, TypeEnum @toolType);
 
             /// <summary>
-            /// If the physical tool can be identified by a unique 64-bit serial
-            /// number, this event notifies the client of this serial number.
-            /// <br/>
-            /// <br/>
-            /// If multiple tablets are available in the same seat and the tool is
-            /// uniquely identifiable by the serial number, that tool may move
-            /// between tablets.
-            /// <br/>
-            /// <br/>
-            /// Otherwise, if the tool has no serial number and this event is
-            /// missing, the tool is tied to the tablet it first comes into
-            /// proximity with. Even if the physical tool is used on multiple
-            /// tablets, separate wp_tablet_tool objects will be created, one per
-            /// tablet.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// If the physical tool can be identified by a unique 64-bit serialnumber, this event notifies the client of this serial number.<br/><br/>
+            /// If multiple tablets are available in the same seat and the tool isuniquely identifiable by the serial number, that tool may movebetween tablets.<br/><br/>
+            /// Otherwise, if the tool has no serial number and this event ismissing, the tool is tied to the tablet it first comes intoproximity with. Even if the physical tool is used on multipletablets, separate wp_tablet_tool objects will be created, one pertablet.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnHardwareSerial(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @hardwareSerialHi, uint @hardwareSerialLo);
 
             /// <summary>
-            /// This event notifies the client of a hardware id available on this tool.
-            /// <br/>
-            /// <br/>
-            /// The hardware id is a device-specific 64-bit id that provides extra
-            /// information about the tool in use, beyond the wl_tool.type
-            /// enumeration. The format of the id is specific to tablets made by
-            /// Wacom Inc. For example, the hardware id of a Wacom Grip
-            /// Pen (a stylus) is 0x802.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// This event notifies the client of a hardware id available on this tool.<br/><br/>
+            /// The hardware id is a device-specific 64-bit id that provides extrainformation about the tool in use, beyond the wl_tool.typeenumeration. The format of the id is specific to tablets made byWacom Inc. For example, the hardware id of a Wacom GripPen (a stylus) is 0x802.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnHardwareIdWacom(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @hardwareIdHi, uint @hardwareIdLo);
 
             /// <summary>
-            /// This event notifies the client of any capabilities of this tool,
-            /// beyond the main set of x/y axes and tip up/down detection.
-            /// <br/>
-            /// <br/>
-            /// One event is sent for each extra capability available on this tool.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// This event notifies the client of any capabilities of this tool,beyond the main set of x/y axes and tip up/down detection.<br/><br/>
+            /// One event is sent for each extra capability available on this tool.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnCapability(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, CapabilityEnum @capability);
 
             /// <summary>
-            /// This event signals the end of the initial burst of descriptive
-            /// events. A client may consider the static description of the tool to
-            /// be complete and finalize initialization of the tool.
+            /// This event signals the end of the initial burst of descriptiveevents. A client may consider the static description of the tool tobe complete and finalize initialization of the tool.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender);
 
             /// <summary>
-            /// This event is sent when the tool is removed from the system and will
-            /// send no further events. Should the physical tool come back into
-            /// proximity later, a new wp_tablet_tool object will be created.
-            /// <br/>
-            /// <br/>
-            /// It is compositor-dependent when a tool is removed. A compositor may
-            /// remove a tool on proximity out, tablet removal or any other reason.
-            /// A compositor may also keep a tool alive until shutdown.
-            /// <br/>
-            /// <br/>
-            /// If the tool is currently in proximity, a proximity_out event will be
-            /// sent before the removed event. See wp_tablet_tool.proximity_out for
-            /// the handling of any buttons logically down.
-            /// <br/>
-            /// <br/>
-            /// When this event is received, the client must wp_tablet_tool.destroy
-            /// the object.
+            /// This event is sent when the tool is removed from the system and willsend no further events. Should the physical tool come back intoproximity later, a new wp_tablet_tool object will be created.<br/><br/>
+            /// It is compositor-dependent when a tool is removed. A compositor mayremove a tool on proximity out, tablet removal or any other reason.A compositor may also keep a tool alive until shutdown.<br/><br/>
+            /// If the tool is currently in proximity, a proximity_out event will besent before the removed event. See wp_tablet_tool.proximity_out forthe handling of any buttons logically down.<br/><br/>
+            /// When this event is received, the client must wp_tablet_tool.destroythe object.<br/><br/>
             /// </summary>
             void OnRemoved(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender);
 
             /// <summary>
-            /// Notification that this tool is focused on a certain surface.
-            /// <br/>
-            /// <br/>
-            /// This event can be received when the tool has moved from one surface to
-            /// another, or when the tool has come back into proximity above the
-            /// surface.
-            /// <br/>
-            /// <br/>
-            /// If any button is logically down when the tool comes into proximity,
-            /// the respective button event is sent after the proximity_in event but
-            /// within the same frame as the proximity_in event.
+            /// Notification that this tool is focused on a certain surface.<br/><br/>
+            /// This event can be received when the tool has moved from one surface toanother, or when the tool has come back into proximity above thesurface.<br/><br/>
+            /// If any button is logically down when the tool comes into proximity,the respective button event is sent after the proximity_in event butwithin the same frame as the proximity_in event.<br/><br/>
             /// </summary>
             void OnProximityIn(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @serial, NWayland.Protocols.TabletUnstableV2.ZwpTabletV2 @tablet, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Notification that this tool has either left proximity, or is no
-            /// longer focused on a certain surface.
-            /// <br/>
-            /// <br/>
-            /// When the tablet tool leaves proximity of the tablet, button release
-            /// events are sent for each button that was held down at the time of
-            /// leaving proximity. These events are sent before the proximity_out
-            /// event but within the same wp_tablet.frame.
-            /// <br/>
-            /// <br/>
-            /// If the tool stays within proximity of the tablet, but the focus
-            /// changes from one surface to another, a button release event may not
-            /// be sent until the button is actually released or the tool leaves the
-            /// proximity of the tablet.
+            /// Notification that this tool has either left proximity, or is nolonger focused on a certain surface.<br/><br/>
+            /// When the tablet tool leaves proximity of the tablet, button releaseevents are sent for each button that was held down at the time ofleaving proximity. These events are sent before the proximity_outevent but within the same wp_tablet.frame.<br/><br/>
+            /// If the tool stays within proximity of the tablet, but the focuschanges from one surface to another, a button release event may notbe sent until the button is actually released or the tool leaves theproximity of the tablet.<br/><br/>
             /// </summary>
             void OnProximityOut(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender);
 
             /// <summary>
-            /// Sent whenever the tablet tool comes in contact with the surface of the
-            /// tablet.
-            /// <br/>
-            /// <br/>
-            /// If the tool is already in contact with the tablet when entering the
-            /// input region, the client owning said region will receive a
-            /// wp_tablet.proximity_in event, followed by a wp_tablet.down
-            /// event and a wp_tablet.frame event.
-            /// <br/>
-            /// <br/>
-            /// Note that this event describes logical contact, not physical
-            /// contact. On some devices, a compositor may not consider a tool in
-            /// logical contact until a minimum physical pressure threshold is
-            /// exceeded.
+            /// Sent whenever the tablet tool comes in contact with the surface of thetablet.<br/><br/>
+            /// If the tool is already in contact with the tablet when entering theinput region, the client owning said region will receive awp_tablet.proximity_in event, followed by a wp_tablet.downevent and a wp_tablet.frame event.<br/><br/>
+            /// Note that this event describes logical contact, not physicalcontact. On some devices, a compositor may not consider a tool inlogical contact until a minimum physical pressure threshold isexceeded.<br/><br/>
             /// </summary>
             void OnDown(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @serial);
 
             /// <summary>
-            /// Sent whenever the tablet tool stops making contact with the surface of
-            /// the tablet, or when the tablet tool moves out of the input region
-            /// and the compositor grab (if any) is dismissed.
-            /// <br/>
-            /// <br/>
-            /// If the tablet tool moves out of the input region while in contact
-            /// with the surface of the tablet and the compositor does not have an
-            /// ongoing grab on the surface, the client owning said region will
-            /// receive a wp_tablet.up event, followed by a wp_tablet.proximity_out
-            /// event and a wp_tablet.frame event. If the compositor has an ongoing
-            /// grab on this device, this event sequence is sent whenever the grab
-            /// is dismissed in the future.
-            /// <br/>
-            /// <br/>
-            /// Note that this event describes logical contact, not physical
-            /// contact. On some devices, a compositor may not consider a tool out
-            /// of logical contact until physical pressure falls below a specific
-            /// threshold.
+            /// Sent whenever the tablet tool stops making contact with the surface ofthe tablet, or when the tablet tool moves out of the input regionand the compositor grab (if any) is dismissed.<br/><br/>
+            /// If the tablet tool moves out of the input region while in contactwith the surface of the tablet and the compositor does not have anongoing grab on the surface, the client owning said region willreceive a wp_tablet.up event, followed by a wp_tablet.proximity_outevent and a wp_tablet.frame event. If the compositor has an ongoinggrab on this device, this event sequence is sent whenever the grabis dismissed in the future.<br/><br/>
+            /// Note that this event describes logical contact, not physicalcontact. On some devices, a compositor may not consider a tool outof logical contact until physical pressure falls below a specificthreshold.<br/><br/>
             /// </summary>
             void OnUp(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender);
 
             /// <summary>
-            /// Sent whenever a tablet tool moves.
+            /// Sent whenever a tablet tool moves.<br/><br/>
             /// </summary>
             void OnMotion(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, WlFixed @x, WlFixed @y);
 
             /// <summary>
-            /// Sent whenever the pressure axis on a tool changes. The value of this
-            /// event is normalized to a value between 0 and 65535.
-            /// <br/>
-            /// <br/>
-            /// Note that pressure may be nonzero even when a tool is not in logical
-            /// contact. See the down and up events for more details.
+            /// Sent whenever the pressure axis on a tool changes. The value of thisevent is normalized to a value between 0 and 65535.<br/><br/>
+            /// Note that pressure may be nonzero even when a tool is not in logicalcontact. See the down and up events for more details.<br/><br/>
             /// </summary>
             void OnPressure(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @pressure);
 
             /// <summary>
-            /// Sent whenever the distance axis on a tool changes. The value of this
-            /// event is normalized to a value between 0 and 65535.
-            /// <br/>
-            /// <br/>
-            /// Note that distance may be nonzero even when a tool is not in logical
-            /// contact. See the down and up events for more details.
+            /// Sent whenever the distance axis on a tool changes. The value of thisevent is normalized to a value between 0 and 65535.<br/><br/>
+            /// Note that distance may be nonzero even when a tool is not in logicalcontact. See the down and up events for more details.<br/><br/>
             /// </summary>
             void OnDistance(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @distance);
 
             /// <summary>
-            /// Sent whenever one or both of the tilt axes on a tool change. Each tilt
-            /// value is in degrees, relative to the z-axis of the tablet.
-            /// The angle is positive when the top of a tool tilts along the
-            /// positive x or y axis.
+            /// Sent whenever one or both of the tilt axes on a tool change. Each tiltvalue is in degrees, relative to the z-axis of the tablet.The angle is positive when the top of a tool tilts along thepositive x or y axis.<br/><br/>
             /// </summary>
             void OnTilt(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, WlFixed @tiltX, WlFixed @tiltY);
 
             /// <summary>
-            /// Sent whenever the z-rotation axis on the tool changes. The
-            /// rotation value is in degrees clockwise from the tool's
-            /// logical neutral position.
+            /// Sent whenever the z-rotation axis on the tool changes. Therotation value is in degrees clockwise from the tool'slogical neutral position.<br/><br/>
             /// </summary>
             void OnRotation(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, WlFixed @degrees);
 
             /// <summary>
-            /// Sent whenever the slider position on the tool changes. The
-            /// value is normalized between -65535 and 65535, with 0 as the logical
-            /// neutral position of the slider.
-            /// <br/>
-            /// <br/>
-            /// The slider is available on e.g. the Wacom Airbrush tool.
+            /// Sent whenever the slider position on the tool changes. Thevalue is normalized between -65535 and 65535, with 0 as the logicalneutral position of the slider.<br/><br/>
+            /// The slider is available on e.g. the Wacom Airbrush tool.<br/><br/>
             /// </summary>
             void OnSlider(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, int @position);
 
             /// <summary>
-            /// Sent whenever the wheel on the tool emits an event. This event
-            /// contains two values for the same axis change. The degrees value is
-            /// in the same orientation as the wl_pointer.vertical_scroll axis. The
-            /// clicks value is in discrete logical clicks of the mouse wheel. This
-            /// value may be zero if the movement of the wheel was less
-            /// than one logical click.
-            /// <br/>
-            /// <br/>
-            /// Clients should choose either value and avoid mixing degrees and
-            /// clicks. The compositor may accumulate values smaller than a logical
-            /// click and emulate click events when a certain threshold is met.
-            /// Thus, wl_tablet_tool.wheel events with non-zero clicks values may
-            /// have different degrees values.
+            /// Sent whenever the wheel on the tool emits an event. This eventcontains two values for the same axis change. The degrees value isin the same orientation as the wl_pointer.vertical_scroll axis. Theclicks value is in discrete logical clicks of the mouse wheel. Thisvalue may be zero if the movement of the wheel was lessthan one logical click.<br/><br/>
+            /// Clients should choose either value and avoid mixing degrees andclicks. The compositor may accumulate values smaller than a logicalclick and emulate click events when a certain threshold is met.Thus, wl_tablet_tool.wheel events with non-zero clicks values mayhave different degrees values.<br/><br/>
             /// </summary>
             void OnWheel(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, WlFixed @degrees, int @clicks);
 
             /// <summary>
-            /// Sent whenever a button on the tool is pressed or released.
-            /// <br/>
-            /// <br/>
-            /// If a button is held down when the tool moves in or out of proximity,
-            /// button events are generated by the compositor. See
-            /// wp_tablet_tool.proximity_in and wp_tablet_tool.proximity_out for
-            /// details.
+            /// Sent whenever a button on the tool is pressed or released.<br/><br/>
+            /// If a button is held down when the tool moves in or out of proximity,button events are generated by the compositor. Seewp_tablet_tool.proximity_in and wp_tablet_tool.proximity_out fordetails.<br/><br/>
             /// </summary>
             void OnButton(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @serial, uint @button, ButtonStateEnum @state);
 
             /// <summary>
-            /// Marks the end of a series of axis and/or button updates from the
-            /// tablet. The Wayland protocol requires axis updates to be sent
-            /// sequentially, however all events within a frame should be considered
-            /// one hardware event.
+            /// Marks the end of a series of axis and/or button updates from thetablet. The Wayland protocol requires axis updates to be sentsequentially, however all events within a frame should be consideredone hardware event.<br/><br/>
             /// </summary>
             void OnFrame(NWayland.Protocols.TabletUnstableV2.ZwpTabletToolV2 eventSender, uint @time);
         }
@@ -633,75 +436,98 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Describes the physical type of a tool. The physical type of a tool
-        /// generally defines its base usage.
-        /// <br/>
-        /// <br/>
-        /// The mouse tool represents a mouse-shaped tool that is not a relative
-        /// device but bound to the tablet's surface, providing absolute
-        /// coordinates.
-        /// <br/>
-        /// <br/>
-        /// The lens tool is a mouse-shaped tool with an attached lens to
-        /// provide precision focus.
+        /// Describes the physical type of a tool. The physical type of a toolgenerally defines its base usage.<br/><br/>
+        /// The mouse tool represents a mouse-shaped tool that is not a relativedevice but bound to the tablet's surface, providing absolutecoordinates.<br/><br/>
+        /// The lens tool is a mouse-shaped tool with an attached lens toprovide precision focus.<br/><br/>
         /// </summary>
         public enum TypeEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// Pen<br/><br/>
+            /// </summary>
             Pen = 0x140,
-            /// <summary></summary>
+            /// <summary>
+            /// Eraser<br/><br/>
+            /// </summary>
             Eraser = 0x141,
-            /// <summary></summary>
+            /// <summary>
+            /// Brush<br/><br/>
+            /// </summary>
             Brush = 0x142,
-            /// <summary></summary>
+            /// <summary>
+            /// Pencil<br/><br/>
+            /// </summary>
             Pencil = 0x143,
-            /// <summary></summary>
+            /// <summary>
+            /// Airbrush<br/><br/>
+            /// </summary>
             Airbrush = 0x144,
-            /// <summary></summary>
+            /// <summary>
+            /// Finger<br/><br/>
+            /// </summary>
             Finger = 0x145,
-            /// <summary></summary>
+            /// <summary>
+            /// Mouse<br/><br/>
+            /// </summary>
             Mouse = 0x146,
-            /// <summary></summary>
+            /// <summary>
+            /// Lens<br/><br/>
+            /// </summary>
             Lens = 0x147
         }
 
         /// <summary>
-        /// Describes extra capabilities on a tablet.
-        /// <br/>
-        /// <br/>
-        /// Any tool must provide x and y values, extra axes are
-        /// device-specific.
+        /// Describes extra capabilities on a tablet.<br/><br/>
+        /// Any tool must provide x and y values, extra axes aredevice-specific.<br/><br/>
         /// </summary>
         public enum CapabilityEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// Tilt axes<br/><br/>
+            /// </summary>
             Tilt = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// Pressure axis<br/><br/>
+            /// </summary>
             Pressure = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// Distance axis<br/><br/>
+            /// </summary>
             Distance = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// Z-rotation axis<br/><br/>
+            /// </summary>
             Rotation = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// Slider axis<br/><br/>
+            /// </summary>
             Slider = 5,
-            /// <summary></summary>
+            /// <summary>
+            /// Wheel axis<br/><br/>
+            /// </summary>
             Wheel = 6
         }
 
         /// <summary>
-        /// Describes the physical state of a button that produced the button event.
+        /// Describes the physical state of a button that produced the button event.<br/><br/>
         /// </summary>
         public enum ButtonStateEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// button is not pressed<br/><br/>
+            /// </summary>
             Released = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// button is pressed<br/><br/>
+            /// </summary>
             Pressed = 1
         }
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// given wl_surface has another role<br/><br/>
+            /// </summary>
             Role = 0
         }
 
@@ -729,15 +555,8 @@ namespace NWayland.Protocols.TabletUnstableV2
     }
 
     /// <summary>
-    /// The wp_tablet interface represents one graphics tablet device. The
-    /// tablet interface itself does not generate events; all events are
-    /// generated by wp_tablet_tool objects when in proximity above a tablet.
-    /// <br/>
-    /// <br/>
-    /// A tablet has a number of static characteristics, e.g. device name and
-    /// pid/vid. These capabilities are sent in an event sequence after the
-    /// wp_tablet_seat.tablet_added event. This initial event sequence is
-    /// terminated by a wp_tablet.done event.
+    /// The wp_tablet interface represents one graphics tablet device. Thetablet interface itself does not generate events; all events aregenerated by wp_tablet_tool objects when in proximity above a tablet.<br/><br/>
+    /// A tablet has a number of static characteristics, e.g. device name andpid/vid. These capabilities are sent in an event sequence after thewp_tablet_seat.tablet_added event. This initial event sequence isterminated by a wp_tablet.done event.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletV2 : WlProxy
     {
@@ -773,53 +592,31 @@ namespace NWayland.Protocols.TabletUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet.done event.
+            /// This event is sent in the initial burst of events before thewp_tablet.done event.<br/><br/>
             /// </summary>
             void OnName(NWayland.Protocols.TabletUnstableV2.ZwpTabletV2 eventSender, string @name);
 
             /// <summary>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet.done event.
+            /// This event is sent in the initial burst of events before thewp_tablet.done event.<br/><br/>
             /// </summary>
             void OnId(NWayland.Protocols.TabletUnstableV2.ZwpTabletV2 eventSender, uint @vid, uint @pid);
 
             /// <summary>
-            /// A system-specific device path that indicates which device is behind
-            /// this wp_tablet. This information may be used to gather additional
-            /// information about the device, e.g. through libwacom.
-            /// <br/>
-            /// <br/>
-            /// A device may have more than one device path. If so, multiple
-            /// wp_tablet.path events are sent. A device may be emulated and not
-            /// have a device path, and in that case this event will not be sent.
-            /// <br/>
-            /// <br/>
-            /// The format of the path is unspecified, it may be a device node, a
-            /// sysfs path, or some other identifier. It is up to the client to
-            /// identify the string provided.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet.done event.
+            /// A system-specific device path that indicates which device is behindthis wp_tablet. This information may be used to gather additionalinformation about the device, e.g. through libwacom.<br/><br/>
+            /// A device may have more than one device path. If so, multiplewp_tablet.path events are sent. A device may be emulated and nothave a device path, and in that case this event will not be sent.<br/><br/>
+            /// The format of the path is unspecified, it may be a device node, asysfs path, or some other identifier. It is up to the client toidentify the string provided.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet.done event.<br/><br/>
             /// </summary>
             void OnPath(NWayland.Protocols.TabletUnstableV2.ZwpTabletV2 eventSender, string @path);
 
             /// <summary>
-            /// This event is sent immediately to signal the end of the initial
-            /// burst of descriptive events. A client may consider the static
-            /// description of the tablet to be complete and finalize initialization
-            /// of the tablet.
+            /// This event is sent immediately to signal the end of the initialburst of descriptive events. A client may consider the staticdescription of the tablet to be complete and finalize initializationof the tablet.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.TabletUnstableV2.ZwpTabletV2 eventSender);
 
             /// <summary>
-            /// Sent when the tablet has been removed from the system. When a tablet
-            /// is removed, some tools may be removed.
-            /// <br/>
-            /// <br/>
-            /// When this event is received, the client must wp_tablet.destroy
-            /// the object.
+            /// Sent when the tablet has been removed from the system. When a tabletis removed, some tools may be removed.<br/><br/>
+            /// When this event is received, the client must wp_tablet.destroythe object.<br/><br/>
             /// </summary>
             void OnRemoved(NWayland.Protocols.TabletUnstableV2.ZwpTabletV2 eventSender);
         }
@@ -872,12 +669,8 @@ namespace NWayland.Protocols.TabletUnstableV2
     }
 
     /// <summary>
-    /// A circular interaction area, such as the touch ring on the Wacom Intuos
-    /// Pro series tablets.
-    /// <br/>
-    /// <br/>
-    /// Events on a ring are logically grouped by the wl_tablet_pad_ring.frame
-    /// event.
+    /// A circular interaction area, such as the touch ring on the Wacom IntuosPro series tablets.<br/><br/>
+    /// Events on a ring are logically grouped by the wl_tablet_pad_ring.frameevent.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletPadRingV2 : WlProxy
     {
@@ -903,28 +696,10 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Request that the compositor use the provided feedback string
-        /// associated with this ring. This request should be issued immediately
-        /// after a wp_tablet_pad_group.mode_switch event from the corresponding
-        /// group is received, or whenever the ring is mapped to a different
-        /// action. See wp_tablet_pad_group.mode_switch for more details.
-        /// <br/>
-        /// <br/>
-        /// Clients are encouraged to provide context-aware descriptions for
-        /// the actions associated with the ring; compositors may use this
-        /// information to offer visual feedback about the button layout
-        /// (eg. on-screen displays).
-        /// <br/>
-        /// <br/>
-        /// The provided string 'description' is a UTF-8 encoded string to be
-        /// associated with this ring, and is considered user-visible; general
-        /// internationalization rules apply.
-        /// <br/>
-        /// <br/>
-        /// The serial argument will be that of the last
-        /// wp_tablet_pad_group.mode_switch event received for the group of this
-        /// ring. Requests providing other serials than the most recent one will be
-        /// ignored.
+        /// Request that the compositor use the provided feedback stringassociated with this ring. This request should be issued immediatelyafter a wp_tablet_pad_group.mode_switch event from the correspondinggroup is received, or whenever the ring is mapped to a differentaction. See wp_tablet_pad_group.mode_switch for more details.<br/><br/>
+        /// Clients are encouraged to provide context-aware descriptions forthe actions associated with the ring; compositors may use thisinformation to offer visual feedback about the button layout(eg. on-screen displays).<br/><br/>
+        /// The provided string 'description' is a UTF-8 encoded string to beassociated with this ring, and is considered user-visible; generalinternationalization rules apply.<br/><br/>
+        /// The serial argument will be that of the lastwp_tablet_pad_group.mode_switch event received for the group of thisring. Requests providing other serials than the most recent one will beignored.<br/><br/>
         /// </summary>
         public void SetFeedback(string @description, uint @serial)
         {
@@ -949,65 +724,30 @@ namespace NWayland.Protocols.TabletUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// Source information for ring events.
-            /// <br/>
-            /// <br/>
-            /// This event does not occur on its own. It is sent before a
-            /// wp_tablet_pad_ring.frame event and carries the source information
-            /// for all events within that frame.
-            /// <br/>
-            /// <br/>
-            /// The source specifies how this event was generated. If the source is
-            /// wp_tablet_pad_ring.source.finger, a wp_tablet_pad_ring.stop event
-            /// will be sent when the user lifts the finger off the device.
-            /// <br/>
-            /// <br/>
-            /// This event is optional. If the source is unknown for an interaction,
-            /// no event is sent.
+            /// Source information for ring events.<br/><br/>
+            /// This event does not occur on its own. It is sent before awp_tablet_pad_ring.frame event and carries the source informationfor all events within that frame.<br/><br/>
+            /// The source specifies how this event was generated. If the source iswp_tablet_pad_ring.source.finger, a wp_tablet_pad_ring.stop eventwill be sent when the user lifts the finger off the device.<br/><br/>
+            /// This event is optional. If the source is unknown for an interaction,no event is sent.<br/><br/>
             /// </summary>
             void OnSource(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadRingV2 eventSender, SourceEnum @source);
 
             /// <summary>
-            /// Sent whenever the angle on a ring changes.
-            /// <br/>
-            /// <br/>
-            /// The angle is provided in degrees clockwise from the logical
-            /// north of the ring in the pad's current rotation.
+            /// Sent whenever the angle on a ring changes.<br/><br/>
+            /// The angle is provided in degrees clockwise from the logicalnorth of the ring in the pad's current rotation.<br/><br/>
             /// </summary>
             void OnAngle(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadRingV2 eventSender, WlFixed @degrees);
 
             /// <summary>
-            /// Stop notification for ring events.
-            /// <br/>
-            /// <br/>
-            /// For some wp_tablet_pad_ring.source types, a wp_tablet_pad_ring.stop
-            /// event is sent to notify a client that the interaction with the ring
-            /// has terminated. This enables the client to implement kinetic scrolling.
-            /// See the wp_tablet_pad_ring.source documentation for information on
-            /// when this event may be generated.
-            /// <br/>
-            /// <br/>
-            /// Any wp_tablet_pad_ring.angle events with the same source after this
-            /// event should be considered as the start of a new interaction.
+            /// Stop notification for ring events.<br/><br/>
+            /// For some wp_tablet_pad_ring.source types, a wp_tablet_pad_ring.stopevent is sent to notify a client that the interaction with the ringhas terminated. This enables the client to implement kinetic scrolling.See the wp_tablet_pad_ring.source documentation for information onwhen this event may be generated.<br/><br/>
+            /// Any wp_tablet_pad_ring.angle events with the same source after thisevent should be considered as the start of a new interaction.<br/><br/>
             /// </summary>
             void OnStop(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadRingV2 eventSender);
 
             /// <summary>
-            /// Indicates the end of a set of ring events that logically belong
-            /// together. A client is expected to accumulate the data in all events
-            /// within the frame before proceeding.
-            /// <br/>
-            /// <br/>
-            /// All wp_tablet_pad_ring events before a wp_tablet_pad_ring.frame event belong
-            /// logically together. For example, on termination of a finger interaction
-            /// on a ring the compositor will send a wp_tablet_pad_ring.source event,
-            /// a wp_tablet_pad_ring.stop event and a wp_tablet_pad_ring.frame event.
-            /// <br/>
-            /// <br/>
-            /// A wp_tablet_pad_ring.frame event is sent for every logical event
-            /// group, even if the group only contains a single wp_tablet_pad_ring
-            /// event. Specifically, a client may get a sequence: angle, frame,
-            /// angle, frame, etc.
+            /// Indicates the end of a set of ring events that logically belongtogether. A client is expected to accumulate the data in all eventswithin the frame before proceeding.<br/><br/>
+            /// All wp_tablet_pad_ring events before a wp_tablet_pad_ring.frame event belonglogically together. For example, on termination of a finger interactionon a ring the compositor will send a wp_tablet_pad_ring.source event,a wp_tablet_pad_ring.stop event and a wp_tablet_pad_ring.frame event.<br/><br/>
+            /// A wp_tablet_pad_ring.frame event is sent for every logical eventgroup, even if the group only contains a single wp_tablet_pad_ringevent. Specifically, a client may get a sequence: angle, frame,angle, frame, etc.<br/><br/>
             /// </summary>
             void OnFrame(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadRingV2 eventSender, uint @time);
         }
@@ -1034,14 +774,13 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Describes the source types for ring events. This indicates to the
-        /// client how a ring event was physically generated; a client may
-        /// adjust the user interface accordingly. For example, events
-        /// from a "finger" source may trigger kinetic scrolling.
+        /// Describes the source types for ring events. This indicates to theclient how a ring event was physically generated; a client mayadjust the user interface accordingly. For example, eventsfrom a "finger" source may trigger kinetic scrolling.<br/><br/>
         /// </summary>
         public enum SourceEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// finger<br/><br/>
+            /// </summary>
             Finger = 1
         }
 
@@ -1069,12 +808,8 @@ namespace NWayland.Protocols.TabletUnstableV2
     }
 
     /// <summary>
-    /// A linear interaction area, such as the strips found in Wacom Cintiq
-    /// models.
-    /// <br/>
-    /// <br/>
-    /// Events on a strip are logically grouped by the wl_tablet_pad_strip.frame
-    /// event.
+    /// A linear interaction area, such as the strips found in Wacom Cintiqmodels.<br/><br/>
+    /// Events on a strip are logically grouped by the wl_tablet_pad_strip.frameevent.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletPadStripV2 : WlProxy
     {
@@ -1100,28 +835,10 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Requests the compositor to use the provided feedback string
-        /// associated with this strip. This request should be issued immediately
-        /// after a wp_tablet_pad_group.mode_switch event from the corresponding
-        /// group is received, or whenever the strip is mapped to a different
-        /// action. See wp_tablet_pad_group.mode_switch for more details.
-        /// <br/>
-        /// <br/>
-        /// Clients are encouraged to provide context-aware descriptions for
-        /// the actions associated with the strip, and compositors may use this
-        /// information to offer visual feedback about the button layout
-        /// (eg. on-screen displays).
-        /// <br/>
-        /// <br/>
-        /// The provided string 'description' is a UTF-8 encoded string to be
-        /// associated with this ring, and is considered user-visible; general
-        /// internationalization rules apply.
-        /// <br/>
-        /// <br/>
-        /// The serial argument will be that of the last
-        /// wp_tablet_pad_group.mode_switch event received for the group of this
-        /// strip. Requests providing other serials than the most recent one will be
-        /// ignored.
+        /// Requests the compositor to use the provided feedback stringassociated with this strip. This request should be issued immediatelyafter a wp_tablet_pad_group.mode_switch event from the correspondinggroup is received, or whenever the strip is mapped to a differentaction. See wp_tablet_pad_group.mode_switch for more details.<br/><br/>
+        /// Clients are encouraged to provide context-aware descriptions forthe actions associated with the strip, and compositors may use thisinformation to offer visual feedback about the button layout(eg. on-screen displays).<br/><br/>
+        /// The provided string 'description' is a UTF-8 encoded string to beassociated with this ring, and is considered user-visible; generalinternationalization rules apply.<br/><br/>
+        /// The serial argument will be that of the lastwp_tablet_pad_group.mode_switch event received for the group of thisstrip. Requests providing other serials than the most recent one will beignored.<br/><br/>
         /// </summary>
         public void SetFeedback(string @description, uint @serial)
         {
@@ -1146,67 +863,30 @@ namespace NWayland.Protocols.TabletUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// Source information for strip events.
-            /// <br/>
-            /// <br/>
-            /// This event does not occur on its own. It is sent before a
-            /// wp_tablet_pad_strip.frame event and carries the source information
-            /// for all events within that frame.
-            /// <br/>
-            /// <br/>
-            /// The source specifies how this event was generated. If the source is
-            /// wp_tablet_pad_strip.source.finger, a wp_tablet_pad_strip.stop event
-            /// will be sent when the user lifts their finger off the device.
-            /// <br/>
-            /// <br/>
-            /// This event is optional. If the source is unknown for an interaction,
-            /// no event is sent.
+            /// Source information for strip events.<br/><br/>
+            /// This event does not occur on its own. It is sent before awp_tablet_pad_strip.frame event and carries the source informationfor all events within that frame.<br/><br/>
+            /// The source specifies how this event was generated. If the source iswp_tablet_pad_strip.source.finger, a wp_tablet_pad_strip.stop eventwill be sent when the user lifts their finger off the device.<br/><br/>
+            /// This event is optional. If the source is unknown for an interaction,no event is sent.<br/><br/>
             /// </summary>
             void OnSource(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadStripV2 eventSender, SourceEnum @source);
 
             /// <summary>
-            /// Sent whenever the position on a strip changes.
-            /// <br/>
-            /// <br/>
-            /// The position is normalized to a range of [0, 65535], the 0-value
-            /// represents the top-most and/or left-most position of the strip in
-            /// the pad's current rotation.
+            /// Sent whenever the position on a strip changes.<br/><br/>
+            /// The position is normalized to a range of [0, 65535], the 0-valuerepresents the top-most and/or left-most position of the strip inthe pad's current rotation.<br/><br/>
             /// </summary>
             void OnPosition(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadStripV2 eventSender, uint @position);
 
             /// <summary>
-            /// Stop notification for strip events.
-            /// <br/>
-            /// <br/>
-            /// For some wp_tablet_pad_strip.source types, a wp_tablet_pad_strip.stop
-            /// event is sent to notify a client that the interaction with the strip
-            /// has terminated. This enables the client to implement kinetic
-            /// scrolling. See the wp_tablet_pad_strip.source documentation for
-            /// information on when this event may be generated.
-            /// <br/>
-            /// <br/>
-            /// Any wp_tablet_pad_strip.position events with the same source after this
-            /// event should be considered as the start of a new interaction.
+            /// Stop notification for strip events.<br/><br/>
+            /// For some wp_tablet_pad_strip.source types, a wp_tablet_pad_strip.stopevent is sent to notify a client that the interaction with the striphas terminated. This enables the client to implement kineticscrolling. See the wp_tablet_pad_strip.source documentation forinformation on when this event may be generated.<br/><br/>
+            /// Any wp_tablet_pad_strip.position events with the same source after thisevent should be considered as the start of a new interaction.<br/><br/>
             /// </summary>
             void OnStop(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadStripV2 eventSender);
 
             /// <summary>
-            /// Indicates the end of a set of events that represent one logical
-            /// hardware strip event. A client is expected to accumulate the data
-            /// in all events within the frame before proceeding.
-            /// <br/>
-            /// <br/>
-            /// All wp_tablet_pad_strip events before a wp_tablet_pad_strip.frame event belong
-            /// logically together. For example, on termination of a finger interaction
-            /// on a strip the compositor will send a wp_tablet_pad_strip.source event,
-            /// a wp_tablet_pad_strip.stop event and a wp_tablet_pad_strip.frame
-            /// event.
-            /// <br/>
-            /// <br/>
-            /// A wp_tablet_pad_strip.frame event is sent for every logical event
-            /// group, even if the group only contains a single wp_tablet_pad_strip
-            /// event. Specifically, a client may get a sequence: position, frame,
-            /// position, frame, etc.
+            /// Indicates the end of a set of events that represent one logicalhardware strip event. A client is expected to accumulate the datain all events within the frame before proceeding.<br/><br/>
+            /// All wp_tablet_pad_strip events before a wp_tablet_pad_strip.frame event belonglogically together. For example, on termination of a finger interactionon a strip the compositor will send a wp_tablet_pad_strip.source event,a wp_tablet_pad_strip.stop event and a wp_tablet_pad_strip.frameevent.<br/><br/>
+            /// A wp_tablet_pad_strip.frame event is sent for every logical eventgroup, even if the group only contains a single wp_tablet_pad_stripevent. Specifically, a client may get a sequence: position, frame,position, frame, etc.<br/><br/>
             /// </summary>
             void OnFrame(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadStripV2 eventSender, uint @time);
         }
@@ -1233,14 +913,13 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Describes the source types for strip events. This indicates to the
-        /// client how a strip event was physically generated; a client may
-        /// adjust the user interface accordingly. For example, events
-        /// from a "finger" source may trigger kinetic scrolling.
+        /// Describes the source types for strip events. This indicates to theclient how a strip event was physically generated; a client mayadjust the user interface accordingly. For example, eventsfrom a "finger" source may trigger kinetic scrolling.<br/><br/>
         /// </summary>
         public enum SourceEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// finger<br/><br/>
+            /// </summary>
             Finger = 1
         }
 
@@ -1268,30 +947,10 @@ namespace NWayland.Protocols.TabletUnstableV2
     }
 
     /// <summary>
-    /// A pad group describes a distinct (sub)set of buttons, rings and strips
-    /// present in the tablet. The criteria of this grouping is usually positional,
-    /// eg. if a tablet has buttons on the left and right side, 2 groups will be
-    /// presented. The physical arrangement of groups is undisclosed and may
-    /// change on the fly.
-    /// <br/>
-    /// <br/>
-    /// Pad groups will announce their features during pad initialization. Between
-    /// the corresponding wp_tablet_pad.group event and wp_tablet_pad_group.done, the
-    /// pad group will announce the buttons, rings and strips contained in it,
-    /// plus the number of supported modes.
-    /// <br/>
-    /// <br/>
-    /// Modes are a mechanism to allow multiple groups of actions for every element
-    /// in the pad group. The number of groups and available modes in each is
-    /// persistent across device plugs. The current mode is user-switchable, it
-    /// will be announced through the wp_tablet_pad_group.mode_switch event both
-    /// whenever it is switched, and after wp_tablet_pad.enter.
-    /// <br/>
-    /// <br/>
-    /// The current mode logically applies to all elements in the pad group,
-    /// although it is at clients' discretion whether to actually perform different
-    /// actions, and/or issue the respective .set_feedback requests to notify the
-    /// compositor. See the wp_tablet_pad_group.mode_switch event for more details.
+    /// A pad group describes a distinct (sub)set of buttons, rings and stripspresent in the tablet. The criteria of this grouping is usually positional,eg. if a tablet has buttons on the left and right side, 2 groups will bepresented. The physical arrangement of groups is undisclosed and maychange on the fly.<br/><br/>
+    /// Pad groups will announce their features during pad initialization. Betweenthe corresponding wp_tablet_pad.group event and wp_tablet_pad_group.done, thepad group will announce the buttons, rings and strips contained in it,plus the number of supported modes.<br/><br/>
+    /// Modes are a mechanism to allow multiple groups of actions for every elementin the pad group. The number of groups and available modes in each ispersistent across device plugs. The current mode is user-switchable, itwill be announced through the wp_tablet_pad_group.mode_switch event bothwhenever it is switched, and after wp_tablet_pad.enter.<br/><br/>
+    /// The current mode logically applies to all elements in the pad group,although it is at clients' discretion whether to actually perform differentactions, and/or issue the respective .set_feedback requests to notify thecompositor. See the wp_tablet_pad_group.mode_switch event for more details.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletPadGroupV2 : WlProxy
     {
@@ -1328,102 +987,43 @@ namespace NWayland.Protocols.TabletUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// Sent on wp_tablet_pad_group initialization to announce the available
-            /// buttons in the group. Button indices start at 0, a button may only be
-            /// in one group at a time.
-            /// <br/>
-            /// <br/>
-            /// This event is first sent in the initial burst of events before the
-            /// wp_tablet_pad_group.done event.
-            /// <br/>
-            /// <br/>
-            /// Some buttons are reserved by the compositor. These buttons may not be
-            /// assigned to any wp_tablet_pad_group. Compositors may broadcast this
-            /// event in the case of changes to the mapping of these reserved buttons.
-            /// If the compositor happens to reserve all buttons in a group, this event
-            /// will be sent with an empty array.
+            /// Sent on wp_tablet_pad_group initialization to announce the availablebuttons in the group. Button indices start at 0, a button may only bein one group at a time.<br/><br/>
+            /// This event is first sent in the initial burst of events before thewp_tablet_pad_group.done event.<br/><br/>
+            /// Some buttons are reserved by the compositor. These buttons may not beassigned to any wp_tablet_pad_group. Compositors may broadcast thisevent in the case of changes to the mapping of these reserved buttons.If the compositor happens to reserve all buttons in a group, this eventwill be sent with an empty array.<br/><br/>
             /// </summary>
             void OnButtons(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadGroupV2 eventSender, ReadOnlySpan<byte> @buttons);
 
             /// <summary>
-            /// Sent on wp_tablet_pad_group initialization to announce available rings.
-            /// One event is sent for each ring available on this pad group.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_pad_group.done event.
+            /// Sent on wp_tablet_pad_group initialization to announce available rings.One event is sent for each ring available on this pad group.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_pad_group.done event.<br/><br/>
             /// </summary>
             void OnRing(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadGroupV2 eventSender, ZwpTabletPadRingV2 @ring);
 
             /// <summary>
-            /// Sent on wp_tablet_pad initialization to announce available strips.
-            /// One event is sent for each strip available on this pad group.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_pad_group.done event.
+            /// Sent on wp_tablet_pad initialization to announce available strips.One event is sent for each strip available on this pad group.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_pad_group.done event.<br/><br/>
             /// </summary>
             void OnStrip(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadGroupV2 eventSender, ZwpTabletPadStripV2 @strip);
 
             /// <summary>
-            /// Sent on wp_tablet_pad_group initialization to announce that the pad
-            /// group may switch between modes. A client may use a mode to store a
-            /// specific configuration for buttons, rings and strips and use the
-            /// wl_tablet_pad_group.mode_switch event to toggle between these
-            /// configurations. Mode indices start at 0.
-            /// <br/>
-            /// <br/>
-            /// Switching modes is compositor-dependent. See the
-            /// wp_tablet_pad_group.mode_switch event for more details.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_pad_group.done event. This event is only sent when more than
-            /// more than one mode is available.
+            /// Sent on wp_tablet_pad_group initialization to announce that the padgroup may switch between modes. A client may use a mode to store aspecific configuration for buttons, rings and strips and use thewl_tablet_pad_group.mode_switch event to toggle between theseconfigurations. Mode indices start at 0.<br/><br/>
+            /// Switching modes is compositor-dependent. See thewp_tablet_pad_group.mode_switch event for more details.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_pad_group.done event. This event is only sent when more thanmore than one mode is available.<br/><br/>
             /// </summary>
             void OnModes(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadGroupV2 eventSender, uint @modes);
 
             /// <summary>
-            /// This event is sent immediately to signal the end of the initial
-            /// burst of descriptive events. A client may consider the static
-            /// description of the tablet to be complete and finalize initialization
-            /// of the tablet group.
+            /// This event is sent immediately to signal the end of the initialburst of descriptive events. A client may consider the staticdescription of the tablet to be complete and finalize initializationof the tablet group.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadGroupV2 eventSender);
 
             /// <summary>
-            /// Notification that the mode was switched.
-            /// <br/>
-            /// <br/>
-            /// A mode applies to all buttons, rings and strips in a group
-            /// simultaneously, but a client is not required to assign different actions
-            /// for each mode. For example, a client may have mode-specific button
-            /// mappings but map the ring to vertical scrolling in all modes. Mode
-            /// indices start at 0.
-            /// <br/>
-            /// <br/>
-            /// Switching modes is compositor-dependent. The compositor may provide
-            /// visual cues to the client about the mode, e.g. by toggling LEDs on
-            /// the tablet device. Mode-switching may be software-controlled or
-            /// controlled by one or more physical buttons. For example, on a Wacom
-            /// Intuos Pro, the button inside the ring may be assigned to switch
-            /// between modes.
-            /// <br/>
-            /// <br/>
-            /// The compositor will also send this event after wp_tablet_pad.enter on
-            /// each group in order to notify of the current mode. Groups that only
-            /// feature one mode will use mode=0 when emitting this event.
-            /// <br/>
-            /// <br/>
-            /// If a button action in the new mode differs from the action in the
-            /// previous mode, the client should immediately issue a
-            /// wp_tablet_pad.set_feedback request for each changed button.
-            /// <br/>
-            /// <br/>
-            /// If a ring or strip action in the new mode differs from the action
-            /// in the previous mode, the client should immediately issue a
-            /// wp_tablet_ring.set_feedback or wp_tablet_strip.set_feedback request
-            /// for each changed ring or strip.
+            /// Notification that the mode was switched.<br/><br/>
+            /// A mode applies to all buttons, rings and strips in a groupsimultaneously, but a client is not required to assign different actionsfor each mode. For example, a client may have mode-specific buttonmappings but map the ring to vertical scrolling in all modes. Modeindices start at 0.<br/><br/>
+            /// Switching modes is compositor-dependent. The compositor may providevisual cues to the client about the mode, e.g. by toggling LEDs onthe tablet device. Mode-switching may be software-controlled orcontrolled by one or more physical buttons. For example, on a WacomIntuos Pro, the button inside the ring may be assigned to switchbetween modes.<br/><br/>
+            /// The compositor will also send this event after wp_tablet_pad.enter oneach group in order to notify of the current mode. Groups that onlyfeature one mode will use mode=0 when emitting this event.<br/><br/>
+            /// If a button action in the new mode differs from the action in theprevious mode, the client should immediately issue awp_tablet_pad.set_feedback request for each changed button.<br/><br/>
+            /// If a ring or strip action in the new mode differs from the actionin the previous mode, the client should immediately issue awp_tablet_ring.set_feedback or wp_tablet_strip.set_feedback requestfor each changed ring or strip.<br/><br/>
             /// </summary>
             void OnModeSwitch(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadGroupV2 eventSender, uint @time, uint @serial, uint @mode);
         }
@@ -1479,32 +1079,11 @@ namespace NWayland.Protocols.TabletUnstableV2
     }
 
     /// <summary>
-    /// A pad device is a set of buttons, rings and strips
-    /// usually physically present on the tablet device itself. Some
-    /// exceptions exist where the pad device is physically detached, e.g. the
-    /// Wacom ExpressKey Remote.
-    /// <br/>
-    /// <br/>
-    /// Pad devices have no axes that control the cursor and are generally
-    /// auxiliary devices to the tool devices used on the tablet surface.
-    /// <br/>
-    /// <br/>
-    /// A pad device has a number of static characteristics, e.g. the number
-    /// of rings. These capabilities are sent in an event sequence after the
-    /// wp_tablet_seat.pad_added event before any actual events from this pad.
-    /// This initial event sequence is terminated by a wp_tablet_pad.done
-    /// event.
-    /// <br/>
-    /// <br/>
-    /// All pad features (buttons, rings and strips) are logically divided into
-    /// groups and all pads have at least one group. The available groups are
-    /// notified through the wp_tablet_pad.group event; the compositor will
-    /// emit one event per group before emitting wp_tablet_pad.done.
-    /// <br/>
-    /// <br/>
-    /// Groups may have multiple modes. Modes allow clients to map multiple
-    /// actions to a single pad feature. Only one mode can be active per group,
-    /// although different groups may have different active modes.
+    /// A pad device is a set of buttons, rings and stripsusually physically present on the tablet device itself. Someexceptions exist where the pad device is physically detached, e.g. theWacom ExpressKey Remote.<br/><br/>
+    /// Pad devices have no axes that control the cursor and are generallyauxiliary devices to the tool devices used on the tablet surface.<br/><br/>
+    /// A pad device has a number of static characteristics, e.g. the numberof rings. These capabilities are sent in an event sequence after thewp_tablet_seat.pad_added event before any actual events from this pad.This initial event sequence is terminated by a wp_tablet_pad.doneevent.<br/><br/>
+    /// All pad features (buttons, rings and strips) are logically divided intogroups and all pads have at least one group. The available groups arenotified through the wp_tablet_pad.group event; the compositor willemit one event per group before emitting wp_tablet_pad.done.<br/><br/>
+    /// Groups may have multiple modes. Modes allow clients to map multipleactions to a single pad feature. Only one mode can be active per group,although different groups may have different active modes.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletPadV2 : WlProxy
     {
@@ -1534,34 +1113,11 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Requests the compositor to use the provided feedback string
-        /// associated with this button. This request should be issued immediately
-        /// after a wp_tablet_pad_group.mode_switch event from the corresponding
-        /// group is received, or whenever a button is mapped to a different
-        /// action. See wp_tablet_pad_group.mode_switch for more details.
-        /// <br/>
-        /// <br/>
-        /// Clients are encouraged to provide context-aware descriptions for
-        /// the actions associated with each button, and compositors may use
-        /// this information to offer visual feedback on the button layout
-        /// (e.g. on-screen displays).
-        /// <br/>
-        /// <br/>
-        /// Button indices start at 0. Setting the feedback string on a button
-        /// that is reserved by the compositor (i.e. not belonging to any
-        /// wp_tablet_pad_group) does not generate an error but the compositor
-        /// is free to ignore the request.
-        /// <br/>
-        /// <br/>
-        /// The provided string 'description' is a UTF-8 encoded string to be
-        /// associated with this ring, and is considered user-visible; general
-        /// internationalization rules apply.
-        /// <br/>
-        /// <br/>
-        /// The serial argument will be that of the last
-        /// wp_tablet_pad_group.mode_switch event received for the group of this
-        /// button. Requests providing other serials than the most recent one will
-        /// be ignored.
+        /// Requests the compositor to use the provided feedback stringassociated with this button. This request should be issued immediatelyafter a wp_tablet_pad_group.mode_switch event from the correspondinggroup is received, or whenever a button is mapped to a differentaction. See wp_tablet_pad_group.mode_switch for more details.<br/><br/>
+        /// Clients are encouraged to provide context-aware descriptions forthe actions associated with each button, and compositors may usethis information to offer visual feedback on the button layout(e.g. on-screen displays).<br/><br/>
+        /// Button indices start at 0. Setting the feedback string on a buttonthat is reserved by the compositor (i.e. not belonging to anywp_tablet_pad_group) does not generate an error but the compositoris free to ignore the request.<br/><br/>
+        /// The provided string 'description' is a UTF-8 encoded string to beassociated with this ring, and is considered user-visible; generalinternationalization rules apply.<br/><br/>
+        /// The serial argument will be that of the lastwp_tablet_pad_group.mode_switch event received for the group of thisbutton. Requests providing other serials than the most recent one willbe ignored.<br/><br/>
         /// </summary>
         public void SetFeedback(uint @button, string @description, uint @serial)
         {
@@ -1587,73 +1143,47 @@ namespace NWayland.Protocols.TabletUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// Sent on wp_tablet_pad initialization to announce available groups.
-            /// One event is sent for each pad group available.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_pad.done event. At least one group will be announced.
+            /// Sent on wp_tablet_pad initialization to announce available groups.One event is sent for each pad group available.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_pad.done event. At least one group will be announced.<br/><br/>
             /// </summary>
             void OnGroup(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender, ZwpTabletPadGroupV2 @padGroup);
 
             /// <summary>
-            /// A system-specific device path that indicates which device is behind
-            /// this wp_tablet_pad. This information may be used to gather additional
-            /// information about the device, e.g. through libwacom.
-            /// <br/>
-            /// <br/>
-            /// The format of the path is unspecified, it may be a device node, a
-            /// sysfs path, or some other identifier. It is up to the client to
-            /// identify the string provided.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_pad.done event.
+            /// A system-specific device path that indicates which device is behindthis wp_tablet_pad. This information may be used to gather additionalinformation about the device, e.g. through libwacom.<br/><br/>
+            /// The format of the path is unspecified, it may be a device node, asysfs path, or some other identifier. It is up to the client toidentify the string provided.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_pad.done event.<br/><br/>
             /// </summary>
             void OnPath(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender, string @path);
 
             /// <summary>
-            /// Sent on wp_tablet_pad initialization to announce the available
-            /// buttons.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_pad.done event. This event is only sent when at least one
-            /// button is available.
+            /// Sent on wp_tablet_pad initialization to announce the availablebuttons.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_pad.done event. This event is only sent when at least onebutton is available.<br/><br/>
             /// </summary>
             void OnButtons(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender, uint @buttons);
 
             /// <summary>
-            /// This event signals the end of the initial burst of descriptive
-            /// events. A client may consider the static description of the pad to
-            /// be complete and finalize initialization of the pad.
+            /// This event signals the end of the initial burst of descriptiveevents. A client may consider the static description of the pad tobe complete and finalize initialization of the pad.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender);
 
             /// <summary>
-            /// Sent whenever the physical state of a button changes.
+            /// Sent whenever the physical state of a button changes.<br/><br/>
             /// </summary>
             void OnButton(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender, uint @time, uint @button, ButtonStateEnum @state);
 
             /// <summary>
-            /// Notification that this pad is focused on the specified surface.
+            /// Notification that this pad is focused on the specified surface.<br/><br/>
             /// </summary>
             void OnEnter(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender, uint @serial, NWayland.Protocols.TabletUnstableV2.ZwpTabletV2 @tablet, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Notification that this pad is no longer focused on the specified
-            /// surface.
+            /// Notification that this pad is no longer focused on the specifiedsurface.<br/><br/>
             /// </summary>
             void OnLeave(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender, uint @serial, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Sent when the pad has been removed from the system. When a tablet
-            /// is removed its pad(s) will be removed too.
-            /// <br/>
-            /// <br/>
-            /// When this event is received, the client must destroy all rings, strips
-            /// and groups that were offered by this pad, and issue wp_tablet_pad.destroy
-            /// the pad itself.
+            /// Sent when the pad has been removed from the system. When a tabletis removed its pad(s) will be removed too.<br/><br/>
+            /// When this event is received, the client must destroy all rings, stripsand groups that were offered by this pad, and issue wp_tablet_pad.destroythe pad itself.<br/><br/>
             /// </summary>
             void OnRemoved(NWayland.Protocols.TabletUnstableV2.ZwpTabletPadV2 eventSender);
         }
@@ -1692,14 +1222,17 @@ namespace NWayland.Protocols.TabletUnstableV2
         }
 
         /// <summary>
-        /// Describes the physical state of a button that caused the button
-        /// event.
+        /// Describes the physical state of a button that caused the buttonevent.<br/><br/>
         /// </summary>
         public enum ButtonStateEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// the button is not pressed<br/><br/>
+            /// </summary>
             Released = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// the button is pressed<br/><br/>
+            /// </summary>
             Pressed = 1
         }
 

@@ -8,8 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.SinglePixelBufferV1
 {
     /// <summary>
-    /// The wp_single_pixel_buffer_manager_v1 interface is a factory for
-    /// single-pixel buffers.
+    /// The wp_single_pixel_buffer_manager_v1 interface is a factory forsingle-pixel buffers.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WpSinglePixelBufferManagerV1 : WlProxy
     {
@@ -38,14 +37,9 @@ namespace NWayland.Protocols.SinglePixelBufferV1
         }
 
         /// <summary>
-        /// Create a single-pixel buffer from four 32-bit RGBA values.
-        /// <br/>
-        /// <br/>
-        /// Unless specified in another protocol extension, the RGBA values use
-        /// pre-multiplied alpha.
-        /// <br/>
-        /// <br/>
-        /// The width and height of the buffer are 1.
+        /// Create a single-pixel buffer from four 32-bit RGBA values.<br/><br/>
+        /// Unless specified in another protocol extension, the RGBA values usepre-multiplied alpha.<br/><br/>
+        /// The width and height of the buffer are 1.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlBuffer CreateU32RgbaBuffer(uint @r, uint @g, uint @b, uint @a)
         {

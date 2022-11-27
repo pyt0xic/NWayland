@@ -8,32 +8,10 @@ using NWayland.Interop;
 namespace NWayland.Protocols.InputMethodUnstableV1
 {
     /// <summary>
-    /// Corresponds to a text input on the input method side. An input method context
-    /// is created on text input activation on the input method side. It allows
-    /// receiving information about the text input from the application via events.
-    /// Input method contexts do not keep state after deactivation and should be
-    /// destroyed after deactivation is handled.
-    /// <br/>
-    /// <br/>
-    /// Text is generally UTF-8 encoded, indices and lengths are in bytes.
-    /// <br/>
-    /// <br/>
-    /// Serials are used to synchronize the state between the text input and
-    /// an input method. New serials are sent by the text input in the
-    /// commit_state request and are used by the input method to indicate
-    /// the known text input state in events like preedit_string, commit_string,
-    /// and keysym. The text input can then ignore events from the input method
-    /// which are based on an outdated state (for example after a reset).
-    /// <br/>
-    /// <br/>
-    /// Warning! The protocol described in this file is experimental and
-    /// backward incompatible changes may be made. Backward compatible changes
-    /// may be added together with the corresponding interface version bump.
-    /// Backward incompatible changes are done by bumping the version number in
-    /// the protocol and interface names and resetting the interface version.
-    /// Once the protocol is to be declared stable, the 'z' prefix and the
-    /// version number in the protocol and interface names are removed and the
-    /// interface version number is reset.
+    /// Corresponds to a text input on the input method side. An input method contextis created on text input activation on the input method side. It allowsreceiving information about the text input from the application via events.Input method contexts do not keep state after deactivation and should bedestroyed after deactivation is handled.<br/><br/>
+    /// Text is generally UTF-8 encoded, indices and lengths are in bytes.<br/><br/>
+    /// Serials are used to synchronize the state between the text input andan input method. New serials are sent by the text input in thecommit_state request and are used by the input method to indicatethe known text input state in events like preedit_string, commit_string,and keysym. The text input can then ignore events from the input methodwhich are based on an outdated state (for example after a reset).<br/><br/>
+    /// Warning! The protocol described in this file is experimental andbackward incompatible changes may be made. Backward compatible changesmay be added together with the corresponding interface version bump.Backward incompatible changes are done by bumping the version number inthe protocol and interface names and resetting the interface version.Once the protocol is to be declared stable, the 'z' prefix and theversion number in the protocol and interface names are removed and theinterface version number is reset.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpInputMethodContextV1 : WlProxy
     {
@@ -81,17 +59,9 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Send the commit string text for insertion to the application.
-        /// <br/>
-        /// <br/>
-        /// The text to commit could be either just a single character after a key
-        /// press or the result of some composing (pre-edit). It could be also an
-        /// empty text when some text should be removed (see
-        /// delete_surrounding_text) or when the input cursor should be moved (see
-        /// cursor_position).
-        /// <br/>
-        /// <br/>
-        /// Any previously set composing text will be removed.
+        /// Send the commit string text for insertion to the application.<br/><br/>
+        /// The text to commit could be either just a single character after a keypress or the result of some composing (pre-edit). It could be also anempty text when some text should be removed (seedelete_surrounding_text) or when the input cursor should be moved (seecursor_position).<br/><br/>
+        /// Any previously set composing text will be removed.<br/><br/>
         /// </summary>
         public void CommitString(uint @serial, string @text)
         {
@@ -106,15 +76,9 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Send the pre-edit string text to the application text input.
-        /// <br/>
-        /// <br/>
-        /// The commit text can be used to replace the pre-edit text on reset (for
-        /// example on unfocus).
-        /// <br/>
-        /// <br/>
-        /// Previously sent preedit_style and preedit_cursor requests are also
-        /// processed by the text_input.
+        /// Send the pre-edit string text to the application text input.<br/><br/>
+        /// The commit text can be used to replace the pre-edit text on reset (forexample on unfocus).<br/><br/>
+        /// Previously sent preedit_style and preedit_cursor requests are alsoprocessed by the text_input.<br/><br/>
         /// </summary>
         public void PreeditString(uint @serial, string @text, string @commit)
         {
@@ -133,13 +97,8 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Set the styling information on composing text. The style is applied for
-        /// length in bytes from index relative to the beginning of
-        /// the composing text (as byte offset). Multiple styles can
-        /// be applied to a composing text.
-        /// <br/>
-        /// <br/>
-        /// This request should be sent before sending a preedit_string request.
+        /// Set the styling information on composing text. The style is applied forlength in bytes from index relative to the beginning ofthe composing text (as byte offset). Multiple styles canbe applied to a composing text.<br/><br/>
+        /// This request should be sent before sending a preedit_string request.<br/><br/>
         /// </summary>
         public void PreeditStyling(uint @index, uint @length, uint @style)
         {
@@ -152,14 +111,9 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Set the cursor position inside the composing text (as byte offset)
-        /// relative to the start of the composing text.
-        /// <br/>
-        /// <br/>
-        /// When index is negative no cursor should be displayed.
-        /// <br/>
-        /// <br/>
-        /// This request should be sent before sending a preedit_string request.
+        /// Set the cursor position inside the composing text (as byte offset)relative to the start of the composing text.<br/><br/>
+        /// When index is negative no cursor should be displayed.<br/><br/>
+        /// This request should be sent before sending a preedit_string request.<br/><br/>
         /// </summary>
         public void PreeditCursor(int @index)
         {
@@ -170,11 +124,8 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Remove the surrounding text.
-        /// <br/>
-        /// <br/>
-        /// This request will be handled on the text_input side directly following
-        /// a commit_string request.
+        /// Remove the surrounding text.<br/><br/>
+        /// This request will be handled on the text_input side directly followinga commit_string request.<br/><br/>
         /// </summary>
         public void DeleteSurroundingText(int @index, uint @length)
         {
@@ -186,17 +137,8 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Set the cursor and anchor to a new position. Index is the new cursor
-        /// position in bytes (when &gt;= 0 this is relative to the end of the inserted text,
-        /// otherwise it is relative to the beginning of the inserted text). Anchor is
-        /// the new anchor position in bytes (when &gt;= 0 this is relative to the end of the
-        /// inserted text, otherwise it is relative to the beginning of the inserted
-        /// text). When there should be no selected text, anchor should be the same
-        /// as index.
-        /// <br/>
-        /// <br/>
-        /// This request will be handled on the text_input side directly following
-        /// a commit_string request.
+        /// Set the cursor and anchor to a new position. Index is the new cursorposition in bytes (when &gt;= 0 this is relative to the end of the inserted text,otherwise it is relative to the beginning of the inserted text). Anchor isthe new anchor position in bytes (when &gt;= 0 this is relative to the end of theinserted text, otherwise it is relative to the beginning of the insertedtext). When there should be no selected text, anchor should be the sameas index.<br/><br/>
+        /// This request will be handled on the text_input side directly followinga commit_string request.<br/><br/>
         /// </summary>
         public void CursorPosition(int @index, int @anchor)
         {
@@ -220,10 +162,7 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Notify when a key event was sent. Key events should not be used for
-        /// normal text input operations, which should be done with commit_string,
-        /// delete_surrounding_text, etc. The key event follows the wl_keyboard key
-        /// event convention. Sym is an XKB keysym, state is a wl_keyboard key_state.
+        /// Notify when a key event was sent. Key events should not be used fornormal text input operations, which should be done with commit_string,delete_surrounding_text, etc. The key event follows the wl_keyboard keyevent convention. Sym is an XKB keysym, state is a wl_keyboard key_state.<br/><br/>
         /// </summary>
         public void Keysym(uint @serial, uint @time, uint @sym, uint @state, uint @modifiers)
         {
@@ -238,10 +177,7 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Allow an input method to receive hardware keyboard input and process
-        /// key events to generate text events (with pre-edit) over the wire. This
-        /// allows input methods which compose multiple key events for inputting
-        /// text like it is done for CJK languages.
+        /// Allow an input method to receive hardware keyboard input and processkey events to generate text events (with pre-edit) over the wire. Thisallows input methods which compose multiple key events for inputtingtext like it is done for CJK languages.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlKeyboard GrabKeyboard()
         {
@@ -253,13 +189,8 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Forward a wl_keyboard::key event to the client that was not processed
-        /// by the input method itself. Should be used when filtering key events
-        /// with grab_keyboard.  The arguments should be the ones from the
-        /// wl_keyboard::key event.
-        /// <br/>
-        /// <br/>
-        /// For generating custom key events use the keysym request instead.
+        /// Forward a wl_keyboard::key event to the client that was not processedby the input method itself. Should be used when filtering key eventswith grab_keyboard.  The arguments should be the ones from thewl_keyboard::key event.<br/><br/>
+        /// For generating custom key events use the keysym request instead.<br/><br/>
         /// </summary>
         public void Key(uint @serial, uint @time, uint @key, uint @state)
         {
@@ -273,10 +204,7 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Forward a wl_keyboard::modifiers event to the client that was not
-        /// processed by the input method itself.  Should be used when filtering
-        /// key events with grab_keyboard. The arguments should be the ones
-        /// from the wl_keyboard::modifiers event.
+        /// Forward a wl_keyboard::modifiers event to the client that was notprocessed by the input method itself.  Should be used when filteringkey events with grab_keyboard. The arguments should be the onesfrom the wl_keyboard::modifiers event.<br/><br/>
         /// </summary>
         public void Modifiers(uint @serial, uint @modsDepressed, uint @modsLatched, uint @modsLocked, uint @group)
         {
@@ -314,11 +242,7 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// The plain surrounding text around the input position. Cursor is the
-            /// position in bytes within the surrounding text relative to the beginning
-            /// of the text. Anchor is the position in bytes of the selection anchor
-            /// within the surrounding text relative to the beginning of the text. If
-            /// there is no selected text then anchor is the same as cursor.
+            /// The plain surrounding text around the input position. Cursor is theposition in bytes within the surrounding text relative to the beginningof the text. Anchor is the position in bytes of the selection anchorwithin the surrounding text relative to the beginning of the text. Ifthere is no selected text then anchor is the same as cursor.<br/><br/>
             /// </summary>
             void OnSurroundingText(NWayland.Protocols.InputMethodUnstableV1.ZwpInputMethodContextV1 eventSender, string @text, uint @cursor, uint @anchor);
             void OnReset(NWayland.Protocols.InputMethodUnstableV1.ZwpInputMethodContextV1 eventSender);
@@ -379,10 +303,7 @@ namespace NWayland.Protocols.InputMethodUnstableV1
     }
 
     /// <summary>
-    /// An input method object is responsible for composing text in response to
-    /// input from hardware or virtual keyboards. There is one input method
-    /// object per seat. On activate there is a new input method context object
-    /// created which allows the input method to communicate with the text input.
+    /// An input method object is responsible for composing text in response toinput from hardware or virtual keyboards. There is one input methodobject per seat. On activate there is a new input method context objectcreated which allows the input method to communicate with the text input.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpInputMethodV1 : WlProxy
     {
@@ -405,15 +326,12 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// A text input was activated. Creates an input method context object
-            /// which allows communication with the text input.
+            /// A text input was activated. Creates an input method context objectwhich allows communication with the text input.<br/><br/>
             /// </summary>
             void OnActivate(NWayland.Protocols.InputMethodUnstableV1.ZwpInputMethodV1 eventSender, ZwpInputMethodContextV1 @id);
 
             /// <summary>
-            /// The text input corresponding to the context argument was deactivated.
-            /// The input method context should be destroyed after deactivation is
-            /// handled.
+            /// The text input corresponding to the context argument was deactivated.The input method context should be destroyed after deactivation ishandled.<br/><br/>
             /// </summary>
             void OnDeactivate(NWayland.Protocols.InputMethodUnstableV1.ZwpInputMethodV1 eventSender, NWayland.Protocols.InputMethodUnstableV1.ZwpInputMethodContextV1 @context);
         }
@@ -457,7 +375,7 @@ namespace NWayland.Protocols.InputMethodUnstableV1
     }
 
     /// <summary>
-    /// Only one client can bind this interface at a time.
+    /// Only one client can bind this interface at a time.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpInputPanelV1 : WlProxy
     {
@@ -540,10 +458,8 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Set the input_panel_surface type to keyboard.
-        /// <br/>
-        /// <br/>
-        /// A keyboard surface is only shown when a text input is active.
+        /// Set the input_panel_surface type to keyboard.<br/><br/>
+        /// A keyboard surface is only shown when a text input is active.<br/><br/>
         /// </summary>
         public void SetToplevel(NWayland.Protocols.Wayland.WlOutput @output, uint @position)
         {
@@ -557,11 +473,8 @@ namespace NWayland.Protocols.InputMethodUnstableV1
         }
 
         /// <summary>
-        /// Set the input_panel_surface to be an overlay panel.
-        /// <br/>
-        /// <br/>
-        /// This is shown near the input cursor above the application window when
-        /// a text input is active.
+        /// Set the input_panel_surface to be an overlay panel.<br/><br/>
+        /// This is shown near the input cursor above the application window whena text input is active.<br/><br/>
         /// </summary>
         public void SetOverlayPanel()
         {

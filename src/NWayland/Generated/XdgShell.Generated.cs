@@ -8,11 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.XdgShell
 {
     /// <summary>
-    /// The xdg_wm_base interface is exposed as a global object enabling clients
-    /// to turn their wl_surfaces into windows in a desktop environment. It
-    /// defines the basic functionality needed for clients and the compositor to
-    /// create windows that can be dragged, resized, maximized, etc, as well as
-    /// creating transient windows such as popup menus.
+    /// The xdg_wm_base interface is exposed as a global object enabling clientsto turn their wl_surfaces into windows in a desktop environment. Itdefines the basic functionality needed for clients and the compositor tocreate windows that can be dragged, resized, maximized, etc, as well ascreating transient windows such as popup menus.<br/><br/>
     /// </summary>
     public sealed unsafe partial class XdgWmBase : WlProxy
     {
@@ -45,9 +41,7 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Create a positioner object. A positioner object is used to position
-        /// surfaces relative to some parent surface. See the interface description
-        /// and xdg_surface.get_popup for details.
+        /// Create a positioner object. A positioner object is used to positionsurfaces relative to some parent surface. See the interface descriptionand xdg_surface.get_popup for details.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XdgShell.XdgPositioner CreatePositioner()
         {
@@ -59,21 +53,9 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// This creates an xdg_surface for the given surface. While xdg_surface
-        /// itself is not a role, the corresponding surface may only be assigned
-        /// a role extending xdg_surface, such as xdg_toplevel or xdg_popup. It is
-        /// illegal to create an xdg_surface for a wl_surface which already has an
-        /// assigned role and this will result in a protocol error.
-        /// <br/>
-        /// <br/>
-        /// This creates an xdg_surface for the given surface. An xdg_surface is
-        /// used as basis to define a role to a given surface, such as xdg_toplevel
-        /// or xdg_popup. It also manages functionality shared between xdg_surface
-        /// based surface roles.
-        /// <br/>
-        /// <br/>
-        /// See the documentation of xdg_surface for more details about what an
-        /// xdg_surface is and how it is used.
+        /// This creates an xdg_surface for the given surface. While xdg_surfaceitself is not a role, the corresponding surface may only be assigneda role extending xdg_surface, such as xdg_toplevel or xdg_popup. It isillegal to create an xdg_surface for a wl_surface which already has anassigned role and this will result in a role error.<br/><br/>
+        /// This creates an xdg_surface for the given surface. An xdg_surface isused as basis to define a role to a given surface, such as xdg_toplevelor xdg_popup. It also manages functionality shared between xdg_surfacebased surface roles.<br/><br/>
+        /// See the documentation of xdg_surface for more details about what anxdg_surface is and how it is used.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XdgShell.XdgSurface GetXdgSurface(NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -88,8 +70,7 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// A client must respond to a ping event with a pong request or
-        /// the client may be deemed unresponsive. See xdg_wm_base.ping.
+        /// A client must respond to a ping event with a pong request orthe client may be deemed unresponsive. See xdg_wm_base.pingand xdg_wm_base.error.unresponsive.<br/><br/>
         /// </summary>
         public void Pong(uint @serial)
         {
@@ -102,19 +83,9 @@ namespace NWayland.Protocols.XdgShell
         public interface IEvents
         {
             /// <summary>
-            /// The ping event asks the client if it's still alive. Pass the
-            /// serial specified in the event back to the compositor by sending
-            /// a "pong" request back with the specified serial. See xdg_wm_base.pong.
-            /// <br/>
-            /// <br/>
-            /// Compositors can use this to determine if the client is still
-            /// alive. It's unspecified what will happen if the client doesn't
-            /// respond to the ping request, or in what timeframe. Clients should
-            /// try to respond in a reasonable amount of time.
-            /// <br/>
-            /// <br/>
-            /// A compositor is free to ping in any way it wants, but a client must
-            /// always respond to any xdg_wm_base object it created.
+            /// The ping event asks the client if it's still alive. Pass theserial specified in the event back to the compositor by sendinga "pong" request back with the specified serial. See xdg_wm_base.pong.<br/><br/>
+            /// Compositors can use this to determine if the client is stillalive. It's unspecified what will happen if the client doesn'trespond to the ping request, or in what timeframe. Clients shouldtry to respond in a reasonable amount of time. The “unresponsive”error is provided for compositors that wish to disconnect unresponsiveclients.<br/><br/>
+            /// A compositor is free to ping in any way it wants, but a client mustalways respond to any xdg_wm_base object it created.<br/><br/>
             /// </summary>
             void OnPing(NWayland.Protocols.XdgShell.XdgWmBase eventSender, uint @serial);
         }
@@ -133,18 +104,34 @@ namespace NWayland.Protocols.XdgShell
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// given wl_surface has another role<br/><br/>
+            /// </summary>
             Role = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// xdg_wm_base was destroyed before children<br/><br/>
+            /// </summary>
             DefunctSurfaces = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// the client tried to map or destroy a non-topmost popup<br/><br/>
+            /// </summary>
             NotTheTopmostPopup = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// the client specified an invalid popup parent surface<br/><br/>
+            /// </summary>
             InvalidPopupParent = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// the client provided an invalid surface state<br/><br/>
+            /// </summary>
             InvalidSurfaceState = 4,
-            /// <summary></summary>
-            InvalidPositioner = 5
+            /// <summary>
+            /// the client provided an invalid positioner<br/><br/>
+            /// </summary>
+            InvalidPositioner = 5,
+            /// <summary>
+            /// the client didn’t respond to a ping event in time<br/><br/>
+            /// </summary>
+            Unresponsive = 6
         }
 
         private class ProxyFactory : IBindFactory<XdgWmBase>
@@ -171,28 +158,10 @@ namespace NWayland.Protocols.XdgShell
     }
 
     /// <summary>
-    /// The xdg_positioner provides a collection of rules for the placement of a
-    /// child surface relative to a parent surface. Rules can be defined to ensure
-    /// the child surface remains within the visible area's borders, and to
-    /// specify how the child surface changes its position, such as sliding along
-    /// an axis, or flipping around a rectangle. These positioner-created rules are
-    /// constrained by the requirement that a child surface must intersect with or
-    /// be at least partially adjacent to its parent surface.
-    /// <br/>
-    /// <br/>
-    /// See the various requests for details about possible rules.
-    /// <br/>
-    /// <br/>
-    /// At the time of the request, the compositor makes a copy of the rules
-    /// specified by the xdg_positioner. Thus, after the request is complete the
-    /// xdg_positioner object can be destroyed or reused; further changes to the
-    /// object will have no effect on previous usages.
-    /// <br/>
-    /// <br/>
-    /// For an xdg_positioner object to be considered complete, it must have a
-    /// non-zero size set by set_size, and a non-zero anchor rectangle set by
-    /// set_anchor_rect. Passing an incomplete xdg_positioner object when
-    /// positioning a surface raises an error.
+    /// The xdg_positioner provides a collection of rules for the placement of achild surface relative to a parent surface. Rules can be defined to ensurethe child surface remains within the visible area's borders, and tospecify how the child surface changes its position, such as sliding alongan axis, or flipping around a rectangle. These positioner-created rules areconstrained by the requirement that a child surface must intersect with orbe at least partially adjacent to its parent surface.<br/><br/>
+    /// See the various requests for details about possible rules.<br/><br/>
+    /// At the time of the request, the compositor makes a copy of the rulesspecified by the xdg_positioner. Thus, after the request is complete thexdg_positioner object can be destroyed or reused; further changes to theobject will have no effect on previous usages.<br/><br/>
+    /// For an xdg_positioner object to be considered complete, it must have anon-zero size set by set_size, and a non-zero anchor rectangle set byset_anchor_rect. Passing an incomplete xdg_positioner object whenpositioning a surface raises an invalid_positioner error.<br/><br/>
     /// </summary>
     public sealed unsafe partial class XdgPositioner : WlProxy
     {
@@ -229,12 +198,8 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set the size of the surface that is to be positioned with the positioner
-        /// object. The size is in surface-local coordinates and corresponds to the
-        /// window geometry. See xdg_surface.set_window_geometry.
-        /// <br/>
-        /// <br/>
-        /// If a zero or negative size is set the invalid_input error is raised.
+        /// Set the size of the surface that is to be positioned with the positionerobject. The size is in surface-local coordinates and corresponds to thewindow geometry. See xdg_surface.set_window_geometry.<br/><br/>
+        /// If a zero or negative size is set the invalid_input error is raised.<br/><br/>
         /// </summary>
         public void SetSize(int @width, int @height)
         {
@@ -246,18 +211,9 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Specify the anchor rectangle within the parent surface that the child
-        /// surface will be placed relative to. The rectangle is relative to the
-        /// window geometry as defined by xdg_surface.set_window_geometry of the
-        /// parent surface.
-        /// <br/>
-        /// <br/>
-        /// When the xdg_positioner object is used to position a child surface, the
-        /// anchor rectangle may not extend outside the window geometry of the
-        /// positioned child's parent surface.
-        /// <br/>
-        /// <br/>
-        /// If a negative size is set the invalid_input error is raised.
+        /// Specify the anchor rectangle within the parent surface that the childsurface will be placed relative to. The rectangle is relative to thewindow geometry as defined by xdg_surface.set_window_geometry of theparent surface.<br/><br/>
+        /// When the xdg_positioner object is used to position a child surface, theanchor rectangle may not extend outside the window geometry of thepositioned child's parent surface.<br/><br/>
+        /// If a negative size is set the invalid_input error is raised.<br/><br/>
         /// </summary>
         public void SetAnchorRect(int @x, int @y, int @width, int @height)
         {
@@ -271,12 +227,7 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Defines the anchor point for the anchor rectangle. The specified anchor
-        /// is used derive an anchor point that the child surface will be
-        /// positioned relative to. If a corner anchor is set (e.g. 'top_left' or
-        /// 'bottom_right'), the anchor point will be at the specified corner;
-        /// otherwise, the derived anchor point will be centered on the specified
-        /// edge, or in the center of the anchor rectangle if no edge is specified.
+        /// Defines the anchor point for the anchor rectangle. The specified anchoris used derive an anchor point that the child surface will bepositioned relative to. If a corner anchor is set (e.g. 'top_left' or'bottom_right'), the anchor point will be at the specified corner;otherwise, the derived anchor point will be centered on the specifiededge, or in the center of the anchor rectangle if no edge is specified.<br/><br/>
         /// </summary>
         public void SetAnchor(AnchorEnum @anchor)
         {
@@ -287,12 +238,7 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Defines in what direction a surface should be positioned, relative to
-        /// the anchor point of the parent surface. If a corner gravity is
-        /// specified (e.g. 'bottom_right' or 'top_left'), then the child surface
-        /// will be placed towards the specified gravity; otherwise, the child
-        /// surface will be centered over the anchor point on any axis that had no
-        /// gravity specified.
+        /// Defines in what direction a surface should be positioned, relative tothe anchor point of the parent surface. If a corner gravity isspecified (e.g. 'bottom_right' or 'top_left'), then the child surfacewill be placed towards the specified gravity; otherwise, the childsurface will be centered over the anchor point on any axis that had nogravity specified. If the gravity is not in the ‘gravity’ enum, aninvalid_input error is raised.<br/><br/>
         /// </summary>
         public void SetGravity(GravityEnum @gravity)
         {
@@ -303,22 +249,10 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Specify how the window should be positioned if the originally intended
-        /// position caused the surface to be constrained, meaning at least
-        /// partially outside positioning boundaries set by the compositor. The
-        /// adjustment is set by constructing a bitmask describing the adjustment to
-        /// be made when the surface is constrained on that axis.
-        /// <br/>
-        /// <br/>
-        /// If no bit for one axis is set, the compositor will assume that the child
-        /// surface should not change its position on that axis when constrained.
-        /// <br/>
-        /// <br/>
-        /// If more than one bit for one axis is set, the order of how adjustments
-        /// are applied is specified in the corresponding adjustment descriptions.
-        /// <br/>
-        /// <br/>
-        /// The default adjustment is none.
+        /// Specify how the window should be positioned if the originally intendedposition caused the surface to be constrained, meaning at leastpartially outside positioning boundaries set by the compositor. Theadjustment is set by constructing a bitmask describing the adjustment tobe made when the surface is constrained on that axis.<br/><br/>
+        /// If no bit for one axis is set, the compositor will assume that the childsurface should not change its position on that axis when constrained.<br/><br/>
+        /// If more than one bit for one axis is set, the order of how adjustmentsare applied is specified in the corresponding adjustment descriptions.<br/><br/>
+        /// The default adjustment is none.<br/><br/>
         /// </summary>
         public void SetConstraintAdjustment(uint @constraintAdjustment)
         {
@@ -329,18 +263,8 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Specify the surface position offset relative to the position of the
-        /// anchor on the anchor rectangle and the anchor on the surface. For
-        /// example if the anchor of the anchor rectangle is at (x, y), the surface
-        /// has the gravity bottom|right, and the offset is (ox, oy), the calculated
-        /// surface position will be (x + ox, y + oy). The offset position of the
-        /// surface is the one used for constraint testing. See
-        /// set_constraint_adjustment.
-        /// <br/>
-        /// <br/>
-        /// An example use case is placing a popup menu on top of a user interface
-        /// element, while aligning the user interface element of the parent surface
-        /// with some user interface element placed somewhere in the popup surface.
+        /// Specify the surface position offset relative to the position of theanchor on the anchor rectangle and the anchor on the surface. Forexample if the anchor of the anchor rectangle is at (x, y), the surfacehas the gravity bottom|right, and the offset is (ox, oy), the calculatedsurface position will be (x + ox, y + oy). The offset position of thesurface is the one used for constraint testing. Seeset_constraint_adjustment.<br/><br/>
+        /// An example use case is placing a popup menu on top of a user interfaceelement, while aligning the user interface element of the parent surfacewith some user interface element placed somewhere in the popup surface.<br/><br/>
         /// </summary>
         public void SetOffset(int @x, int @y)
         {
@@ -352,13 +276,8 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// When set reactive, the surface is reconstrained if the conditions used
-        /// for constraining changed, e.g. the parent window moved.
-        /// <br/>
-        /// <br/>
-        /// If the conditions changed and the popup was reconstrained, an
-        /// xdg_popup.configure event is sent with updated geometry, followed by an
-        /// xdg_surface.configure event.
+        /// When set reactive, the surface is reconstrained if the conditions usedfor constraining changed, e.g. the parent window moved.<br/><br/>
+        /// If the conditions changed and the popup was reconstrained, anxdg_popup.configure event is sent with updated geometry, followed by anxdg_surface.configure event.<br/><br/>
         /// </summary>
         public void SetReactive()
         {
@@ -370,14 +289,8 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set the parent window geometry the compositor should use when
-        /// positioning the popup. The compositor may use this information to
-        /// determine the future state the popup should be constrained using. If
-        /// this doesn't match the dimension of the parent the popup is eventually
-        /// positioned against, the behavior is undefined.
-        /// <br/>
-        /// <br/>
-        /// The arguments are given in the surface-local coordinate space.
+        /// Set the parent window geometry the compositor should use whenpositioning the popup. The compositor may use this information todetermine the future state the popup should be constrained using. Ifthis doesn't match the dimension of the parent the popup is eventuallypositioned against, the behavior is undefined.<br/><br/>
+        /// The arguments are given in the surface-local coordinate space.<br/><br/>
         /// </summary>
         public void SetParentSize(int @parentWidth, int @parentHeight)
         {
@@ -391,10 +304,7 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set the serial of an xdg_surface.configure event this positioner will be
-        /// used in response to. The compositor may use this information together
-        /// with set_parent_size to determine what future state the popup should be
-        /// constrained using.
+        /// Set the serial of an xdg_surface.configure event this positioner will beused in response to. The compositor may use this information togetherwith set_parent_size to determine what future state the popup should beconstrained using.<br/><br/>
         /// </summary>
         public void SetParentConfigure(uint @serial)
         {
@@ -418,7 +328,9 @@ namespace NWayland.Protocols.XdgShell
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// invalid input provided<br/><br/>
+            /// </summary>
             InvalidInput = 0
         }
 
@@ -449,19 +361,9 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// The constraint adjustment value define ways the compositor will adjust
-        /// the position of the surface, if the unadjusted position would result
-        /// in the surface being partly constrained.
-        /// <br/>
-        /// <br/>
-        /// Whether a surface is considered 'constrained' is left to the compositor
-        /// to determine. For example, the surface may be partly outside the
-        /// compositor's defined 'work area', thus necessitating the child surface's
-        /// position be adjusted until it is entirely inside the work area.
-        /// <br/>
-        /// <br/>
-        /// The adjustments can be combined, according to a defined precedence: 1)
-        /// Flip, 2) Slide, 3) Resize.
+        /// The constraint adjustment value define ways the compositor will adjustthe position of the surface, if the unadjusted position would resultin the surface being partly constrained.<br/><br/>
+        /// Whether a surface is considered 'constrained' is left to the compositorto determine. For example, the surface may be partly outside thecompositor's defined 'work area', thus necessitating the child surface'sposition be adjusted until it is entirely inside the work area.<br/><br/>
+        /// The adjustments can be combined, according to a defined precedence: 1)Flip, 2) Slide, 3) Resize.<br/><br/>
         /// </summary>
         [Flags]
         public enum ConstraintAdjustmentEnum
@@ -499,60 +401,16 @@ namespace NWayland.Protocols.XdgShell
     }
 
     /// <summary>
-    /// An interface that may be implemented by a wl_surface, for
-    /// implementations that provide a desktop-style user interface.
-    /// <br/>
-    /// <br/>
-    /// It provides a base set of functionality required to construct user
-    /// interface elements requiring management by the compositor, such as
-    /// toplevel windows, menus, etc. The types of functionality are split into
-    /// xdg_surface roles.
-    /// <br/>
-    /// <br/>
-    /// Creating an xdg_surface does not set the role for a wl_surface. In order
-    /// to map an xdg_surface, the client must create a role-specific object
-    /// using, e.g., get_toplevel, get_popup. The wl_surface for any given
-    /// xdg_surface can have at most one role, and may not be assigned any role
-    /// not based on xdg_surface.
-    /// <br/>
-    /// <br/>
-    /// A role must be assigned before any other requests are made to the
-    /// xdg_surface object.
-    /// <br/>
-    /// <br/>
-    /// The client must call wl_surface.commit on the corresponding wl_surface
-    /// for the xdg_surface state to take effect.
-    /// <br/>
-    /// <br/>
-    /// Creating an xdg_surface from a wl_surface which has a buffer attached or
-    /// committed is a client error, and any attempts by a client to attach or
-    /// manipulate a buffer prior to the first xdg_surface.configure call must
-    /// also be treated as errors.
-    /// <br/>
-    /// <br/>
-    /// After creating a role-specific object and setting it up, the client must
-    /// perform an initial commit without any buffer attached. The compositor
-    /// will reply with an xdg_surface.configure event. The client must
-    /// acknowledge it and is then allowed to attach a buffer to map the surface.
-    /// <br/>
-    /// <br/>
-    /// Mapping an xdg_surface-based role surface is defined as making it
-    /// possible for the surface to be shown by the compositor. Note that
-    /// a mapped surface is not guaranteed to be visible once it is mapped.
-    /// <br/>
-    /// <br/>
-    /// For an xdg_surface to be mapped by the compositor, the following
-    /// conditions must be met:
-    /// (1) the client has assigned an xdg_surface-based role to the surface
-    /// (2) the client has set and committed the xdg_surface state and the
-    /// role-dependent state to the surface
-    /// (3) the client has committed a buffer to the surface
-    /// <br/>
-    /// <br/>
-    /// A newly-unmapped surface is considered to have met condition (1) out
-    /// of the 3 required conditions for mapping a surface if its role surface
-    /// has not been destroyed, i.e. the client must perform the initial commit
-    /// again before attaching a buffer.
+    /// An interface that may be implemented by a wl_surface, forimplementations that provide a desktop-style user interface.<br/><br/>
+    /// It provides a base set of functionality required to construct userinterface elements requiring management by the compositor, such astoplevel windows, menus, etc. The types of functionality are split intoxdg_surface roles.<br/><br/>
+    /// Creating an xdg_surface does not set the role for a wl_surface. In orderto map an xdg_surface, the client must create a role-specific objectusing, e.g., get_toplevel, get_popup. The wl_surface for any givenxdg_surface can have at most one role, and may not be assigned any rolenot based on xdg_surface.<br/><br/>
+    /// A role must be assigned before any other requests are made to thexdg_surface object.<br/><br/>
+    /// The client must call wl_surface.commit on the corresponding wl_surfacefor the xdg_surface state to take effect.<br/><br/>
+    /// Creating an xdg_surface from a wl_surface which has a buffer attached orcommitted is a client error, and any attempts by a client to attach ormanipulate a buffer prior to the first xdg_surface.configure call mustalso be treated as errors.<br/><br/>
+    /// After creating a role-specific object and setting it up, the client mustperform an initial commit without any buffer attached. The compositorwill reply with an xdg_surface.configure event. The client mustacknowledge it and is then allowed to attach a buffer to map the surface.<br/><br/>
+    /// Mapping an xdg_surface-based role surface is defined as making itpossible for the surface to be shown by the compositor. Note thata mapped surface is not guaranteed to be visible once it is mapped.<br/><br/>
+    /// For an xdg_surface to be mapped by the compositor, the followingconditions must be met:(1) the client has assigned an xdg_surface-based role to the surface(2) the client has set and committed the xdg_surface state and therole-dependent state to the surface(3) the client has committed a buffer to the surface<br/><br/>
+    /// A newly-unmapped surface is considered to have met condition (1) outof the 3 required conditions for mapping a surface if its role surfacehas not been destroyed, i.e. the client must perform the initial commitagain before attaching a buffer.<br/><br/>
     /// </summary>
     public sealed unsafe partial class XdgSurface : WlProxy
     {
@@ -586,12 +444,8 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// This creates an xdg_toplevel object for the given xdg_surface and gives
-        /// the associated wl_surface the xdg_toplevel role.
-        /// <br/>
-        /// <br/>
-        /// See the documentation of xdg_toplevel for more details about what an
-        /// xdg_toplevel is and how it is used.
+        /// This creates an xdg_toplevel object for the given xdg_surface and givesthe associated wl_surface the xdg_toplevel role.<br/><br/>
+        /// See the documentation of xdg_toplevel for more details about what anxdg_toplevel is and how it is used.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XdgShell.XdgToplevel GetToplevel()
         {
@@ -603,16 +457,9 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// This creates an xdg_popup object for the given xdg_surface and gives
-        /// the associated wl_surface the xdg_popup role.
-        /// <br/>
-        /// <br/>
-        /// If null is passed as a parent, a parent surface must be specified using
-        /// some other protocol, before committing the initial state.
-        /// <br/>
-        /// <br/>
-        /// See the documentation of xdg_popup for more details about what an
-        /// xdg_popup is and how it is used.
+        /// This creates an xdg_popup object for the given xdg_surface and givesthe associated wl_surface the xdg_popup role.<br/><br/>
+        /// If null is passed as a parent, a parent surface must be specified usingsome other protocol, before committing the initial state.<br/><br/>
+        /// See the documentation of xdg_popup for more details about what anxdg_popup is and how it is used.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XdgShell.XdgPopup GetPopup(NWayland.Protocols.XdgShell.XdgSurface? @parent, NWayland.Protocols.XdgShell.XdgPositioner @positioner)
         {
@@ -628,41 +475,13 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// The window geometry of a surface is its "visible bounds" from the
-        /// user's perspective. Client-side decorations often have invisible
-        /// portions like drop-shadows which should be ignored for the
-        /// purposes of aligning, placing and constraining windows.
-        /// <br/>
-        /// <br/>
-        /// The window geometry is double buffered, and will be applied at the
-        /// time wl_surface.commit of the corresponding wl_surface is called.
-        /// <br/>
-        /// <br/>
-        /// When maintaining a position, the compositor should treat the (x, y)
-        /// coordinate of the window geometry as the top left corner of the window.
-        /// A client changing the (x, y) window geometry coordinate should in
-        /// general not alter the position of the window.
-        /// <br/>
-        /// <br/>
-        /// Once the window geometry of the surface is set, it is not possible to
-        /// unset it, and it will remain the same until set_window_geometry is
-        /// called again, even if a new subsurface or buffer is attached.
-        /// <br/>
-        /// <br/>
-        /// If never set, the value is the full bounds of the surface,
-        /// including any subsurfaces. This updates dynamically on every
-        /// commit. This unset is meant for extremely simple clients.
-        /// <br/>
-        /// <br/>
-        /// The arguments are given in the surface-local coordinate space of
-        /// the wl_surface associated with this xdg_surface.
-        /// <br/>
-        /// <br/>
-        /// The width and height must be greater than zero. Setting an invalid size
-        /// will raise an error. When applied, the effective window geometry will be
-        /// the set window geometry clamped to the bounding rectangle of the
-        /// combined geometry of the surface of the xdg_surface and the associated
-        /// subsurfaces.
+        /// The window geometry of a surface is its "visible bounds" from theuser's perspective. Client-side decorations often have invisibleportions like drop-shadows which should be ignored for thepurposes of aligning, placing and constraining windows.<br/><br/>
+        /// The window geometry is double buffered, and will be applied at thetime wl_surface.commit of the corresponding wl_surface is called.<br/><br/>
+        /// When maintaining a position, the compositor should treat the (x, y)coordinate of the window geometry as the top left corner of the window.A client changing the (x, y) window geometry coordinate should ingeneral not alter the position of the window.<br/><br/>
+        /// Once the window geometry of the surface is set, it is not possible tounset it, and it will remain the same until set_window_geometry iscalled again, even if a new subsurface or buffer is attached.<br/><br/>
+        /// If never set, the value is the full bounds of the surface,including any subsurfaces. This updates dynamically on everycommit. This unset is meant for extremely simple clients.<br/><br/>
+        /// The arguments are given in the surface-local coordinate space ofthe wl_surface associated with this xdg_surface.<br/><br/>
+        /// The width and height must be greater than zero. Setting an invalid sizewill raise an invalid_size error. When applied, the effective windowgeometry will be the set window geometry clamped to the boundingrectangle of the combined geometry of the surface of the xdg_surface andthe associated subsurfaces.<br/><br/>
         /// </summary>
         public void SetWindowGeometry(int @x, int @y, int @width, int @height)
         {
@@ -676,29 +495,13 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// When a configure event is received, if a client commits the
-        /// surface in response to the configure event, then the client
-        /// must make an ack_configure request sometime before the commit
-        /// request, passing along the serial of the configure event.
-        /// <br/>
-        /// <br/>
-        /// For instance, for toplevel surfaces the compositor might use this
-        /// information to move a surface to the top left only when the client has
-        /// drawn itself for the maximized or fullscreen state.
-        /// <br/>
-        /// <br/>
-        /// If the client receives multiple configure events before it
-        /// can respond to one, it only has to ack the last configure event.
-        /// <br/>
-        /// <br/>
-        /// A client is not required to commit immediately after sending
-        /// an ack_configure request - it may even ack_configure several times
-        /// before its next surface commit.
-        /// <br/>
-        /// <br/>
-        /// A client may send multiple ack_configure requests before committing, but
-        /// only the last request sent before a commit indicates which configure
-        /// event the client really is responding to.
+        /// When a configure event is received, if a client commits thesurface in response to the configure event, then the clientmust make an ack_configure request sometime before the commitrequest, passing along the serial of the configure event.<br/><br/>
+        /// For instance, for toplevel surfaces the compositor might use thisinformation to move a surface to the top left only when the client hasdrawn itself for the maximized or fullscreen state.<br/><br/>
+        /// If the client receives multiple configure events before itcan respond to one, it only has to ack the last configure event.Acking a configure event that was never sent raises an invalid_serialerror.<br/><br/>
+        /// A client is not required to commit immediately after sendingan ack_configure request - it may even ack_configure several timesbefore its next surface commit.<br/><br/>
+        /// A client may send multiple ack_configure requests before committing, butonly the last request sent before a commit indicates which configureevent the client really is responding to.<br/><br/>
+        /// Sending an ack_configure request consumes the serial number sent withthe request, as well as serial numbers sent by all configure eventssent on this xdg_surface prior to the configure event referenced bythe committed serial.<br/><br/>
+        /// It is an error to issue multiple ack_configure requests referencing aserial from the same configure event, or to issue an ack_configurerequest referencing a serial from a configure event issued before theevent identified by the last ack_configure request for the samexdg_surface. Doing so will raise an invalid_serial error.<br/><br/>
         /// </summary>
         public void AckConfigure(uint @serial)
         {
@@ -711,25 +514,10 @@ namespace NWayland.Protocols.XdgShell
         public interface IEvents
         {
             /// <summary>
-            /// The configure event marks the end of a configure sequence. A configure
-            /// sequence is a set of one or more events configuring the state of the
-            /// xdg_surface, including the final xdg_surface.configure event.
-            /// <br/>
-            /// <br/>
-            /// Where applicable, xdg_surface surface roles will during a configure
-            /// sequence extend this event as a latched state sent as events before the
-            /// xdg_surface.configure event. Such events should be considered to make up
-            /// a set of atomically applied configuration states, where the
-            /// xdg_surface.configure commits the accumulated state.
-            /// <br/>
-            /// <br/>
-            /// Clients should arrange their surface for the new states, and then send
-            /// an ack_configure request with the serial sent in this configure event at
-            /// some point before committing the new surface.
-            /// <br/>
-            /// <br/>
-            /// If the client receives multiple configure events before it can respond
-            /// to one, it is free to discard all but the last event it received.
+            /// The configure event marks the end of a configure sequence. A configuresequence is a set of one or more events configuring the state of thexdg_surface, including the final xdg_surface.configure event.<br/><br/>
+            /// Where applicable, xdg_surface surface roles will during a configuresequence extend this event as a latched state sent as events before thexdg_surface.configure event. Such events should be considered to make upa set of atomically applied configuration states, where thexdg_surface.configure commits the accumulated state.<br/><br/>
+            /// Clients should arrange their surface for the new states, and then sendan ack_configure request with the serial sent in this configure event atsome point before committing the new surface.<br/><br/>
+            /// If the client receives multiple configure events before it can respondto one, it is free to discard all but the last event it received.<br/><br/>
             /// </summary>
             void OnConfigure(NWayland.Protocols.XdgShell.XdgSurface eventSender, uint @serial);
         }
@@ -748,9 +536,26 @@ namespace NWayland.Protocols.XdgShell
 
         public enum ErrorEnum
         {
+            /// <summary>
+            /// Surface was not fully constructed<br/><br/>
+            /// </summary>
             NotConstructed = 1,
+            /// <summary>
+            /// Surface was already constructed<br/><br/>
+            /// </summary>
             AlreadyConstructed = 2,
-            UnconfiguredBuffer = 3
+            /// <summary>
+            /// Attaching a buffer to an unconfigured surface<br/><br/>
+            /// </summary>
+            UnconfiguredBuffer = 3,
+            /// <summary>
+            /// Invalid serial number when acking a configure event<br/><br/>
+            /// </summary>
+            InvalidSerial = 4,
+            /// <summary>
+            /// Width or height was zero or negative<br/><br/>
+            /// </summary>
+            InvalidSize = 5
         }
 
         private class ProxyFactory : IBindFactory<XdgSurface>
@@ -777,25 +582,9 @@ namespace NWayland.Protocols.XdgShell
     }
 
     /// <summary>
-    /// This interface defines an xdg_surface role which allows a surface to,
-    /// among other things, set window-like properties such as maximize,
-    /// fullscreen, and minimize, set application-specific metadata like title and
-    /// id, and well as trigger user interactive operations such as interactive
-    /// resize and move.
-    /// <br/>
-    /// <br/>
-    /// Unmapping an xdg_toplevel means that the surface cannot be shown
-    /// by the compositor until it is explicitly mapped again.
-    /// All active operations (e.g., move, resize) are canceled and all
-    /// attributes (e.g. title, state, stacking, ...) are discarded for
-    /// an xdg_toplevel surface when it is unmapped. The xdg_toplevel returns to
-    /// the state it had right after xdg_surface.get_toplevel. The client
-    /// can re-map the toplevel by perfoming a commit without any buffer
-    /// attached, waiting for a configure event and handling it as usual (see
-    /// xdg_surface description).
-    /// <br/>
-    /// <br/>
-    /// Attaching a null buffer to a toplevel unmaps the surface.
+    /// This interface defines an xdg_surface role which allows a surface to,among other things, set window-like properties such as maximize,fullscreen, and minimize, set application-specific metadata like title andid, and well as trigger user interactive operations such as interactiveresize and move.<br/><br/>
+    /// Unmapping an xdg_toplevel means that the surface cannot be shownby the compositor until it is explicitly mapped again.All active operations (e.g., move, resize) are canceled and allattributes (e.g. title, state, stacking, ...) are discarded foran xdg_toplevel surface when it is unmapped. The xdg_toplevel returns tothe state it had right after xdg_surface.get_toplevel. The clientcan re-map the toplevel by perfoming a commit without any bufferattached, waiting for a configure event and handling it as usual (seexdg_surface description).<br/><br/>
+    /// Attaching a null buffer to a toplevel unmaps the surface.<br/><br/>
     /// </summary>
     public sealed unsafe partial class XdgToplevel : WlProxy
     {
@@ -841,25 +630,11 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set the "parent" of this surface. This surface should be stacked
-        /// above the parent surface and all other ancestor surfaces.
-        /// <br/>
-        /// <br/>
-        /// Parent surfaces should be set on dialogs, toolboxes, or other
-        /// "auxiliary" surfaces, so that the parent is raised when the dialog
-        /// is raised.
-        /// <br/>
-        /// <br/>
-        /// Setting a null parent for a child surface unsets its parent. Setting
-        /// a null parent for a surface which currently has no parent is a no-op.
-        /// <br/>
-        /// <br/>
-        /// Only mapped surfaces can have child surfaces. Setting a parent which
-        /// is not mapped is equivalent to setting a null parent. If a surface
-        /// becomes unmapped, its children's parent is set to the parent of
-        /// the now-unmapped surface. If the now-unmapped surface has no parent,
-        /// its children's parent is unset. If the now-unmapped surface becomes
-        /// mapped again, its parent-child relationship is not restored.
+        /// Set the "parent" of this surface. This surface should be stackedabove the parent surface and all other ancestor surfaces.<br/><br/>
+        /// Parent surfaces should be set on dialogs, toolboxes, or other"auxiliary" surfaces, so that the parent is raised when the dialogis raised.<br/><br/>
+        /// Setting a null parent for a child surface unsets its parent. Settinga null parent for a surface which currently has no parent is a no-op.<br/><br/>
+        /// Only mapped surfaces can have child surfaces. Setting a parent whichis not mapped is equivalent to setting a null parent. If a surfacebecomes unmapped, its children's parent is set to the parent ofthe now-unmapped surface. If the now-unmapped surface has no parent,its children's parent is unset. If the now-unmapped surface becomesmapped again, its parent-child relationship is not restored.<br/><br/>
+        /// The parent toplevel must not be one of the child toplevel'sdescendants, and the parent must be different from the child toplevel,otherwise the invalid_parent protocol error is raised.<br/><br/>
         /// </summary>
         public void SetParent(NWayland.Protocols.XdgShell.XdgToplevel? @parent)
         {
@@ -870,15 +645,9 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set a short title for the surface.
-        /// <br/>
-        /// <br/>
-        /// This string may be used to identify the surface in a task bar,
-        /// window list, or other user interface elements provided by the
-        /// compositor.
-        /// <br/>
-        /// <br/>
-        /// The string must be encoded in UTF-8.
+        /// Set a short title for the surface.<br/><br/>
+        /// This string may be used to identify the surface in a task bar,window list, or other user interface elements provided by thecompositor.<br/><br/>
+        /// The string must be encoded in UTF-8.<br/><br/>
         /// </summary>
         public void SetTitle(string @title)
         {
@@ -892,35 +661,13 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set an application identifier for the surface.
-        /// <br/>
-        /// <br/>
-        /// The app ID identifies the general class of applications to which
-        /// the surface belongs. The compositor can use this to group multiple
-        /// surfaces together, or to determine how to launch a new application.
-        /// <br/>
-        /// <br/>
-        /// For D-Bus activatable applications, the app ID is used as the D-Bus
-        /// service name.
-        /// <br/>
-        /// <br/>
-        /// The compositor shell will try to group application surfaces together
-        /// by their app ID. As a best practice, it is suggested to select app
-        /// ID's that match the basename of the application's .desktop file.
-        /// For example, "org.freedesktop.FooViewer" where the .desktop file is
-        /// "org.freedesktop.FooViewer.desktop".
-        /// <br/>
-        /// <br/>
-        /// Like other properties, a set_app_id request can be sent after the
-        /// xdg_toplevel has been mapped to update the property.
-        /// <br/>
-        /// <br/>
-        /// See the desktop-entry specification [0] for more details on
-        /// application identifiers and how they relate to well-known D-Bus
-        /// names and .desktop files.
-        /// <br/>
-        /// <br/>
-        /// [0] http://standards.freedesktop.org/desktop-entry-spec/
+        /// Set an application identifier for the surface.<br/><br/>
+        /// The app ID identifies the general class of applications to whichthe surface belongs. The compositor can use this to group multiplesurfaces together, or to determine how to launch a new application.<br/><br/>
+        /// For D-Bus activatable applications, the app ID is used as the D-Busservice name.<br/><br/>
+        /// The compositor shell will try to group application surfaces togetherby their app ID. As a best practice, it is suggested to select appID's that match the basename of the application's .desktop file.For example, "org.freedesktop.FooViewer" where the .desktop file is"org.freedesktop.FooViewer.desktop".<br/><br/>
+        /// Like other properties, a set_app_id request can be sent after thexdg_toplevel has been mapped to update the property.<br/><br/>
+        /// See the desktop-entry specification [0] for more details onapplication identifiers and how they relate to well-known D-Busnames and .desktop files.<br/><br/>
+        /// [0] https://standards.freedesktop.org/desktop-entry-spec/<br/><br/>
         /// </summary>
         public void SetAppId(string @appId)
         {
@@ -934,19 +681,9 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Clients implementing client-side decorations might want to show
-        /// a context menu when right-clicking on the decorations, giving the
-        /// user a menu that they can use to maximize or minimize the window.
-        /// <br/>
-        /// <br/>
-        /// This request asks the compositor to pop up such a window menu at
-        /// the given position, relative to the local surface coordinates of
-        /// the parent surface. There are no guarantees as to what menu items
-        /// the window menu contains.
-        /// <br/>
-        /// <br/>
-        /// This request must be used in response to some sort of user action
-        /// like a button press, key press, or touch down event.
+        /// Clients implementing client-side decorations might want to showa context menu when right-clicking on the decorations, giving theuser a menu that they can use to maximize or minimize the window.<br/><br/>
+        /// This request asks the compositor to pop up such a window menu atthe given position, relative to the local surface coordinates ofthe parent surface. There are no guarantees as to what menu itemsthe window menu contains, or even if a window menu will be drawnat all.<br/><br/>
+        /// This request must be used in response to some sort of user actionlike a button press, key press, or touch down event.<br/><br/>
         /// </summary>
         public void ShowWindowMenu(NWayland.Protocols.Wayland.WlSeat @seat, uint @serial, int @x, int @y)
         {
@@ -962,25 +699,10 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Start an interactive, user-driven move of the surface.
-        /// <br/>
-        /// <br/>
-        /// This request must be used in response to some sort of user action
-        /// like a button press, key press, or touch down event. The passed
-        /// serial is used to determine the type of interactive move (touch,
-        /// pointer, etc).
-        /// <br/>
-        /// <br/>
-        /// The server may ignore move requests depending on the state of
-        /// the surface (e.g. fullscreen or maximized), or if the passed serial
-        /// is no longer valid.
-        /// <br/>
-        /// <br/>
-        /// If triggered, the surface will lose the focus of the device
-        /// (wl_pointer, wl_touch, etc) used for the move. It is up to the
-        /// compositor to visually indicate that the move is taking place, such as
-        /// updating a pointer cursor, during the move. There is no guarantee
-        /// that the device focus will return when the move is completed.
+        /// Start an interactive, user-driven move of the surface.<br/><br/>
+        /// This request must be used in response to some sort of user actionlike a button press, key press, or touch down event. The passedserial is used to determine the type of interactive move (touch,pointer, etc).<br/><br/>
+        /// The server may ignore move requests depending on the state ofthe surface (e.g. fullscreen or maximized), or if the passed serialis no longer valid.<br/><br/>
+        /// If triggered, the surface will lose the focus of the device(wl_pointer, wl_touch, etc) used for the move. It is up to thecompositor to visually indicate that the move is taking place, such asupdating a pointer cursor, during the move. There is no guaranteethat the device focus will return when the move is completed.<br/><br/>
         /// </summary>
         public void Move(NWayland.Protocols.Wayland.WlSeat @seat, uint @serial)
         {
@@ -994,42 +716,12 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Start a user-driven, interactive resize of the surface.
-        /// <br/>
-        /// <br/>
-        /// This request must be used in response to some sort of user action
-        /// like a button press, key press, or touch down event. The passed
-        /// serial is used to determine the type of interactive resize (touch,
-        /// pointer, etc).
-        /// <br/>
-        /// <br/>
-        /// The server may ignore resize requests depending on the state of
-        /// the surface (e.g. fullscreen or maximized).
-        /// <br/>
-        /// <br/>
-        /// If triggered, the client will receive configure events with the
-        /// "resize" state enum value and the expected sizes. See the "resize"
-        /// enum value for more details about what is required. The client
-        /// must also acknowledge configure events using "ack_configure". After
-        /// the resize is completed, the client will receive another "configure"
-        /// event without the resize state.
-        /// <br/>
-        /// <br/>
-        /// If triggered, the surface also will lose the focus of the device
-        /// (wl_pointer, wl_touch, etc) used for the resize. It is up to the
-        /// compositor to visually indicate that the resize is taking place,
-        /// such as updating a pointer cursor, during the resize. There is no
-        /// guarantee that the device focus will return when the resize is
-        /// completed.
-        /// <br/>
-        /// <br/>
-        /// The edges parameter specifies how the surface should be resized, and
-        /// is one of the values of the resize_edge enum. Values not matching
-        /// a variant of the enum will cause a protocol error. The compositor
-        /// may use this information to update the surface position for example
-        /// when dragging the top left corner. The compositor may also use
-        /// this information to adapt its behavior, e.g. choose an appropriate
-        /// cursor image.
+        /// Start a user-driven, interactive resize of the surface.<br/><br/>
+        /// This request must be used in response to some sort of user actionlike a button press, key press, or touch down event. The passedserial is used to determine the type of interactive resize (touch,pointer, etc).<br/><br/>
+        /// The server may ignore resize requests depending on the state ofthe surface (e.g. fullscreen or maximized).<br/><br/>
+        /// If triggered, the client will receive configure events with the"resize" state enum value and the expected sizes. See the "resize"enum value for more details about what is required. The clientmust also acknowledge configure events using "ack_configure". Afterthe resize is completed, the client will receive another "configure"event without the resize state.<br/><br/>
+        /// If triggered, the surface also will lose the focus of the device(wl_pointer, wl_touch, etc) used for the resize. It is up to thecompositor to visually indicate that the resize is taking place,such as updating a pointer cursor, during the resize. There is noguarantee that the device focus will return when the resize iscompleted.<br/><br/>
+        /// The edges parameter specifies how the surface should be resized, andis one of the values of the resize_edge enum. Values not matchinga variant of the enum will cause a protocol error. The compositormay use this information to update the surface position for examplewhen dragging the top left corner. The compositor may also usethis information to adapt its behavior, e.g. choose an appropriatecursor image.<br/><br/>
         /// </summary>
         public void Resize(NWayland.Protocols.Wayland.WlSeat @seat, uint @serial, ResizeEdgeEnum @edges)
         {
@@ -1044,49 +736,16 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set a maximum size for the window.
-        /// <br/>
-        /// <br/>
-        /// The client can specify a maximum size so that the compositor does
-        /// not try to configure the window beyond this size.
-        /// <br/>
-        /// <br/>
-        /// The width and height arguments are in window geometry coordinates.
-        /// See xdg_surface.set_window_geometry.
-        /// <br/>
-        /// <br/>
-        /// Values set in this way are double-buffered. They will get applied
-        /// on the next commit.
-        /// <br/>
-        /// <br/>
-        /// The compositor can use this information to allow or disallow
-        /// different states like maximize or fullscreen and draw accurate
-        /// animations.
-        /// <br/>
-        /// <br/>
-        /// Similarly, a tiling window manager may use this information to
-        /// place and resize client windows in a more effective way.
-        /// <br/>
-        /// <br/>
-        /// The client should not rely on the compositor to obey the maximum
-        /// size. The compositor may decide to ignore the values set by the
-        /// client and request a larger size.
-        /// <br/>
-        /// <br/>
-        /// If never set, or a value of zero in the request, means that the
-        /// client has no expected maximum size in the given dimension.
-        /// As a result, a client wishing to reset the maximum size
-        /// to an unspecified state can use zero for width and height in the
-        /// request.
-        /// <br/>
-        /// <br/>
-        /// Requesting a maximum size to be smaller than the minimum size of
-        /// a surface is illegal and will result in a protocol error.
-        /// <br/>
-        /// <br/>
-        /// The width and height must be greater than or equal to zero. Using
-        /// strictly negative values for width and height will result in a
-        /// protocol error.
+        /// Set a maximum size for the window.<br/><br/>
+        /// The client can specify a maximum size so that the compositor doesnot try to configure the window beyond this size.<br/><br/>
+        /// The width and height arguments are in window geometry coordinates.See xdg_surface.set_window_geometry.<br/><br/>
+        /// Values set in this way are double-buffered. They will get appliedon the next commit.<br/><br/>
+        /// The compositor can use this information to allow or disallowdifferent states like maximize or fullscreen and draw accurateanimations.<br/><br/>
+        /// Similarly, a tiling window manager may use this information toplace and resize client windows in a more effective way.<br/><br/>
+        /// The client should not rely on the compositor to obey the maximumsize. The compositor may decide to ignore the values set by theclient and request a larger size.<br/><br/>
+        /// If never set, or a value of zero in the request, means that theclient has no expected maximum size in the given dimension.As a result, a client wishing to reset the maximum sizeto an unspecified state can use zero for width and height in therequest.<br/><br/>
+        /// Requesting a maximum size to be smaller than the minimum size ofa surface is illegal and will result in an invalid_size error.<br/><br/>
+        /// The width and height must be greater than or equal to zero. Usingstrictly negative values for width or height will result in ainvalid_size error.<br/><br/>
         /// </summary>
         public void SetMaxSize(int @width, int @height)
         {
@@ -1098,49 +757,16 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Set a minimum size for the window.
-        /// <br/>
-        /// <br/>
-        /// The client can specify a minimum size so that the compositor does
-        /// not try to configure the window below this size.
-        /// <br/>
-        /// <br/>
-        /// The width and height arguments are in window geometry coordinates.
-        /// See xdg_surface.set_window_geometry.
-        /// <br/>
-        /// <br/>
-        /// Values set in this way are double-buffered. They will get applied
-        /// on the next commit.
-        /// <br/>
-        /// <br/>
-        /// The compositor can use this information to allow or disallow
-        /// different states like maximize or fullscreen and draw accurate
-        /// animations.
-        /// <br/>
-        /// <br/>
-        /// Similarly, a tiling window manager may use this information to
-        /// place and resize client windows in a more effective way.
-        /// <br/>
-        /// <br/>
-        /// The client should not rely on the compositor to obey the minimum
-        /// size. The compositor may decide to ignore the values set by the
-        /// client and request a smaller size.
-        /// <br/>
-        /// <br/>
-        /// If never set, or a value of zero in the request, means that the
-        /// client has no expected minimum size in the given dimension.
-        /// As a result, a client wishing to reset the minimum size
-        /// to an unspecified state can use zero for width and height in the
-        /// request.
-        /// <br/>
-        /// <br/>
-        /// Requesting a minimum size to be larger than the maximum size of
-        /// a surface is illegal and will result in a protocol error.
-        /// <br/>
-        /// <br/>
-        /// The width and height must be greater than or equal to zero. Using
-        /// strictly negative values for width and height will result in a
-        /// protocol error.
+        /// Set a minimum size for the window.<br/><br/>
+        /// The client can specify a minimum size so that the compositor doesnot try to configure the window below this size.<br/><br/>
+        /// The width and height arguments are in window geometry coordinates.See xdg_surface.set_window_geometry.<br/><br/>
+        /// Values set in this way are double-buffered. They will get appliedon the next commit.<br/><br/>
+        /// The compositor can use this information to allow or disallowdifferent states like maximize or fullscreen and draw accurateanimations.<br/><br/>
+        /// Similarly, a tiling window manager may use this information toplace and resize client windows in a more effective way.<br/><br/>
+        /// The client should not rely on the compositor to obey the minimumsize. The compositor may decide to ignore the values set by theclient and request a smaller size.<br/><br/>
+        /// If never set, or a value of zero in the request, means that theclient has no expected minimum size in the given dimension.As a result, a client wishing to reset the minimum sizeto an unspecified state can use zero for width and height in therequest.<br/><br/>
+        /// Requesting a minimum size to be larger than the maximum size ofa surface is illegal and will result in an invalid_size error.<br/><br/>
+        /// The width and height must be greater than or equal to zero. Usingstrictly negative values for width and height will result in ainvalid_size error.<br/><br/>
         /// </summary>
         public void SetMinSize(int @width, int @height)
         {
@@ -1152,29 +778,11 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Maximize the surface.
-        /// <br/>
-        /// <br/>
-        /// After requesting that the surface should be maximized, the compositor
-        /// will respond by emitting a configure event. Whether this configure
-        /// actually sets the window maximized is subject to compositor policies.
-        /// The client must then update its content, drawing in the configured
-        /// state. The client must also acknowledge the configure when committing
-        /// the new content (see ack_configure).
-        /// <br/>
-        /// <br/>
-        /// It is up to the compositor to decide how and where to maximize the
-        /// surface, for example which output and what region of the screen should
-        /// be used.
-        /// <br/>
-        /// <br/>
-        /// If the surface was already maximized, the compositor will still emit
-        /// a configure event with the "maximized" state.
-        /// <br/>
-        /// <br/>
-        /// If the surface is in a fullscreen state, this request has no direct
-        /// effect. It may alter the state the surface is returned to when
-        /// unmaximized unless overridden by the compositor.
+        /// Maximize the surface.<br/><br/>
+        /// After requesting that the surface should be maximized, the compositorwill respond by emitting a configure event. Whether this configureactually sets the window maximized is subject to compositor policies.The client must then update its content, drawing in the configuredstate. The client must also acknowledge the configure when committingthe new content (see ack_configure).<br/><br/>
+        /// It is up to the compositor to decide how and where to maximize thesurface, for example which output and what region of the screen shouldbe used.<br/><br/>
+        /// If the surface was already maximized, the compositor will still emita configure event with the "maximized" state.<br/><br/>
+        /// If the surface is in a fullscreen state, this request has no directeffect. It may alter the state the surface is returned to whenunmaximized unless overridden by the compositor.<br/><br/>
         /// </summary>
         public void SetMaximized()
         {
@@ -1184,31 +792,11 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Unmaximize the surface.
-        /// <br/>
-        /// <br/>
-        /// After requesting that the surface should be unmaximized, the compositor
-        /// will respond by emitting a configure event. Whether this actually
-        /// un-maximizes the window is subject to compositor policies.
-        /// If available and applicable, the compositor will include the window
-        /// geometry dimensions the window had prior to being maximized in the
-        /// configure event. The client must then update its content, drawing it in
-        /// the configured state. The client must also acknowledge the configure
-        /// when committing the new content (see ack_configure).
-        /// <br/>
-        /// <br/>
-        /// It is up to the compositor to position the surface after it was
-        /// unmaximized; usually the position the surface had before maximizing, if
-        /// applicable.
-        /// <br/>
-        /// <br/>
-        /// If the surface was already not maximized, the compositor will still
-        /// emit a configure event without the "maximized" state.
-        /// <br/>
-        /// <br/>
-        /// If the surface is in a fullscreen state, this request has no direct
-        /// effect. It may alter the state the surface is returned to when
-        /// unmaximized unless overridden by the compositor.
+        /// Unmaximize the surface.<br/><br/>
+        /// After requesting that the surface should be unmaximized, the compositorwill respond by emitting a configure event. Whether this actuallyun-maximizes the window is subject to compositor policies.If available and applicable, the compositor will include the windowgeometry dimensions the window had prior to being maximized in theconfigure event. The client must then update its content, drawing it inthe configured state. The client must also acknowledge the configurewhen committing the new content (see ack_configure).<br/><br/>
+        /// It is up to the compositor to position the surface after it wasunmaximized; usually the position the surface had before maximizing, ifapplicable.<br/><br/>
+        /// If the surface was already not maximized, the compositor will stillemit a configure event without the "maximized" state.<br/><br/>
+        /// If the surface is in a fullscreen state, this request has no directeffect. It may alter the state the surface is returned to whenunmaximized unless overridden by the compositor.<br/><br/>
         /// </summary>
         public void UnsetMaximized()
         {
@@ -1218,33 +806,11 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Make the surface fullscreen.
-        /// <br/>
-        /// <br/>
-        /// After requesting that the surface should be fullscreened, the
-        /// compositor will respond by emitting a configure event. Whether the
-        /// client is actually put into a fullscreen state is subject to compositor
-        /// policies. The client must also acknowledge the configure when
-        /// committing the new content (see ack_configure).
-        /// <br/>
-        /// <br/>
-        /// The output passed by the request indicates the client's preference as
-        /// to which display it should be set fullscreen on. If this value is NULL,
-        /// it's up to the compositor to choose which display will be used to map
-        /// this surface.
-        /// <br/>
-        /// <br/>
-        /// If the surface doesn't cover the whole output, the compositor will
-        /// position the surface in the center of the output and compensate with
-        /// with border fill covering the rest of the output. The content of the
-        /// border fill is undefined, but should be assumed to be in some way that
-        /// attempts to blend into the surrounding area (e.g. solid black).
-        /// <br/>
-        /// <br/>
-        /// If the fullscreened surface is not opaque, the compositor must make
-        /// sure that other screen content not part of the same surface tree (made
-        /// up of subsurfaces, popups or similarly coupled surfaces) are not
-        /// visible below the fullscreened surface.
+        /// Make the surface fullscreen.<br/><br/>
+        /// After requesting that the surface should be fullscreened, thecompositor will respond by emitting a configure event. Whether theclient is actually put into a fullscreen state is subject to compositorpolicies. The client must also acknowledge the configure whencommitting the new content (see ack_configure).<br/><br/>
+        /// The output passed by the request indicates the client's preference asto which display it should be set fullscreen on. If this value is NULL,it's up to the compositor to choose which display will be used to mapthis surface.<br/><br/>
+        /// If the surface doesn't cover the whole output, the compositor willposition the surface in the center of the output and compensate withwith border fill covering the rest of the output. The content of theborder fill is undefined, but should be assumed to be in some way thatattempts to blend into the surrounding area (e.g. solid black).<br/><br/>
+        /// If the fullscreened surface is not opaque, the compositor must makesure that other screen content not part of the same surface tree (madeup of subsurfaces, popups or similarly coupled surfaces) are notvisible below the fullscreened surface.<br/><br/>
         /// </summary>
         public void SetFullscreen(NWayland.Protocols.Wayland.WlOutput? @output)
         {
@@ -1255,27 +821,11 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Make the surface no longer fullscreen.
-        /// <br/>
-        /// <br/>
-        /// After requesting that the surface should be unfullscreened, the
-        /// compositor will respond by emitting a configure event.
-        /// Whether this actually removes the fullscreen state of the client is
-        /// subject to compositor policies.
-        /// <br/>
-        /// <br/>
-        /// Making a surface unfullscreen sets states for the surface based on the following:
-        /// * the state(s) it may have had before becoming fullscreen
-        /// * any state(s) decided by the compositor
-        /// * any state(s) requested by the client while the surface was fullscreen
-        /// <br/>
-        /// <br/>
-        /// The compositor may include the previous window geometry dimensions in
-        /// the configure event, if applicable.
-        /// <br/>
-        /// <br/>
-        /// The client must also acknowledge the configure when committing the new
-        /// content (see ack_configure).
+        /// Make the surface no longer fullscreen.<br/><br/>
+        /// After requesting that the surface should be unfullscreened, thecompositor will respond by emitting a configure event.Whether this actually removes the fullscreen state of the client issubject to compositor policies.<br/><br/>
+        /// Making a surface unfullscreen sets states for the surface based on the following:* the state(s) it may have had before becoming fullscreen* any state(s) decided by the compositor* any state(s) requested by the client while the surface was fullscreen<br/><br/>
+        /// The compositor may include the previous window geometry dimensions inthe configure event, if applicable.<br/><br/>
+        /// The client must also acknowledge the configure when committing the newcontent (see ack_configure).<br/><br/>
         /// </summary>
         public void UnsetFullscreen()
         {
@@ -1285,15 +835,8 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Request that the compositor minimize your surface. There is no
-        /// way to know if the surface is currently minimized, nor is there
-        /// any way to unset minimization on this surface.
-        /// <br/>
-        /// <br/>
-        /// If you are looking to throttle redrawing when minimized, please
-        /// instead use the wl_surface.frame event for this, as this will
-        /// also work with live previews on windows in Alt-Tab, Expose or
-        /// similar compositor features.
+        /// Request that the compositor minimize your surface. There is noway to know if the surface is currently minimized, nor is thereany way to unset minimization on this surface.<br/><br/>
+        /// If you are looking to throttle redrawing when minimized, pleaseinstead use the wl_surface.frame event for this, as this willalso work with live previews on windows in Alt-Tab, Expose orsimilar compositor features.<br/><br/>
         /// </summary>
         public void SetMinimized()
         {
@@ -1305,92 +848,34 @@ namespace NWayland.Protocols.XdgShell
         public interface IEvents
         {
             /// <summary>
-            /// This configure event asks the client to resize its toplevel surface or
-            /// to change its state. The configured state should not be applied
-            /// immediately. See xdg_surface.configure for details.
-            /// <br/>
-            /// <br/>
-            /// The width and height arguments specify a hint to the window
-            /// about how its surface should be resized in window geometry
-            /// coordinates. See set_window_geometry.
-            /// <br/>
-            /// <br/>
-            /// If the width or height arguments are zero, it means the client
-            /// should decide its own window dimension. This may happen when the
-            /// compositor needs to configure the state of the surface but doesn't
-            /// have any information about any previous or expected dimension.
-            /// <br/>
-            /// <br/>
-            /// The states listed in the event specify how the width/height
-            /// arguments should be interpreted, and possibly how it should be
-            /// drawn.
-            /// <br/>
-            /// <br/>
-            /// Clients must send an ack_configure in response to this event. See
-            /// xdg_surface.configure and xdg_surface.ack_configure for details.
+            /// This configure event asks the client to resize its toplevel surface orto change its state. The configured state should not be appliedimmediately. See xdg_surface.configure for details.<br/><br/>
+            /// The width and height arguments specify a hint to the windowabout how its surface should be resized in window geometrycoordinates. See set_window_geometry.<br/><br/>
+            /// If the width or height arguments are zero, it means the clientshould decide its own window dimension. This may happen when thecompositor needs to configure the state of the surface but doesn'thave any information about any previous or expected dimension.<br/><br/>
+            /// The states listed in the event specify how the width/heightarguments should be interpreted, and possibly how it should bedrawn.<br/><br/>
+            /// Clients must send an ack_configure in response to this event. Seexdg_surface.configure and xdg_surface.ack_configure for details.<br/><br/>
             /// </summary>
             void OnConfigure(NWayland.Protocols.XdgShell.XdgToplevel eventSender, int @width, int @height, ReadOnlySpan<StateEnum> @states);
 
             /// <summary>
-            /// The close event is sent by the compositor when the user
-            /// wants the surface to be closed. This should be equivalent to
-            /// the user clicking the close button in client-side decorations,
-            /// if your application has any.
-            /// <br/>
-            /// <br/>
-            /// This is only a request that the user intends to close the
-            /// window. The client may choose to ignore this request, or show
-            /// a dialog to ask the user to save their data, etc.
+            /// The close event is sent by the compositor when the userwants the surface to be closed. This should be equivalent tothe user clicking the close button in client-side decorations,if your application has any.<br/><br/>
+            /// This is only a request that the user intends to close thewindow. The client may choose to ignore this request, or showa dialog to ask the user to save their data, etc.<br/><br/>
             /// </summary>
             void OnClose(NWayland.Protocols.XdgShell.XdgToplevel eventSender);
 
             /// <summary>
-            /// The configure_bounds event may be sent prior to a xdg_toplevel.configure
-            /// event to communicate the bounds a window geometry size is recommended
-            /// to constrain to.
-            /// <br/>
-            /// <br/>
-            /// The passed width and height are in surface coordinate space. If width
-            /// and height are 0, it means bounds is unknown and equivalent to as if no
-            /// configure_bounds event was ever sent for this surface.
-            /// <br/>
-            /// <br/>
-            /// The bounds can for example correspond to the size of a monitor excluding
-            /// any panels or other shell components, so that a surface isn't created in
-            /// a way that it cannot fit.
-            /// <br/>
-            /// <br/>
-            /// The bounds may change at any point, and in such a case, a new
-            /// xdg_toplevel.configure_bounds will be sent, followed by
-            /// xdg_toplevel.configure and xdg_surface.configure.
+            /// The configure_bounds event may be sent prior to a xdg_toplevel.configureevent to communicate the bounds a window geometry size is recommendedto constrain to.<br/><br/>
+            /// The passed width and height are in surface coordinate space. If widthand height are 0, it means bounds is unknown and equivalent to as if noconfigure_bounds event was ever sent for this surface.<br/><br/>
+            /// The bounds can for example correspond to the size of a monitor excludingany panels or other shell components, so that a surface isn't created ina way that it cannot fit.<br/><br/>
+            /// The bounds may change at any point, and in such a case, a newxdg_toplevel.configure_bounds will be sent, followed byxdg_toplevel.configure and xdg_surface.configure.<br/><br/>
             /// </summary>
             void OnConfigureBounds(NWayland.Protocols.XdgShell.XdgToplevel eventSender, int @width, int @height);
 
             /// <summary>
-            /// This event advertises the capabilities supported by the compositor. If
-            /// a capability isn't supported, clients should hide or disable the UI
-            /// elements that expose this functionality. For instance, if the
-            /// compositor doesn't advertise support for minimized toplevels, a button
-            /// triggering the set_minimized request should not be displayed.
-            /// <br/>
-            /// <br/>
-            /// The compositor will ignore requests it doesn't support. For instance,
-            /// a compositor which doesn't advertise support for minimized will ignore
-            /// set_minimized requests.
-            /// <br/>
-            /// <br/>
-            /// Compositors must send this event once before the first
-            /// xdg_surface.configure event. When the capabilities change, compositors
-            /// must send this event again and then send an xdg_surface.configure
-            /// event.
-            /// <br/>
-            /// <br/>
-            /// The configured state should not be applied immediately. See
-            /// xdg_surface.configure for details.
-            /// <br/>
-            /// <br/>
-            /// The capabilities are sent as an array of 32-bit unsigned integers in
-            /// native endianness.
+            /// This event advertises the capabilities supported by the compositor. Ifa capability isn't supported, clients should hide or disable the UIelements that expose this functionality. For instance, if thecompositor doesn't advertise support for minimized toplevels, a buttontriggering the set_minimized request should not be displayed.<br/><br/>
+            /// The compositor will ignore requests it doesn't support. For instance,a compositor which doesn't advertise support for minimized will ignoreset_minimized requests.<br/><br/>
+            /// Compositors must send this event once before the firstxdg_surface.configure event. When the capabilities change, compositorsmust send this event again and then send an xdg_surface.configureevent.<br/><br/>
+            /// The configured state should not be applied immediately. Seexdg_surface.configure for details.<br/><br/>
+            /// The capabilities are sent as an array of 32-bit unsigned integers innative endianness.<br/><br/>
             /// </summary>
             void OnWmCapabilities(NWayland.Protocols.XdgShell.XdgToplevel eventSender, ReadOnlySpan<WmCapabilitiesEnum> @capabilities);
         }
@@ -1418,13 +903,22 @@ namespace NWayland.Protocols.XdgShell
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
-            InvalidResizeEdge = 0
+            /// <summary>
+            /// provided value is         not a valid variant of the resize_edge enum<br/><br/>
+            /// </summary>
+            InvalidResizeEdge = 0,
+            /// <summary>
+            /// invalid parent toplevel<br/><br/>
+            /// </summary>
+            InvalidParent = 1,
+            /// <summary>
+            /// client provided an invalid min or max size<br/><br/>
+            /// </summary>
+            InvalidSize = 2
         }
 
         /// <summary>
-        /// These values are used to indicate which edge of a surface
-        /// is being dragged in a resize operation.
+        /// These values are used to indicate which edge of a surfaceis being dragged in a resize operation.<br/><br/>
         /// </summary>
         public enum ResizeEdgeEnum
         {
@@ -1440,24 +934,26 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// The different state values used on the surface. This is designed for
-        /// state values like maximized, fullscreen. It is paired with the
-        /// configure event to ensure that both the client and the compositor
-        /// setting the state can be synchronized.
-        /// <br/>
-        /// <br/>
-        /// States set in this way are double-buffered. They will get applied on
-        /// the next commit.
+        /// The different state values used on the surface. This is designed forstate values like maximized, fullscreen. It is paired with theconfigure event to ensure that both the client and the compositorsetting the state can be synchronized.<br/><br/>
+        /// States set in this way are double-buffered. They will get applied onthe next commit.<br/><br/>
         /// </summary>
         public enum StateEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// the surface is maximized<br/><br/>
+            /// </summary>
             Maximized = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// the surface is fullscreen<br/><br/>
+            /// </summary>
             Fullscreen = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// the surface is being resized<br/><br/>
+            /// </summary>
             Resizing = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// the surface is now activated<br/><br/>
+            /// </summary>
             Activated = 4,
             TiledLeft = 5,
             TiledRight = 6,
@@ -1467,13 +963,21 @@ namespace NWayland.Protocols.XdgShell
 
         public enum WmCapabilitiesEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// show_window_menu is available<br/><br/>
+            /// </summary>
             WindowMenu = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// set_maximized and unset_maximized are available<br/><br/>
+            /// </summary>
             Maximize = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// set_fullscreen and unset_fullscreen are available<br/><br/>
+            /// </summary>
             Fullscreen = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// set_minimized is available<br/><br/>
+            /// </summary>
             Minimize = 4
         }
 
@@ -1501,36 +1005,13 @@ namespace NWayland.Protocols.XdgShell
     }
 
     /// <summary>
-    /// A popup surface is a short-lived, temporary surface. It can be used to
-    /// implement for example menus, popovers, tooltips and other similar user
-    /// interface concepts.
-    /// <br/>
-    /// <br/>
-    /// A popup can be made to take an explicit grab. See xdg_popup.grab for
-    /// details.
-    /// <br/>
-    /// <br/>
-    /// When the popup is dismissed, a popup_done event will be sent out, and at
-    /// the same time the surface will be unmapped. See the xdg_popup.popup_done
-    /// event for details.
-    /// <br/>
-    /// <br/>
-    /// Explicitly destroying the xdg_popup object will also dismiss the popup and
-    /// unmap the surface. Clients that want to dismiss the popup when another
-    /// surface of their own is clicked should dismiss the popup using the destroy
-    /// request.
-    /// <br/>
-    /// <br/>
-    /// A newly created xdg_popup will be stacked on top of all previously created
-    /// xdg_popup surfaces associated with the same xdg_toplevel.
-    /// <br/>
-    /// <br/>
-    /// The parent of an xdg_popup must be mapped (see the xdg_surface
-    /// description) before the xdg_popup itself.
-    /// <br/>
-    /// <br/>
-    /// The client must call wl_surface.commit on the corresponding wl_surface
-    /// for the xdg_popup state to take effect.
+    /// A popup surface is a short-lived, temporary surface. It can be used toimplement for example menus, popovers, tooltips and other similar userinterface concepts.<br/><br/>
+    /// A popup can be made to take an explicit grab. See xdg_popup.grab fordetails.<br/><br/>
+    /// When the popup is dismissed, a popup_done event will be sent out, and atthe same time the surface will be unmapped. See the xdg_popup.popup_doneevent for details.<br/><br/>
+    /// Explicitly destroying the xdg_popup object will also dismiss the popup andunmap the surface. Clients that want to dismiss the popup when anothersurface of their own is clicked should dismiss the popup using the destroyrequest.<br/><br/>
+    /// A newly created xdg_popup will be stacked on top of all previously createdxdg_popup surfaces associated with the same xdg_toplevel.<br/><br/>
+    /// The parent of an xdg_popup must be mapped (see the xdg_surfacedescription) before the xdg_popup itself.<br/><br/>
+    /// The client must call wl_surface.commit on the corresponding wl_surfacefor the xdg_popup state to take effect.<br/><br/>
     /// </summary>
     public sealed unsafe partial class XdgPopup : WlProxy
     {
@@ -1564,51 +1045,15 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// This request makes the created popup take an explicit grab. An explicit
-        /// grab will be dismissed when the user dismisses the popup, or when the
-        /// client destroys the xdg_popup. This can be done by the user clicking
-        /// outside the surface, using the keyboard, or even locking the screen
-        /// through closing the lid or a timeout.
-        /// <br/>
-        /// <br/>
-        /// If the compositor denies the grab, the popup will be immediately
-        /// dismissed.
-        /// <br/>
-        /// <br/>
-        /// This request must be used in response to some sort of user action like a
-        /// button press, key press, or touch down event. The serial number of the
-        /// event should be passed as 'serial'.
-        /// <br/>
-        /// <br/>
-        /// The parent of a grabbing popup must either be an xdg_toplevel surface or
-        /// another xdg_popup with an explicit grab. If the parent is another
-        /// xdg_popup it means that the popups are nested, with this popup now being
-        /// the topmost popup.
-        /// <br/>
-        /// <br/>
-        /// Nested popups must be destroyed in the reverse order they were created
-        /// in, e.g. the only popup you are allowed to destroy at all times is the
-        /// topmost one.
-        /// <br/>
-        /// <br/>
-        /// When compositors choose to dismiss a popup, they may dismiss every
-        /// nested grabbing popup as well. When a compositor dismisses popups, it
-        /// will follow the same dismissing order as required from the client.
-        /// <br/>
-        /// <br/>
-        /// If the topmost grabbing popup is destroyed, the grab will be returned to
-        /// the parent of the popup, if that parent previously had an explicit grab.
-        /// <br/>
-        /// <br/>
-        /// If the parent is a grabbing popup which has already been dismissed, this
-        /// popup will be immediately dismissed. If the parent is a popup that did
-        /// not take an explicit grab, an error will be raised.
-        /// <br/>
-        /// <br/>
-        /// During a popup grab, the client owning the grab will receive pointer
-        /// and touch events for all their surfaces as normal (similar to an
-        /// "owner-events" grab in X11 parlance), while the top most grabbing popup
-        /// will always have keyboard focus.
+        /// This request makes the created popup take an explicit grab. An explicitgrab will be dismissed when the user dismisses the popup, or when theclient destroys the xdg_popup. This can be done by the user clickingoutside the surface, using the keyboard, or even locking the screenthrough closing the lid or a timeout.<br/><br/>
+        /// If the compositor denies the grab, the popup will be immediatelydismissed.<br/><br/>
+        /// This request must be used in response to some sort of user action like abutton press, key press, or touch down event. The serial number of theevent should be passed as 'serial'.<br/><br/>
+        /// The parent of a grabbing popup must either be an xdg_toplevel surface oranother xdg_popup with an explicit grab. If the parent is anotherxdg_popup it means that the popups are nested, with this popup now beingthe topmost popup.<br/><br/>
+        /// Nested popups must be destroyed in the reverse order they were createdin, e.g. the only popup you are allowed to destroy at all times is thetopmost one.<br/><br/>
+        /// When compositors choose to dismiss a popup, they may dismiss everynested grabbing popup as well. When a compositor dismisses popups, itwill follow the same dismissing order as required from the client.<br/><br/>
+        /// If the topmost grabbing popup is destroyed, the grab will be returned tothe parent of the popup, if that parent previously had an explicit grab.<br/><br/>
+        /// If the parent is a grabbing popup which has already been dismissed, thispopup will be immediately dismissed. If the parent is a popup that didnot take an explicit grab, an error will be raised.<br/><br/>
+        /// During a popup grab, the client owning the grab will receive pointerand touch events for all their surfaces as normal (similar to an"owner-events" grab in X11 parlance), while the top most grabbing popupwill always have keyboard focus.<br/><br/>
         /// </summary>
         public void Grab(NWayland.Protocols.Wayland.WlSeat @seat, uint @serial)
         {
@@ -1622,33 +1067,11 @@ namespace NWayland.Protocols.XdgShell
         }
 
         /// <summary>
-        /// Reposition an already-mapped popup. The popup will be placed given the
-        /// details in the passed xdg_positioner object, and a
-        /// xdg_popup.repositioned followed by xdg_popup.configure and
-        /// xdg_surface.configure will be emitted in response. Any parameters set
-        /// by the previous positioner will be discarded.
-        /// <br/>
-        /// <br/>
-        /// The passed token will be sent in the corresponding
-        /// xdg_popup.repositioned event. The new popup position will not take
-        /// effect until the corresponding configure event is acknowledged by the
-        /// client. See xdg_popup.repositioned for details. The token itself is
-        /// opaque, and has no other special meaning.
-        /// <br/>
-        /// <br/>
-        /// If multiple reposition requests are sent, the compositor may skip all
-        /// but the last one.
-        /// <br/>
-        /// <br/>
-        /// If the popup is repositioned in response to a configure event for its
-        /// parent, the client should send an xdg_positioner.set_parent_configure
-        /// and possibly an xdg_positioner.set_parent_size request to allow the
-        /// compositor to properly constrain the popup.
-        /// <br/>
-        /// <br/>
-        /// If the popup is repositioned together with a parent that is being
-        /// resized, but not in response to a configure event, the client should
-        /// send an xdg_positioner.set_parent_size request.
+        /// Reposition an already-mapped popup. The popup will be placed given thedetails in the passed xdg_positioner object, and axdg_popup.repositioned followed by xdg_popup.configure andxdg_surface.configure will be emitted in response. Any parameters setby the previous positioner will be discarded.<br/><br/>
+        /// The passed token will be sent in the correspondingxdg_popup.repositioned event. The new popup position will not takeeffect until the corresponding configure event is acknowledged by theclient. See xdg_popup.repositioned for details. The token itself isopaque, and has no other special meaning.<br/><br/>
+        /// If multiple reposition requests are sent, the compositor may skip allbut the last one.<br/><br/>
+        /// If the popup is repositioned in response to a configure event for itsparent, the client should send an xdg_positioner.set_parent_configureand possibly an xdg_positioner.set_parent_size request to allow thecompositor to properly constrain the popup.<br/><br/>
+        /// If the popup is repositioned together with a parent that is beingresized, but not in response to a configure event, the client shouldsend an xdg_positioner.set_parent_size request.<br/><br/>
         /// </summary>
         public void Reposition(NWayland.Protocols.XdgShell.XdgPositioner @positioner, uint @token)
         {
@@ -1666,49 +1089,22 @@ namespace NWayland.Protocols.XdgShell
         public interface IEvents
         {
             /// <summary>
-            /// This event asks the popup surface to configure itself given the
-            /// configuration. The configured state should not be applied immediately.
-            /// See xdg_surface.configure for details.
-            /// <br/>
-            /// <br/>
-            /// The x and y arguments represent the position the popup was placed at
-            /// given the xdg_positioner rule, relative to the upper left corner of the
-            /// window geometry of the parent surface.
-            /// <br/>
-            /// <br/>
-            /// For version 2 or older, the configure event for an xdg_popup is only
-            /// ever sent once for the initial configuration. Starting with version 3,
-            /// it may be sent again if the popup is setup with an xdg_positioner with
-            /// set_reactive requested, or in response to xdg_popup.reposition requests.
+            /// This event asks the popup surface to configure itself given theconfiguration. The configured state should not be applied immediately.See xdg_surface.configure for details.<br/><br/>
+            /// The x and y arguments represent the position the popup was placed atgiven the xdg_positioner rule, relative to the upper left corner of thewindow geometry of the parent surface.<br/><br/>
+            /// For version 2 or older, the configure event for an xdg_popup is onlyever sent once for the initial configuration. Starting with version 3,it may be sent again if the popup is setup with an xdg_positioner withset_reactive requested, or in response to xdg_popup.reposition requests.<br/><br/>
             /// </summary>
             void OnConfigure(NWayland.Protocols.XdgShell.XdgPopup eventSender, int @x, int @y, int @width, int @height);
 
             /// <summary>
-            /// The popup_done event is sent out when a popup is dismissed by the
-            /// compositor. The client should destroy the xdg_popup object at this
-            /// point.
+            /// The popup_done event is sent out when a popup is dismissed by thecompositor. The client should destroy the xdg_popup object at thispoint.<br/><br/>
             /// </summary>
             void OnPopupDone(NWayland.Protocols.XdgShell.XdgPopup eventSender);
 
             /// <summary>
-            /// The repositioned event is sent as part of a popup configuration
-            /// sequence, together with xdg_popup.configure and lastly
-            /// xdg_surface.configure to notify the completion of a reposition request.
-            /// <br/>
-            /// <br/>
-            /// The repositioned event is to notify about the completion of a
-            /// xdg_popup.reposition request. The token argument is the token passed
-            /// in the xdg_popup.reposition request.
-            /// <br/>
-            /// <br/>
-            /// Immediately after this event is emitted, xdg_popup.configure and
-            /// xdg_surface.configure will be sent with the updated size and position,
-            /// as well as a new configure serial.
-            /// <br/>
-            /// <br/>
-            /// The client should optionally update the content of the popup, but must
-            /// acknowledge the new popup configuration for the new position to take
-            /// effect. See xdg_surface.ack_configure for details.
+            /// The repositioned event is sent as part of a popup configurationsequence, together with xdg_popup.configure and lastlyxdg_surface.configure to notify the completion of a reposition request.<br/><br/>
+            /// The repositioned event is to notify about the completion of axdg_popup.reposition request. The token argument is the token passedin the xdg_popup.reposition request.<br/><br/>
+            /// Immediately after this event is emitted, xdg_popup.configure andxdg_surface.configure will be sent with the updated size and position,as well as a new configure serial.<br/><br/>
+            /// The client should optionally update the content of the popup, but mustacknowledge the new popup configuration for the new position to takeeffect. See xdg_surface.ack_configure for details.<br/><br/>
             /// </summary>
             void OnRepositioned(NWayland.Protocols.XdgShell.XdgPopup eventSender, uint @token);
         }
@@ -1733,7 +1129,9 @@ namespace NWayland.Protocols.XdgShell
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// tried to grab after being mapped<br/><br/>
+            /// </summary>
             InvalidGrab = 0
         }
 

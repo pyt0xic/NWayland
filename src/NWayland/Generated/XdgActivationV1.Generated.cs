@@ -8,9 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.XdgActivationV1
 {
     /// <summary>
-    /// A global interface used for informing the compositor about applications
-    /// being activated or started, or for applications to request to be
-    /// activated.
+    /// A global interface used for informing the compositor about applicationsbeing activated or started, or for applications to request to beactivated.<br/><br/>
     /// </summary>
     public sealed unsafe partial class XdgActivationV1 : WlProxy
     {
@@ -40,9 +38,7 @@ namespace NWayland.Protocols.XdgActivationV1
         }
 
         /// <summary>
-        /// Creates an xdg_activation_token_v1 object that will provide
-        /// the initiating client with a unique token for this activation. This
-        /// token should be offered to the clients to be activated.
+        /// Creates an xdg_activation_token_v1 object that will providethe initiating client with a unique token for this activation. Thistoken should be offered to the clients to be activated.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XdgActivationV1.XdgActivationTokenV1 GetActivationToken()
         {
@@ -54,18 +50,9 @@ namespace NWayland.Protocols.XdgActivationV1
         }
 
         /// <summary>
-        /// Requests surface activation. It's up to the compositor to display
-        /// this information as desired, for example by placing the surface above
-        /// the rest.
-        /// <br/>
-        /// <br/>
-        /// The compositor may know who requested this by checking the activation
-        /// token and might decide not to follow through with the activation if it's
-        /// considered unwanted.
-        /// <br/>
-        /// <br/>
-        /// Compositors can ignore unknown activation tokens when an invalid
-        /// token is passed.
+        /// Requests surface activation. It's up to the compositor to displaythis information as desired, for example by placing the surface abovethe rest.<br/><br/>
+        /// The compositor may know who requested this by checking the activationtoken and might decide not to follow through with the activation if it'sconsidered unwanted.<br/><br/>
+        /// Compositors can ignore unknown activation tokens when an invalidtoken is passed.<br/><br/>
         /// </summary>
         public void Activate(string @token, NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -115,15 +102,8 @@ namespace NWayland.Protocols.XdgActivationV1
     }
 
     /// <summary>
-    /// An object for setting up a token and receiving a token handle that can
-    /// be passed as an activation token to another client.
-    /// <br/>
-    /// <br/>
-    /// The object is created using the xdg_activation_v1.get_activation_token
-    /// request. This object should then be populated with the app_id, surface
-    /// and serial information and committed. The compositor shall then issue a
-    /// done event with the token. In case the request's parameters are invalid,
-    /// the compositor will provide an invalid token.
+    /// An object for setting up a token and receiving a token handle that canbe passed as an activation token to another client.<br/><br/>
+    /// The object is created using the xdg_activation_v1.get_activation_tokenrequest. This object should then be populated with the app_id, surfaceand serial information and committed. The compositor shall then issue adone event with the token. In case the request's parameters are invalid,the compositor will provide an invalid token.<br/><br/>
     /// </summary>
     public sealed unsafe partial class XdgActivationTokenV1 : WlProxy
     {
@@ -149,21 +129,10 @@ namespace NWayland.Protocols.XdgActivationV1
         }
 
         /// <summary>
-        /// Provides information about the seat and serial event that requested the
-        /// token.
-        /// <br/>
-        /// <br/>
-        /// The serial can come from an input or focus event. For instance, if a
-        /// click triggers the launch of a third-party client, the launcher client
-        /// should send a set_serial request with the serial and seat from the
-        /// wl_pointer.button event.
-        /// <br/>
-        /// <br/>
-        /// Some compositors might refuse to activate toplevels when the token
-        /// doesn't have a valid and recent enough event serial.
-        /// <br/>
-        /// <br/>
-        /// Must be sent before commit. This information is optional.
+        /// Provides information about the seat and serial event that requested thetoken.<br/><br/>
+        /// The serial can come from an input or focus event. For instance, if aclick triggers the launch of a third-party client, the launcher clientshould send a set_serial request with the serial and seat from thewl_pointer.button event.<br/><br/>
+        /// Some compositors might refuse to activate toplevels when the tokendoesn't have a valid and recent enough event serial.<br/><br/>
+        /// Must be sent before commit. This information is optional.<br/><br/>
         /// </summary>
         public void SetSerial(uint @serial, NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -177,11 +146,8 @@ namespace NWayland.Protocols.XdgActivationV1
         }
 
         /// <summary>
-        /// The requesting client can specify an app_id to associate the token
-        /// being created with it.
-        /// <br/>
-        /// <br/>
-        /// Must be sent before commit. This information is optional.
+        /// The requesting client can specify an app_id to associate the tokenbeing created with it.<br/><br/>
+        /// Must be sent before commit. This information is optional.<br/><br/>
         /// </summary>
         public void SetAppId(string @appId)
         {
@@ -195,15 +161,9 @@ namespace NWayland.Protocols.XdgActivationV1
         }
 
         /// <summary>
-        /// This request sets the surface requesting the activation. Note, this is
-        /// different from the surface that will be activated.
-        /// <br/>
-        /// <br/>
-        /// Some compositors might refuse to activate toplevels when the token
-        /// doesn't have a requesting surface.
-        /// <br/>
-        /// <br/>
-        /// Must be sent before commit. This information is optional.
+        /// This request sets the surface requesting the activation. Note, this isdifferent from the surface that will be activated.<br/><br/>
+        /// Some compositors might refuse to activate toplevels when the tokendoesn't have a requesting surface.<br/><br/>
+        /// Must be sent before commit. This information is optional.<br/><br/>
         /// </summary>
         public void SetSurface(NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -216,8 +176,7 @@ namespace NWayland.Protocols.XdgActivationV1
         }
 
         /// <summary>
-        /// Requests an activation token based on the different parameters that
-        /// have been offered through set_serial, set_surface and set_app_id.
+        /// Requests an activation token based on the different parameters thathave been offered through set_serial, set_surface and set_app_id.<br/><br/>
         /// </summary>
         public void Commit()
         {
@@ -237,8 +196,7 @@ namespace NWayland.Protocols.XdgActivationV1
         public interface IEvents
         {
             /// <summary>
-            /// The 'done' event contains the unique token of this activation request
-            /// and notifies that the provider is done.
+            /// The 'done' event contains the unique token of this activation requestand notifies that the provider is done.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.XdgActivationV1.XdgActivationTokenV1 eventSender, string @token);
         }
@@ -257,7 +215,9 @@ namespace NWayland.Protocols.XdgActivationV1
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// The token has already been used previously<br/><br/>
+            /// </summary>
             AlreadyUsed = 0
         }
 

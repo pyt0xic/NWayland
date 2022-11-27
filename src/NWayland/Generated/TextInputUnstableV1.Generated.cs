@@ -8,39 +8,11 @@ using NWayland.Interop;
 namespace NWayland.Protocols.TextInputUnstableV1
 {
     /// <summary>
-    /// An object used for text input. Adds support for text input and input
-    /// methods to applications. A text_input object is created from a
-    /// wl_text_input_manager and corresponds typically to a text entry in an
-    /// application.
-    /// <br/>
-    /// <br/>
-    /// Requests are used to activate/deactivate the text_input object and set
-    /// state information like surrounding and selected text or the content type.
-    /// The information about entered text is sent to the text_input object via
-    /// the pre-edit and commit events. Using this interface removes the need
-    /// for applications to directly process hardware key events and compose text
-    /// out of them.
-    /// <br/>
-    /// <br/>
-    /// Text is generally UTF-8 encoded, indices and lengths are in bytes.
-    /// <br/>
-    /// <br/>
-    /// Serials are used to synchronize the state between the text input and
-    /// an input method. New serials are sent by the text input in the
-    /// commit_state request and are used by the input method to indicate
-    /// the known text input state in events like preedit_string, commit_string,
-    /// and keysym. The text input can then ignore events from the input method
-    /// which are based on an outdated state (for example after a reset).
-    /// <br/>
-    /// <br/>
-    /// Warning! The protocol described in this file is experimental and
-    /// backward incompatible changes may be made. Backward compatible changes
-    /// may be added together with the corresponding interface version bump.
-    /// Backward incompatible changes are done by bumping the version number in
-    /// the protocol and interface names and resetting the interface version.
-    /// Once the protocol is to be declared stable, the 'z' prefix and the
-    /// version number in the protocol and interface names are removed and the
-    /// interface version number is reset.
+    /// An object used for text input. Adds support for text input and inputmethods to applications. A text_input object is created from awl_text_input_manager and corresponds typically to a text entry in anapplication.<br/><br/>
+    /// Requests are used to activate/deactivate the text_input object and setstate information like surrounding and selected text or the content type.The information about entered text is sent to the text_input object viathe pre-edit and commit events. Using this interface removes the needfor applications to directly process hardware key events and compose textout of them.<br/><br/>
+    /// Text is generally UTF-8 encoded, indices and lengths are in bytes.<br/><br/>
+    /// Serials are used to synchronize the state between the text input andan input method. New serials are sent by the text input in thecommit_state request and are used by the input method to indicatethe known text input state in events like preedit_string, commit_string,and keysym. The text input can then ignore events from the input methodwhich are based on an outdated state (for example after a reset).<br/><br/>
+    /// Warning! The protocol described in this file is experimental andbackward incompatible changes may be made. Backward compatible changesmay be added together with the corresponding interface version bump.Backward incompatible changes are done by bumping the version number inthe protocol and interface names and resetting the interface version.Once the protocol is to be declared stable, the 'z' prefix and theversion number in the protocol and interface names are removed and theinterface version number is reset.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTextInputV1 : WlProxy
     {
@@ -84,14 +56,8 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Requests the text_input object to be activated (typically when the
-        /// text entry gets focus).
-        /// <br/>
-        /// <br/>
-        /// The seat argument is a wl_seat which maintains the focus for this
-        /// activation. The surface argument is a wl_surface assigned to the
-        /// text_input object and tracked for focus lost. The enter event
-        /// is emitted on successful activation.
+        /// Requests the text_input object to be activated (typically when thetext entry gets focus).<br/><br/>
+        /// The seat argument is a wl_seat which maintains the focus for thisactivation. The surface argument is a wl_surface assigned to thetext_input object and tracked for focus lost. The enter eventis emitted on successful activation.<br/><br/>
         /// </summary>
         public void Activate(NWayland.Protocols.Wayland.WlSeat @seat, NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -107,9 +73,7 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Requests the text_input object to be deactivated (typically when the
-        /// text entry lost focus). The seat argument is a wl_seat which was used
-        /// for activation.
+        /// Requests the text_input object to be deactivated (typically when thetext entry lost focus). The seat argument is a wl_seat which was usedfor activation.<br/><br/>
         /// </summary>
         public void Deactivate(NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -122,7 +86,7 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Requests input panels (virtual keyboard) to show.
+        /// Requests input panels (virtual keyboard) to show.<br/><br/>
         /// </summary>
         public void ShowInputPanel()
         {
@@ -132,7 +96,7 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Requests input panels (virtual keyboard) to hide.
+        /// Requests input panels (virtual keyboard) to hide.<br/><br/>
         /// </summary>
         public void HideInputPanel()
         {
@@ -142,9 +106,7 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Should be called by an editor widget when the input state should be
-        /// reset, for example after the text was changed outside of the normal
-        /// input method flow.
+        /// Should be called by an editor widget when the input state should bereset, for example after the text was changed outside of the normalinput method flow.<br/><br/>
         /// </summary>
         public void Reset()
         {
@@ -154,11 +116,7 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Sets the plain surrounding text around the input position. Text is
-        /// UTF-8 encoded. Cursor is the byte offset within the
-        /// surrounding text. Anchor is the byte offset of the
-        /// selection anchor within the surrounding text. If there is no selected
-        /// text anchor, then it is the same as cursor.
+        /// Sets the plain surrounding text around the input position. Text isUTF-8 encoded. Cursor is the byte offset within thesurrounding text. Anchor is the byte offset of theselection anchor within the surrounding text. If there is no selectedtext anchor, then it is the same as cursor.<br/><br/>
         /// </summary>
         public void SetSurroundingText(string @text, uint @cursor, uint @anchor)
         {
@@ -174,14 +132,8 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Sets the content purpose and content hint. While the purpose is the
-        /// basic purpose of an input field, the hint flags allow to modify some
-        /// of the behavior.
-        /// <br/>
-        /// <br/>
-        /// When no content type is explicitly set, a normal content purpose with
-        /// default hints (auto completion, auto correction, auto capitalization)
-        /// should be assumed.
+        /// Sets the content purpose and content hint. While the purpose is thebasic purpose of an input field, the hint flags allow to modify someof the behavior.<br/><br/>
+        /// When no content type is explicitly set, a normal content purpose withdefault hints (auto completion, auto correction, auto capitalization)should be assumed.<br/><br/>
         /// </summary>
         public void SetContentType(ContentHintEnum @hint, ContentPurposeEnum @purpose)
         {
@@ -204,14 +156,8 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Sets a specific language. This allows for example a virtual keyboard to
-        /// show a language specific layout. The "language" argument is an RFC-3066
-        /// format language tag.
-        /// <br/>
-        /// <br/>
-        /// It could be used for example in a word processor to indicate the
-        /// language of the currently edited document or in an instant message
-        /// application which tracks languages of contacts.
+        /// Sets a specific language. This allows for example a virtual keyboard toshow a language specific layout. The "language" argument is an RFC-3066format language tag.<br/><br/>
+        /// It could be used for example in a word processor to indicate thelanguage of the currently edited document or in an instant messageapplication which tracks languages of contacts.<br/><br/>
         /// </summary>
         public void SetPreferredLanguage(string @language)
         {
@@ -244,125 +190,76 @@ namespace NWayland.Protocols.TextInputUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// Notify the text_input object when it received focus. Typically in
-            /// response to an activate request.
+            /// Notify the text_input object when it received focus. Typically inresponse to an activate request.<br/><br/>
             /// </summary>
             void OnEnter(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Notify the text_input object when it lost focus. Either in response
-            /// to a deactivate request or when the assigned surface lost focus or was
-            /// destroyed.
+            /// Notify the text_input object when it lost focus. Either in responseto a deactivate request or when the assigned surface lost focus or wasdestroyed.<br/><br/>
             /// </summary>
             void OnLeave(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender);
 
             /// <summary>
-            /// Transfer an array of 0-terminated modifier names. The position in
-            /// the array is the index of the modifier as used in the modifiers
-            /// bitmask in the keysym event.
+            /// Transfer an array of 0-terminated modifier names. The position inthe array is the index of the modifier as used in the modifiersbitmask in the keysym event.<br/><br/>
             /// </summary>
             void OnModifiersMap(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, ReadOnlySpan<byte> @map);
 
             /// <summary>
-            /// Notify when the visibility state of the input panel changed.
+            /// Notify when the visibility state of the input panel changed.<br/><br/>
             /// </summary>
             void OnInputPanelState(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, uint @state);
 
             /// <summary>
-            /// Notify when a new composing text (pre-edit) should be set around the
-            /// current cursor position. Any previously set composing text should
-            /// be removed.
-            /// <br/>
-            /// <br/>
-            /// The commit text can be used to replace the preedit text on reset
-            /// (for example on unfocus).
-            /// <br/>
-            /// <br/>
-            /// The text input should also handle all preedit_style and preedit_cursor
-            /// events occurring directly before preedit_string.
+            /// Notify when a new composing text (pre-edit) should be set around thecurrent cursor position. Any previously set composing text shouldbe removed.<br/><br/>
+            /// The commit text can be used to replace the preedit text on reset(for example on unfocus).<br/><br/>
+            /// The text input should also handle all preedit_style and preedit_cursorevents occurring directly before preedit_string.<br/><br/>
             /// </summary>
             void OnPreeditString(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, uint @serial, string @text, string @commit);
 
             /// <summary>
-            /// Sets styling information on composing text. The style is applied for
-            /// length bytes from index relative to the beginning of the composing
-            /// text (as byte offset). Multiple styles can
-            /// be applied to a composing text by sending multiple preedit_styling
-            /// events.
-            /// <br/>
-            /// <br/>
-            /// This event is handled as part of a following preedit_string event.
+            /// Sets styling information on composing text. The style is applied forlength bytes from index relative to the beginning of the composingtext (as byte offset). Multiple styles canbe applied to a composing text by sending multiple preedit_stylingevents.<br/><br/>
+            /// This event is handled as part of a following preedit_string event.<br/><br/>
             /// </summary>
             void OnPreeditStyling(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, uint @index, uint @length, PreeditStyleEnum @style);
 
             /// <summary>
-            /// Sets the cursor position inside the composing text (as byte
-            /// offset) relative to the start of the composing text. When index is a
-            /// negative number no cursor is shown.
-            /// <br/>
-            /// <br/>
-            /// This event is handled as part of a following preedit_string event.
+            /// Sets the cursor position inside the composing text (as byteoffset) relative to the start of the composing text. When index is anegative number no cursor is shown.<br/><br/>
+            /// This event is handled as part of a following preedit_string event.<br/><br/>
             /// </summary>
             void OnPreeditCursor(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, int @index);
 
             /// <summary>
-            /// Notify when text should be inserted into the editor widget. The text to
-            /// commit could be either just a single character after a key press or the
-            /// result of some composing (pre-edit). It could also be an empty text
-            /// when some text should be removed (see delete_surrounding_text) or when
-            /// the input cursor should be moved (see cursor_position).
-            /// <br/>
-            /// <br/>
-            /// Any previously set composing text should be removed.
+            /// Notify when text should be inserted into the editor widget. The text tocommit could be either just a single character after a key press or theresult of some composing (pre-edit). It could also be an empty textwhen some text should be removed (see delete_surrounding_text) or whenthe input cursor should be moved (see cursor_position).<br/><br/>
+            /// Any previously set composing text should be removed.<br/><br/>
             /// </summary>
             void OnCommitString(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, uint @serial, string @text);
 
             /// <summary>
-            /// Notify when the cursor or anchor position should be modified.
-            /// <br/>
-            /// <br/>
-            /// This event should be handled as part of a following commit_string
-            /// event.
+            /// Notify when the cursor or anchor position should be modified.<br/><br/>
+            /// This event should be handled as part of a following commit_stringevent.<br/><br/>
             /// </summary>
             void OnCursorPosition(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, int @index, int @anchor);
 
             /// <summary>
-            /// Notify when the text around the current cursor position should be
-            /// deleted.
-            /// <br/>
-            /// <br/>
-            /// Index is relative to the current cursor (in bytes).
-            /// Length is the length of deleted text (in bytes).
-            /// <br/>
-            /// <br/>
-            /// This event should be handled as part of a following commit_string
-            /// event.
+            /// Notify when the text around the current cursor position should bedeleted.<br/><br/>
+            /// Index is relative to the current cursor (in bytes).Length is the length of deleted text (in bytes).<br/><br/>
+            /// This event should be handled as part of a following commit_stringevent.<br/><br/>
             /// </summary>
             void OnDeleteSurroundingText(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, int @index, uint @length);
 
             /// <summary>
-            /// Notify when a key event was sent. Key events should not be used
-            /// for normal text input operations, which should be done with
-            /// commit_string, delete_surrounding_text, etc. The key event follows
-            /// the wl_keyboard key event convention. Sym is an XKB keysym, state a
-            /// wl_keyboard key_state. Modifiers are a mask for effective modifiers
-            /// (where the modifier indices are set by the modifiers_map event)
+            /// Notify when a key event was sent. Key events should not be usedfor normal text input operations, which should be done withcommit_string, delete_surrounding_text, etc. The key event followsthe wl_keyboard key event convention. Sym is an XKB keysym, state awl_keyboard key_state. Modifiers are a mask for effective modifiers(where the modifier indices are set by the modifiers_map event)<br/><br/>
             /// </summary>
             void OnKeysym(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, uint @serial, uint @time, uint @sym, uint @state, uint @modifiers);
 
             /// <summary>
-            /// Sets the language of the input text. The "language" argument is an
-            /// RFC-3066 format language tag.
+            /// Sets the language of the input text. The "language" argument is anRFC-3066 format language tag.<br/><br/>
             /// </summary>
             void OnLanguage(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, uint @serial, string @language);
 
             /// <summary>
-            /// Sets the text direction of input text.
-            /// <br/>
-            /// <br/>
-            /// It is mainly needed for showing an input cursor on the correct side of
-            /// the editor when there is no input done yet and making sure neutral
-            /// direction text is laid out properly.
+            /// Sets the text direction of input text.<br/><br/>
+            /// It is mainly needed for showing an input cursor on the correct side ofthe editor when there is no input done yet and making sure neutraldirection text is laid out properly.<br/><br/>
             /// </summary>
             void OnTextDirection(NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 eventSender, uint @serial, TextDirectionEnum @direction);
         }
@@ -416,83 +313,134 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Content hint is a bitmask to allow to modify the behavior of the text
-        /// input.
+        /// Content hint is a bitmask to allow to modify the behavior of the textinput.<br/><br/>
         /// </summary>
         [Flags]
         public enum ContentHintEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// no special behaviour<br/><br/>
+            /// </summary>
             None = 0x0,
-            /// <summary></summary>
+            /// <summary>
+            /// auto completion, correction and capitalization<br/><br/>
+            /// </summary>
             Default = 0x7,
-            /// <summary></summary>
+            /// <summary>
+            /// hidden and sensitive text<br/><br/>
+            /// </summary>
             Password = 0xc0,
-            /// <summary></summary>
+            /// <summary>
+            /// suggest word completions<br/><br/>
+            /// </summary>
             AutoCompletion = 0x1,
-            /// <summary></summary>
+            /// <summary>
+            /// suggest word corrections<br/><br/>
+            /// </summary>
             AutoCorrection = 0x2,
-            /// <summary></summary>
+            /// <summary>
+            /// switch to uppercase letters at the start of a sentence<br/><br/>
+            /// </summary>
             AutoCapitalization = 0x4,
-            /// <summary></summary>
+            /// <summary>
+            /// prefer lowercase letters<br/><br/>
+            /// </summary>
             Lowercase = 0x8,
-            /// <summary></summary>
+            /// <summary>
+            /// prefer uppercase letters<br/><br/>
+            /// </summary>
             Uppercase = 0x10,
-            /// <summary></summary>
+            /// <summary>
+            /// prefer casing for titles and headings (can be language dependent)<br/><br/>
+            /// </summary>
             Titlecase = 0x20,
-            /// <summary></summary>
+            /// <summary>
+            /// characters should be hidden<br/><br/>
+            /// </summary>
             HiddenText = 0x40,
-            /// <summary></summary>
+            /// <summary>
+            /// typed text should not be stored<br/><br/>
+            /// </summary>
             SensitiveData = 0x80,
-            /// <summary></summary>
+            /// <summary>
+            /// just latin characters should be entered<br/><br/>
+            /// </summary>
             Latin = 0x100,
-            /// <summary></summary>
+            /// <summary>
+            /// the text input is multiline<br/><br/>
+            /// </summary>
             Multiline = 0x200
         }
 
         /// <summary>
-        /// The content purpose allows to specify the primary purpose of a text
-        /// input.
-        /// <br/>
-        /// <br/>
-        /// This allows an input method to show special purpose input panels with
-        /// extra characters or to disallow some characters.
+        /// The content purpose allows to specify the primary purpose of a textinput.<br/><br/>
+        /// This allows an input method to show special purpose input panels withextra characters or to disallow some characters.<br/><br/>
         /// </summary>
         public enum ContentPurposeEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// default input, allowing all characters<br/><br/>
+            /// </summary>
             Normal = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// allow only alphabetic characters<br/><br/>
+            /// </summary>
             Alpha = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// allow only digits<br/><br/>
+            /// </summary>
             Digits = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// input a number (including decimal separator and sign)<br/><br/>
+            /// </summary>
             Number = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// input a phone number<br/><br/>
+            /// </summary>
             Phone = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// input an URL<br/><br/>
+            /// </summary>
             Url = 5,
-            /// <summary></summary>
+            /// <summary>
+            /// input an email address<br/><br/>
+            /// </summary>
             Email = 6,
-            /// <summary></summary>
+            /// <summary>
+            /// input a name of a person<br/><br/>
+            /// </summary>
             Name = 7,
-            /// <summary></summary>
+            /// <summary>
+            /// input a password (combine with password or sensitive_data hint)<br/><br/>
+            /// </summary>
             Password = 8,
-            /// <summary></summary>
+            /// <summary>
+            /// input a date<br/><br/>
+            /// </summary>
             Date = 9,
-            /// <summary></summary>
+            /// <summary>
+            /// input a time<br/><br/>
+            /// </summary>
             Time = 10,
-            /// <summary></summary>
+            /// <summary>
+            /// input a date and time<br/><br/>
+            /// </summary>
             Datetime = 11,
-            /// <summary></summary>
+            /// <summary>
+            /// input for a terminal<br/><br/>
+            /// </summary>
             Terminal = 12
         }
 
         public enum PreeditStyleEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// default style for composing text<br/><br/>
+            /// </summary>
             Default = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// style should be the same as in non-composing text<br/><br/>
+            /// </summary>
             None = 1,
             Active = 2,
             Inactive = 3,
@@ -504,11 +452,17 @@ namespace NWayland.Protocols.TextInputUnstableV1
 
         public enum TextDirectionEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// automatic text direction based on text and language<br/><br/>
+            /// </summary>
             Auto = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// left-to-right<br/><br/>
+            /// </summary>
             Ltr = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// right-to-left<br/><br/>
+            /// </summary>
             Rtl = 2
         }
 
@@ -536,7 +490,7 @@ namespace NWayland.Protocols.TextInputUnstableV1
     }
 
     /// <summary>
-    /// A factory for text_input objects. This object is a global singleton.
+    /// A factory for text_input objects. This object is a global singleton.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTextInputManagerV1 : WlProxy
     {
@@ -556,7 +510,7 @@ namespace NWayland.Protocols.TextInputUnstableV1
         }
 
         /// <summary>
-        /// Creates a new text_input object.
+        /// Creates a new text_input object.<br/><br/>
         /// </summary>
         public NWayland.Protocols.TextInputUnstableV1.ZwpTextInputV1 CreateTextInput()
         {

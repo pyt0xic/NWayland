@@ -8,10 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
 {
     /// <summary>
-    /// The primary selection device manager is a singleton global object that
-    /// provides access to the primary selection. It allows to create
-    /// wp_primary_selection_source objects, as well as retrieving the per-seat
-    /// wp_primary_selection_device objects.
+    /// The primary selection device manager is a singleton global object thatprovides access to the primary selection. It allows to createwp_primary_selection_source objects, as well as retrieving the per-seatwp_primary_selection_device objects.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpPrimarySelectionDeviceManagerV1 : WlProxy
     {
@@ -33,7 +30,7 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         }
 
         /// <summary>
-        /// Create a new primary selection source.
+        /// Create a new primary selection source.<br/><br/>
         /// </summary>
         public NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionSourceV1 CreateSource()
         {
@@ -45,7 +42,7 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         }
 
         /// <summary>
-        /// Create a new data device for a given seat.
+        /// Create a new data device for a given seat.<br/><br/>
         /// </summary>
         public NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionDeviceV1 GetDevice(NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -122,11 +119,8 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         }
 
         /// <summary>
-        /// Replaces the current selection. The previous owner of the primary
-        /// selection will receive a wp_primary_selection_source.cancelled event.
-        /// <br/>
-        /// <br/>
-        /// To unset the selection, set the source to NULL.
+        /// Replaces the current selection. The previous owner of the primaryselection will receive a wp_primary_selection_source.cancelled event.<br/><br/>
+        /// To unset the selection, set the source to NULL.<br/><br/>
         /// </summary>
         public void SetSelection(NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionSourceV1? @source, uint @serial)
         {
@@ -148,25 +142,13 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// Introduces a new wp_primary_selection_offer object that may be used
-            /// to receive the current primary selection. Immediately following this
-            /// event, the new wp_primary_selection_offer object will send
-            /// wp_primary_selection_offer.offer events to describe the offered mime
-            /// types.
+            /// Introduces a new wp_primary_selection_offer object that may be usedto receive the current primary selection. Immediately following thisevent, the new wp_primary_selection_offer object will sendwp_primary_selection_offer.offer events to describe the offered mimetypes.<br/><br/>
             /// </summary>
             void OnDataOffer(NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionDeviceV1 eventSender, ZwpPrimarySelectionOfferV1 @offer);
 
             /// <summary>
-            /// The wp_primary_selection_device.selection event is sent to notify the
-            /// client of a new primary selection. This event is sent after the
-            /// wp_primary_selection.data_offer event introducing this object, and after
-            /// the offer has announced its mimetypes through
-            /// wp_primary_selection_offer.offer.
-            /// <br/>
-            /// <br/>
-            /// The data_offer is valid until a new offer or NULL is received
-            /// or until the client loses keyboard focus. The client must destroy the
-            /// previous selection data_offer, if any, upon receiving this event.
+            /// The wp_primary_selection_device.selection event is sent to notify theclient of a new primary selection. This event is sent after thewp_primary_selection.data_offer event introducing this object, and afterthe offer has announced its mimetypes throughwp_primary_selection_offer.offer.<br/><br/>
+            /// The data_offer is valid until a new offer or NULL is receivedor until the client loses keyboard focus. The client must destroy theprevious selection data_offer, if any, upon receiving this event.<br/><br/>
             /// </summary>
             void OnSelection(NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionDeviceV1 eventSender, NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionOfferV1? @id);
         }
@@ -210,11 +192,7 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
     }
 
     /// <summary>
-    /// A wp_primary_selection_offer represents an offer to transfer the contents
-    /// of the primary selection clipboard to the client. Similar to
-    /// wl_data_offer, the offer also describes the mime types that the data can
-    /// be converted to and provides the mechanisms for transferring the data
-    /// directly to the client.
+    /// A wp_primary_selection_offer represents an offer to transfer the contentsof the primary selection clipboard to the client. Similar towl_data_offer, the offer also describes the mime types that the data canbe converted to and provides the mechanisms for transferring the datadirectly to the client.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpPrimarySelectionOfferV1 : WlProxy
     {
@@ -237,16 +215,8 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         }
 
         /// <summary>
-        /// To transfer the contents of the primary selection clipboard, the client
-        /// issues this request and indicates the mime type that it wants to
-        /// receive. The transfer happens through the passed file descriptor
-        /// (typically created with the pipe system call). The source client writes
-        /// the data in the mime type representation requested and then closes the
-        /// file descriptor.
-        /// <br/>
-        /// <br/>
-        /// The receiving client reads from the read end of the pipe until EOF and
-        /// closes its end, at which point the transfer is complete.
+        /// To transfer the contents of the primary selection clipboard, the clientissues this request and indicates the mime type that it wants toreceive. The transfer happens through the passed file descriptor(typically created with the pipe system call). The source client writesthe data in the mime type representation requested and then closes thefile descriptor.<br/><br/>
+        /// The receiving client reads from the read end of the pipe until EOF andcloses its end, at which point the transfer is complete.<br/><br/>
         /// </summary>
         public void Receive(string @mimeType, int @fd)
         {
@@ -271,10 +241,7 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// Sent immediately after creating announcing the
-            /// wp_primary_selection_offer through
-            /// wp_primary_selection_device.data_offer. One event is sent per offered
-            /// mime type.
+            /// Sent immediately after creating announcing thewp_primary_selection_offer throughwp_primary_selection_device.data_offer. One event is sent per offeredmime type.<br/><br/>
             /// </summary>
             void OnOffer(NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionOfferV1 eventSender, string @mimeType);
         }
@@ -315,9 +282,7 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
     }
 
     /// <summary>
-    /// The source side of a wp_primary_selection_offer, it provides a way to
-    /// describe the offered data and respond to requests to transfer the
-    /// requested contents of the primary selection clipboard.
+    /// The source side of a wp_primary_selection_offer, it provides a way todescribe the offered data and respond to requests to transfer therequested contents of the primary selection clipboard.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpPrimarySelectionSourceV1 : WlProxy
     {
@@ -341,8 +306,7 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         }
 
         /// <summary>
-        /// This request adds a mime type to the set of mime types advertised to
-        /// targets. Can be called several times to offer multiple types.
+        /// This request adds a mime type to the set of mime types advertised totargets. Can be called several times to offer multiple types.<br/><br/>
         /// </summary>
         public void Offer(string @mimeType)
         {
@@ -366,15 +330,12 @@ namespace NWayland.Protocols.WpPrimarySelectionUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// Request for the current primary selection contents from the client.
-            /// Send the specified mime type over the passed file descriptor, then
-            /// close it.
+            /// Request for the current primary selection contents from the client.Send the specified mime type over the passed file descriptor, thenclose it.<br/><br/>
             /// </summary>
             void OnSend(NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionSourceV1 eventSender, string @mimeType, int @fd);
 
             /// <summary>
-            /// This primary selection source is no longer valid. The client should
-            /// clean up and destroy this primary selection source.
+            /// This primary selection source is no longer valid. The client shouldclean up and destroy this primary selection source.<br/><br/>
             /// </summary>
             void OnCancelled(NWayland.Protocols.WpPrimarySelectionUnstableV1.ZwpPrimarySelectionSourceV1 eventSender);
         }

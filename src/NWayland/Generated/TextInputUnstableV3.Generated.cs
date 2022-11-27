@@ -8,36 +8,11 @@ using NWayland.Interop;
 namespace NWayland.Protocols.TextInputUnstableV3
 {
     /// <summary>
-    /// The zwp_text_input_v3 interface represents text input and input methods
-    /// associated with a seat. It provides enter/leave events to follow the
-    /// text input focus for a seat.
-    /// <br/>
-    /// <br/>
-    /// Requests are used to enable/disable the text-input object and set
-    /// state information like surrounding and selected text or the content type.
-    /// The information about the entered text is sent to the text-input object
-    /// via the preedit_string and commit_string events.
-    /// <br/>
-    /// <br/>
-    /// Text is valid UTF-8 encoded, indices and lengths are in bytes. Indices
-    /// must not point to middle bytes inside a code point: they must either
-    /// point to the first byte of a code point or to the end of the buffer.
-    /// Lengths must be measured between two valid indices.
-    /// <br/>
-    /// <br/>
-    /// Focus moving throughout surfaces will result in the emission of
-    /// zwp_text_input_v3.enter and zwp_text_input_v3.leave events. The focused
-    /// surface must commit zwp_text_input_v3.enable and
-    /// zwp_text_input_v3.disable requests as the keyboard focus moves across
-    /// editable and non-editable elements of the UI. Those two requests are not
-    /// expected to be paired with each other, the compositor must be able to
-    /// handle consecutive series of the same request.
-    /// <br/>
-    /// <br/>
-    /// State is sent by the state requests (set_surrounding_text,
-    /// set_content_type and set_cursor_rectangle) and a commit request. After an
-    /// enter event or disable request all state information is invalidated and
-    /// needs to be resent by the client.
+    /// The zwp_text_input_v3 interface represents text input and input methodsassociated with a seat. It provides enter/leave events to follow thetext input focus for a seat.<br/><br/>
+    /// Requests are used to enable/disable the text-input object and setstate information like surrounding and selected text or the content type.The information about the entered text is sent to the text-input objectvia the preedit_string and commit_string events.<br/><br/>
+    /// Text is valid UTF-8 encoded, indices and lengths are in bytes. Indicesmust not point to middle bytes inside a code point: they must eitherpoint to the first byte of a code point or to the end of the buffer.Lengths must be measured between two valid indices.<br/><br/>
+    /// Focus moving throughout surfaces will result in the emission ofzwp_text_input_v3.enter and zwp_text_input_v3.leave events. The focusedsurface must commit zwp_text_input_v3.enable andzwp_text_input_v3.disable requests as the keyboard focus moves acrosseditable and non-editable elements of the UI. Those two requests are notexpected to be paired with each other, the compositor must be able tohandle consecutive series of the same request.<br/><br/>
+    /// State is sent by the state requests (set_surrounding_text,set_content_type and set_cursor_rectangle) and a commit request. After anenter event or disable request all state information is invalidated andneeds to be resent by the client.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTextInputV3 : WlProxy
     {
@@ -79,41 +54,13 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Requests text input on the surface previously obtained from the enter
-        /// event.
-        /// <br/>
-        /// <br/>
-        /// This request must be issued every time the active text input changes
-        /// to a new one, including within the current surface. Use
-        /// zwp_text_input_v3.disable when there is no longer any input focus on
-        /// the current surface.
-        /// <br/>
-        /// <br/>
-        /// Clients must not enable more than one text input on the single seat
-        /// and should disable the current text input before enabling the new one.
-        /// At most one instance of text input may be in enabled state per instance,
-        /// Requests to enable the another text input when some text input is active
-        /// must be ignored by compositor.
-        /// <br/>
-        /// <br/>
-        /// This request resets all state associated with previous enable, disable,
-        /// set_surrounding_text, set_text_change_cause, set_content_type, and
-        /// set_cursor_rectangle requests, as well as the state associated with
-        /// preedit_string, commit_string, and delete_surrounding_text events.
-        /// <br/>
-        /// <br/>
-        /// The set_surrounding_text, set_content_type and set_cursor_rectangle
-        /// requests must follow if the text input supports the necessary
-        /// functionality.
-        /// <br/>
-        /// <br/>
-        /// State set with this request is double-buffered. It will get applied on
-        /// the next zwp_text_input_v3.commit request, and stay valid until the
-        /// next committed enable or disable request.
-        /// <br/>
-        /// <br/>
-        /// The changes must be applied by the compositor after issuing a
-        /// zwp_text_input_v3.commit request.
+        /// Requests text input on the surface previously obtained from the enterevent.<br/><br/>
+        /// This request must be issued every time the active text input changesto a new one, including within the current surface. Usezwp_text_input_v3.disable when there is no longer any input focus onthe current surface.<br/><br/>
+        /// Clients must not enable more than one text input on the single seatand should disable the current text input before enabling the new one.At most one instance of text input may be in enabled state per instance,Requests to enable the another text input when some text input is activemust be ignored by compositor.<br/><br/>
+        /// This request resets all state associated with previous enable, disable,set_surrounding_text, set_text_change_cause, set_content_type, andset_cursor_rectangle requests, as well as the state associated withpreedit_string, commit_string, and delete_surrounding_text events.<br/><br/>
+        /// The set_surrounding_text, set_content_type and set_cursor_rectanglerequests must follow if the text input supports the necessaryfunctionality.<br/><br/>
+        /// State set with this request is double-buffered. It will get applied onthe next zwp_text_input_v3.commit request, and stay valid until thenext committed enable or disable request.<br/><br/>
+        /// The changes must be applied by the compositor after issuing azwp_text_input_v3.commit request.<br/><br/>
         /// </summary>
         public void Enable()
         {
@@ -123,12 +70,8 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Explicitly disable text input on the current surface (typically when
-        /// there is no focus on any text entry inside the surface).
-        /// <br/>
-        /// <br/>
-        /// State set with this request is double-buffered. It will get applied on
-        /// the next zwp_text_input_v3.commit request.
+        /// Explicitly disable text input on the current surface (typically whenthere is no focus on any text entry inside the surface).<br/><br/>
+        /// State set with this request is double-buffered. It will get applied onthe next zwp_text_input_v3.commit request.<br/><br/>
         /// </summary>
         public void Disable()
         {
@@ -138,45 +81,15 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Sets the surrounding plain text around the input, excluding the preedit
-        /// text.
-        /// <br/>
-        /// <br/>
-        /// The client should notify the compositor of any changes in any of the
-        /// values carried with this request, including changes caused by handling
-        /// incoming text-input events as well as changes caused by other
-        /// mechanisms like keyboard typing.
-        /// <br/>
-        /// <br/>
-        /// If the client is unaware of the text around the cursor, it should not
-        /// issue this request, to signify lack of support to the compositor.
-        /// <br/>
-        /// <br/>
-        /// Text is UTF-8 encoded, and should include the cursor position, the
-        /// complete selection and additional characters before and after them.
-        /// There is a maximum length of wayland messages, so text can not be
-        /// longer than 4000 bytes.
-        /// <br/>
-        /// <br/>
-        /// Cursor is the byte offset of the cursor within text buffer.
-        /// <br/>
-        /// <br/>
-        /// Anchor is the byte offset of the selection anchor within text buffer.
-        /// If there is no selected text, anchor is the same as cursor.
-        /// <br/>
-        /// <br/>
-        /// If any preedit text is present, it is replaced with a cursor for the
-        /// purpose of this event.
-        /// <br/>
-        /// <br/>
-        /// Values set with this request are double-buffered. They will get applied
-        /// on the next zwp_text_input_v3.commit request, and stay valid until the
-        /// next committed enable or disable request.
-        /// <br/>
-        /// <br/>
-        /// The initial state for affected fields is empty, meaning that the text
-        /// input does not support sending surrounding text. If the empty values
-        /// get applied, subsequent attempts to change them may have no effect.
+        /// Sets the surrounding plain text around the input, excluding the preedittext.<br/><br/>
+        /// The client should notify the compositor of any changes in any of thevalues carried with this request, including changes caused by handlingincoming text-input events as well as changes caused by othermechanisms like keyboard typing.<br/><br/>
+        /// If the client is unaware of the text around the cursor, it should notissue this request, to signify lack of support to the compositor.<br/><br/>
+        /// Text is UTF-8 encoded, and should include the cursor position, thecomplete selection and additional characters before and after them.There is a maximum length of wayland messages, so text can not belonger than 4000 bytes.<br/><br/>
+        /// Cursor is the byte offset of the cursor within text buffer.<br/><br/>
+        /// Anchor is the byte offset of the selection anchor within text buffer.If there is no selected text, anchor is the same as cursor.<br/><br/>
+        /// If any preedit text is present, it is replaced with a cursor for thepurpose of this event.<br/><br/>
+        /// Values set with this request are double-buffered. They will get appliedon the next zwp_text_input_v3.commit request, and stay valid until thenext committed enable or disable request.<br/><br/>
+        /// The initial state for affected fields is empty, meaning that the textinput does not support sending surrounding text. If the empty valuesget applied, subsequent attempts to change them may have no effect.<br/><br/>
         /// </summary>
         public void SetSurroundingText(string @text, int @cursor, int @anchor)
         {
@@ -192,24 +105,11 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Tells the compositor why the text surrounding the cursor changed.
-        /// <br/>
-        /// <br/>
-        /// Whenever the client detects an external change in text, cursor, or
-        /// anchor posision, it must issue this request to the compositor. This
-        /// request is intended to give the input method a chance to update the
-        /// preedit text in an appropriate way, e.g. by removing it when the user
-        /// starts typing with a keyboard.
-        /// <br/>
-        /// <br/>
-        /// cause describes the source of the change.
-        /// <br/>
-        /// <br/>
-        /// The value set with this request is double-buffered. It must be applied
-        /// and reset to initial at the next zwp_text_input_v3.commit request.
-        /// <br/>
-        /// <br/>
-        /// The initial value of cause is input_method.
+        /// Tells the compositor why the text surrounding the cursor changed.<br/><br/>
+        /// Whenever the client detects an external change in text, cursor, oranchor posision, it must issue this request to the compositor. Thisrequest is intended to give the input method a chance to update thepreedit text in an appropriate way, e.g. by removing it when the userstarts typing with a keyboard.<br/><br/>
+        /// cause describes the source of the change.<br/><br/>
+        /// The value set with this request is double-buffered. It must be appliedand reset to initial at the next zwp_text_input_v3.commit request.<br/><br/>
+        /// The initial value of cause is input_method.<br/><br/>
         /// </summary>
         public void SetTextChangeCause(ChangeCauseEnum @cause)
         {
@@ -220,19 +120,9 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Sets the content purpose and content hint. While the purpose is the
-        /// basic purpose of an input field, the hint flags allow to modify some of
-        /// the behavior.
-        /// <br/>
-        /// <br/>
-        /// Values set with this request are double-buffered. They will get applied
-        /// on the next zwp_text_input_v3.commit request.
-        /// Subsequent attempts to update them may have no effect. The values
-        /// remain valid until the next committed enable or disable request.
-        /// <br/>
-        /// <br/>
-        /// The initial value for hint is none, and the initial value for purpose
-        /// is normal.
+        /// Sets the content purpose and content hint. While the purpose is thebasic purpose of an input field, the hint flags allow to modify some ofthe behavior.<br/><br/>
+        /// Values set with this request are double-buffered. They will get appliedon the next zwp_text_input_v3.commit request.Subsequent attempts to update them may have no effect. The valuesremain valid until the next committed enable or disable request.<br/><br/>
+        /// The initial value for hint is none, and the initial value for purposeis normal.<br/><br/>
         /// </summary>
         public void SetContentType(ContentHintEnum @hint, ContentPurposeEnum @purpose)
         {
@@ -244,27 +134,11 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Marks an area around the cursor as a x, y, width, height rectangle in
-        /// surface local coordinates.
-        /// <br/>
-        /// <br/>
-        /// Allows the compositor to put a window with word suggestions near the
-        /// cursor, without obstructing the text being input.
-        /// <br/>
-        /// <br/>
-        /// If the client is unaware of the position of edited text, it should not
-        /// issue this request, to signify lack of support to the compositor.
-        /// <br/>
-        /// <br/>
-        /// Values set with this request are double-buffered. They will get applied
-        /// on the next zwp_text_input_v3.commit request, and stay valid until the
-        /// next committed enable or disable request.
-        /// <br/>
-        /// <br/>
-        /// The initial values describing a cursor rectangle are empty. That means
-        /// the text input does not support describing the cursor area. If the
-        /// empty values get applied, subsequent attempts to change them may have
-        /// no effect.
+        /// Marks an area around the cursor as a x, y, width, height rectangle insurface local coordinates.<br/><br/>
+        /// Allows the compositor to put a window with word suggestions near thecursor, without obstructing the text being input.<br/><br/>
+        /// If the client is unaware of the position of edited text, it should notissue this request, to signify lack of support to the compositor.<br/><br/>
+        /// Values set with this request are double-buffered. They will get appliedon the next zwp_text_input_v3.commit request, and stay valid until thenext committed enable or disable request.<br/><br/>
+        /// The initial values describing a cursor rectangle are empty. That meansthe text input does not support describing the cursor area. If theempty values get applied, subsequent attempts to change them may haveno effect.<br/><br/>
         /// </summary>
         public void SetCursorRectangle(int @x, int @y, int @width, int @height)
         {
@@ -278,35 +152,13 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Atomically applies state changes recently sent to the compositor.
-        /// <br/>
-        /// <br/>
-        /// The commit request establishes and updates the state of the client, and
-        /// must be issued after any changes to apply them.
-        /// <br/>
-        /// <br/>
-        /// Text input state (enabled status, content purpose, content hint,
-        /// surrounding text and change cause, cursor rectangle) is conceptually
-        /// double-buffered within the context of a text input, i.e. between a
-        /// committed enable request and the following committed enable or disable
-        /// request.
-        /// <br/>
-        /// <br/>
-        /// Protocol requests modify the pending state, as opposed to the current
-        /// state in use by the input method. A commit request atomically applies
-        /// all pending state, replacing the current state. After commit, the new
-        /// pending state is as documented for each related request.
-        /// <br/>
-        /// <br/>
-        /// Requests are applied in the order of arrival.
-        /// <br/>
-        /// <br/>
-        /// Neither current nor pending state are modified unless noted otherwise.
-        /// <br/>
-        /// <br/>
-        /// The compositor must count the number of commit requests coming from
-        /// each zwp_text_input_v3 object and use the count as the serial in done
-        /// events.
+        /// Atomically applies state changes recently sent to the compositor.<br/><br/>
+        /// The commit request establishes and updates the state of the client, andmust be issued after any changes to apply them.<br/><br/>
+        /// Text input state (enabled status, content purpose, content hint,surrounding text and change cause, cursor rectangle) is conceptuallydouble-buffered within the context of a text input, i.e. between acommitted enable request and the following committed enable or disablerequest.<br/><br/>
+        /// Protocol requests modify the pending state, as opposed to the currentstate in use by the input method. A commit request atomically appliesall pending state, replacing the current state. After commit, the newpending state is as documented for each related request.<br/><br/>
+        /// Requests are applied in the order of arrival.<br/><br/>
+        /// Neither current nor pending state are modified unless noted otherwise.<br/><br/>
+        /// The compositor must count the number of commit requests coming fromeach zwp_text_input_v3 object and use the count as the serial in doneevents.<br/><br/>
         /// </summary>
         public void Commit()
         {
@@ -318,131 +170,51 @@ namespace NWayland.Protocols.TextInputUnstableV3
         public interface IEvents
         {
             /// <summary>
-            /// Notification that this seat's text-input focus is on a certain surface.
-            /// <br/>
-            /// <br/>
-            /// If client has created multiple text input objects, compositor must send
-            /// this event to all of them.
-            /// <br/>
-            /// <br/>
-            /// When the seat has the keyboard capability the text-input focus follows
-            /// the keyboard focus. This event sets the current surface for the
-            /// text-input object.
+            /// Notification that this seat's text-input focus is on a certain surface.<br/><br/>
+            /// If client has created multiple text input objects, compositor must sendthis event to all of them.<br/><br/>
+            /// When the seat has the keyboard capability the text-input focus followsthe keyboard focus. This event sets the current surface for thetext-input object.<br/><br/>
             /// </summary>
             void OnEnter(NWayland.Protocols.TextInputUnstableV3.ZwpTextInputV3 eventSender, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Notification that this seat's text-input focus is no longer on a
-            /// certain surface. The client should reset any preedit string previously
-            /// set.
-            /// <br/>
-            /// <br/>
-            /// The leave notification clears the current surface. It is sent before
-            /// the enter notification for the new focus. After leave event, compositor
-            /// must ignore requests from any text input instances until next enter
-            /// event.
-            /// <br/>
-            /// <br/>
-            /// When the seat has the keyboard capability the text-input focus follows
-            /// the keyboard focus.
+            /// Notification that this seat's text-input focus is no longer on acertain surface. The client should reset any preedit string previouslyset.<br/><br/>
+            /// The leave notification clears the current surface. It is sent beforethe enter notification for the new focus. After leave event, compositormust ignore requests from any text input instances until next enterevent.<br/><br/>
+            /// When the seat has the keyboard capability the text-input focus followsthe keyboard focus.<br/><br/>
             /// </summary>
             void OnLeave(NWayland.Protocols.TextInputUnstableV3.ZwpTextInputV3 eventSender, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Notify when a new composing text (pre-edit) should be set at the
-            /// current cursor position. Any previously set composing text must be
-            /// removed. Any previously existing selected text must be removed.
-            /// <br/>
-            /// <br/>
-            /// The argument text contains the pre-edit string buffer.
-            /// <br/>
-            /// <br/>
-            /// The parameters cursor_begin and cursor_end are counted in bytes
-            /// relative to the beginning of the submitted text buffer. Cursor should
-            /// be hidden when both are equal to -1.
-            /// <br/>
-            /// <br/>
-            /// They could be represented by the client as a line if both values are
-            /// the same, or as a text highlight otherwise.
-            /// <br/>
-            /// <br/>
-            /// Values set with this event are double-buffered. They must be applied
-            /// and reset to initial on the next zwp_text_input_v3.done event.
-            /// <br/>
-            /// <br/>
-            /// The initial value of text is an empty string, and cursor_begin,
-            /// cursor_end and cursor_hidden are all 0.
+            /// Notify when a new composing text (pre-edit) should be set at thecurrent cursor position. Any previously set composing text must beremoved. Any previously existing selected text must be removed.<br/><br/>
+            /// The argument text contains the pre-edit string buffer.<br/><br/>
+            /// The parameters cursor_begin and cursor_end are counted in bytesrelative to the beginning of the submitted text buffer. Cursor shouldbe hidden when both are equal to -1.<br/><br/>
+            /// They could be represented by the client as a line if both values arethe same, or as a text highlight otherwise.<br/><br/>
+            /// Values set with this event are double-buffered. They must be appliedand reset to initial on the next zwp_text_input_v3.done event.<br/><br/>
+            /// The initial value of text is an empty string, and cursor_begin,cursor_end and cursor_hidden are all 0.<br/><br/>
             /// </summary>
             void OnPreeditString(NWayland.Protocols.TextInputUnstableV3.ZwpTextInputV3 eventSender, string? @text, int @cursorBegin, int @cursorEnd);
 
             /// <summary>
-            /// Notify when text should be inserted into the editor widget. The text to
-            /// commit could be either just a single character after a key press or the
-            /// result of some composing (pre-edit).
-            /// <br/>
-            /// <br/>
-            /// Values set with this event are double-buffered. They must be applied
-            /// and reset to initial on the next zwp_text_input_v3.done event.
-            /// <br/>
-            /// <br/>
-            /// The initial value of text is an empty string.
+            /// Notify when text should be inserted into the editor widget. The text tocommit could be either just a single character after a key press or theresult of some composing (pre-edit).<br/><br/>
+            /// Values set with this event are double-buffered. They must be appliedand reset to initial on the next zwp_text_input_v3.done event.<br/><br/>
+            /// The initial value of text is an empty string.<br/><br/>
             /// </summary>
             void OnCommitString(NWayland.Protocols.TextInputUnstableV3.ZwpTextInputV3 eventSender, string? @text);
 
             /// <summary>
-            /// Notify when the text around the current cursor position should be
-            /// deleted.
-            /// <br/>
-            /// <br/>
-            /// Before_length and after_length are the number of bytes before and after
-            /// the current cursor index (excluding the selection) to delete.
-            /// <br/>
-            /// <br/>
-            /// If a preedit text is present, in effect before_length is counted from
-            /// the beginning of it, and after_length from its end (see done event
-            /// sequence).
-            /// <br/>
-            /// <br/>
-            /// Values set with this event are double-buffered. They must be applied
-            /// and reset to initial on the next zwp_text_input_v3.done event.
-            /// <br/>
-            /// <br/>
-            /// The initial values of both before_length and after_length are 0.
+            /// Notify when the text around the current cursor position should bedeleted.<br/><br/>
+            /// Before_length and after_length are the number of bytes before and afterthe current cursor index (excluding the selection) to delete.<br/><br/>
+            /// If a preedit text is present, in effect before_length is counted fromthe beginning of it, and after_length from its end (see done eventsequence).<br/><br/>
+            /// Values set with this event are double-buffered. They must be appliedand reset to initial on the next zwp_text_input_v3.done event.<br/><br/>
+            /// The initial values of both before_length and after_length are 0.<br/><br/>
             /// </summary>
             void OnDeleteSurroundingText(NWayland.Protocols.TextInputUnstableV3.ZwpTextInputV3 eventSender, uint @beforeLength, uint @afterLength);
 
             /// <summary>
-            /// Instruct the application to apply changes to state requested by the
-            /// preedit_string, commit_string and delete_surrounding_text events. The
-            /// state relating to these events is double-buffered, and each one
-            /// modifies the pending state. This event replaces the current state with
-            /// the pending state.
-            /// <br/>
-            /// <br/>
-            /// The application must proceed by evaluating the changes in the following
-            /// order:
-            /// <br/>
-            /// <br/>
-            /// 1. Replace existing preedit string with the cursor.
-            /// 2. Delete requested surrounding text.
-            /// 3. Insert commit string with the cursor at its end.
-            /// 4. Calculate surrounding text to send.
-            /// 5. Insert new preedit text in cursor position.
-            /// 6. Place cursor inside preedit text.
-            /// <br/>
-            /// <br/>
-            /// The serial number reflects the last state of the zwp_text_input_v3
-            /// object known to the compositor. The value of the serial argument must
-            /// be equal to the number of commit requests already issued on that object.
-            /// <br/>
-            /// <br/>
-            /// When the client receives a done event with a serial different than the
-            /// number of past commit requests, it must proceed with evaluating and
-            /// applying the changes as normal, except it should not change the current
-            /// state of the zwp_text_input_v3 object. All pending state requests
-            /// (set_surrounding_text, set_content_type and set_cursor_rectangle) on
-            /// the zwp_text_input_v3 object should be sent and committed after
-            /// receiving a zwp_text_input_v3.done event with a matching serial.
+            /// Instruct the application to apply changes to state requested by thepreedit_string, commit_string and delete_surrounding_text events. Thestate relating to these events is double-buffered, and each onemodifies the pending state. This event replaces the current state withthe pending state.<br/><br/>
+            /// The application must proceed by evaluating the changes in the followingorder:<br/><br/>
+            /// 1. Replace existing preedit string with the cursor.2. Delete requested surrounding text.3. Insert commit string with the cursor at its end.4. Calculate surrounding text to send.5. Insert new preedit text in cursor position.6. Place cursor inside preedit text.<br/><br/>
+            /// The serial number reflects the last state of the zwp_text_input_v3object known to the compositor. The value of the serial argument mustbe equal to the number of commit requests already issued on that object.<br/><br/>
+            /// When the client receives a done event with a serial different than thenumber of past commit requests, it must proceed with evaluating andapplying the changes as normal, except it should not change the currentstate of the zwp_text_input_v3 object. All pending state requests(set_surrounding_text, set_content_type and set_cursor_rectangle) onthe zwp_text_input_v3 object should be sent and committed afterreceiving a zwp_text_input_v3.done event with a matching serial.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.TextInputUnstableV3.ZwpTextInputV3 eventSender, uint @serial);
         }
@@ -475,84 +247,133 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Reason for the change of surrounding text or cursor posision.
+        /// Reason for the change of surrounding text or cursor posision.<br/><br/>
         /// </summary>
         public enum ChangeCauseEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// input method caused the change<br/><br/>
+            /// </summary>
             InputMethod = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// something else than the input method caused the change<br/><br/>
+            /// </summary>
             Other = 1
         }
 
         /// <summary>
-        /// Content hint is a bitmask to allow to modify the behavior of the text
-        /// input.
+        /// Content hint is a bitmask to allow to modify the behavior of the textinput.<br/><br/>
         /// </summary>
         [Flags]
         public enum ContentHintEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// no special behavior<br/><br/>
+            /// </summary>
             None = 0x0,
-            /// <summary></summary>
+            /// <summary>
+            /// suggest word completions<br/><br/>
+            /// </summary>
             Completion = 0x1,
-            /// <summary></summary>
+            /// <summary>
+            /// suggest word corrections<br/><br/>
+            /// </summary>
             Spellcheck = 0x2,
-            /// <summary></summary>
+            /// <summary>
+            /// switch to uppercase letters at the start of a sentence<br/><br/>
+            /// </summary>
             AutoCapitalization = 0x4,
-            /// <summary></summary>
+            /// <summary>
+            /// prefer lowercase letters<br/><br/>
+            /// </summary>
             Lowercase = 0x8,
-            /// <summary></summary>
+            /// <summary>
+            /// prefer uppercase letters<br/><br/>
+            /// </summary>
             Uppercase = 0x10,
-            /// <summary></summary>
+            /// <summary>
+            /// prefer casing for titles and headings (can be language dependent)<br/><br/>
+            /// </summary>
             Titlecase = 0x20,
-            /// <summary></summary>
+            /// <summary>
+            /// characters should be hidden<br/><br/>
+            /// </summary>
             HiddenText = 0x40,
-            /// <summary></summary>
+            /// <summary>
+            /// typed text should not be stored<br/><br/>
+            /// </summary>
             SensitiveData = 0x80,
-            /// <summary></summary>
+            /// <summary>
+            /// just Latin characters should be entered<br/><br/>
+            /// </summary>
             Latin = 0x100,
-            /// <summary></summary>
+            /// <summary>
+            /// the text input is multiline<br/><br/>
+            /// </summary>
             Multiline = 0x200
         }
 
         /// <summary>
-        /// The content purpose allows to specify the primary purpose of a text
-        /// input.
-        /// <br/>
-        /// <br/>
-        /// This allows an input method to show special purpose input panels with
-        /// extra characters or to disallow some characters.
+        /// The content purpose allows to specify the primary purpose of a textinput.<br/><br/>
+        /// This allows an input method to show special purpose input panels withextra characters or to disallow some characters.<br/><br/>
         /// </summary>
         public enum ContentPurposeEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// default input, allowing all characters<br/><br/>
+            /// </summary>
             Normal = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// allow only alphabetic characters<br/><br/>
+            /// </summary>
             Alpha = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// allow only digits<br/><br/>
+            /// </summary>
             Digits = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// input a number (including decimal separator and sign)<br/><br/>
+            /// </summary>
             Number = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// input a phone number<br/><br/>
+            /// </summary>
             Phone = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// input an URL<br/><br/>
+            /// </summary>
             Url = 5,
-            /// <summary></summary>
+            /// <summary>
+            /// input an email address<br/><br/>
+            /// </summary>
             Email = 6,
-            /// <summary></summary>
+            /// <summary>
+            /// input a name of a person<br/><br/>
+            /// </summary>
             Name = 7,
-            /// <summary></summary>
+            /// <summary>
+            /// input a password (combine with sensitive_data hint)<br/><br/>
+            /// </summary>
             Password = 8,
-            /// <summary></summary>
+            /// <summary>
+            /// input is a numeric password (combine with sensitive_data hint)<br/><br/>
+            /// </summary>
             Pin = 9,
-            /// <summary></summary>
+            /// <summary>
+            /// input a date<br/><br/>
+            /// </summary>
             Date = 10,
-            /// <summary></summary>
+            /// <summary>
+            /// input a time<br/><br/>
+            /// </summary>
             Time = 11,
-            /// <summary></summary>
+            /// <summary>
+            /// input a date and time<br/><br/>
+            /// </summary>
             Datetime = 12,
-            /// <summary></summary>
+            /// <summary>
+            /// input for a terminal<br/><br/>
+            /// </summary>
             Terminal = 13
         }
 
@@ -580,7 +401,7 @@ namespace NWayland.Protocols.TextInputUnstableV3
     }
 
     /// <summary>
-    /// A factory for text-input objects. This object is a global singleton.
+    /// A factory for text-input objects. This object is a global singleton.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTextInputManagerV3 : WlProxy
     {
@@ -609,7 +430,7 @@ namespace NWayland.Protocols.TextInputUnstableV3
         }
 
         /// <summary>
-        /// Creates a new text-input object for a given seat.
+        /// Creates a new text-input object for a given seat.<br/><br/>
         /// </summary>
         public NWayland.Protocols.TextInputUnstableV3.ZwpTextInputV3 GetTextInput(NWayland.Protocols.Wayland.WlSeat @seat)
         {

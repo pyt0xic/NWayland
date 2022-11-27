@@ -8,8 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.Wayland
 {
     /// <summary>
-    /// The core global object.  This is a special singleton object.  It
-    /// is used for internal Wayland protocol features.
+    /// The core global object.  This is a special singleton object.  Itis used for internal Wayland protocol features.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlDisplay : WlProxy
     {
@@ -33,19 +32,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// The sync request asks the server to emit the 'done' event
-        /// on the returned wl_callback object.  Since requests are
-        /// handled in-order and events are delivered in-order, this can
-        /// be used as a barrier to ensure all previous requests and the
-        /// resulting events have been handled.
-        /// <br/>
-        /// <br/>
-        /// The object returned by this request will be destroyed by the
-        /// compositor after the callback is fired and as such the client must not
-        /// attempt to use it after that point.
-        /// <br/>
-        /// <br/>
-        /// The callback_data passed in the callback is the event serial.
+        /// The sync request asks the server to emit the 'done' eventon the returned wl_callback object.  Since requests arehandled in-order and events are delivered in-order, this canbe used as a barrier to ensure all previous requests and theresulting events have been handled.<br/><br/>
+        /// The object returned by this request will be destroyed by thecompositor after the callback is fired and as such the client must notattempt to use it after that point.<br/><br/>
+        /// The callback_data passed in the callback is the event serial.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlCallback Sync()
         {
@@ -57,16 +46,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request creates a registry object that allows the client
-        /// to list and bind the global objects available from the
-        /// compositor.
-        /// <br/>
-        /// <br/>
-        /// It should be noted that the server side resources consumed in
-        /// response to a get_registry request can only be released when the
-        /// client disconnects, not when the client side proxy is destroyed.
-        /// Therefore, clients should invoke get_registry as infrequently as
-        /// possible to avoid wasting memory.
+        /// This request creates a registry object that allows the clientto list and bind the global objects available from thecompositor.<br/><br/>
+        /// It should be noted that the server side resources consumed inresponse to a get_registry request can only be released when theclient disconnects, not when the client side proxy is destroyed.Therefore, clients should invoke get_registry as infrequently aspossible to avoid wasting memory.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlRegistry GetRegistry()
         {
@@ -80,22 +61,12 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// The error event is sent out when a fatal (non-recoverable)
-            /// error has occurred.  The object_id argument is the object
-            /// where the error occurred, most often in response to a request
-            /// to that object.  The code identifies the error and is defined
-            /// by the object interface.  As such, each interface defines its
-            /// own set of error codes.  The message is a brief description
-            /// of the error, for (debugging) convenience.
+            /// The error event is sent out when a fatal (non-recoverable)error has occurred.  The object_id argument is the objectwhere the error occurred, most often in response to a requestto that object.  The code identifies the error and is definedby the object interface.  As such, each interface defines itsown set of error codes.  The message is a brief descriptionof the error, for (debugging) convenience.<br/><br/>
             /// </summary>
             void OnError(NWayland.Protocols.Wayland.WlDisplay eventSender, WlProxy @objectId, uint @code, string @message);
 
             /// <summary>
-            /// This event is used internally by the object ID management
-            /// logic. When a client deletes an object that it had created,
-            /// the server will send this event to acknowledge that it has
-            /// seen the delete request. When the client receives this event,
-            /// it will know that it can safely reuse the object ID.
+            /// This event is used internally by the object ID managementlogic. When a client deletes an object that it had created,the server will send this event to acknowledge that it hasseen the delete request. When the client receives this event,it will know that it can safely reuse the object ID.<br/><br/>
             /// </summary>
             void OnDeleteId(NWayland.Protocols.Wayland.WlDisplay eventSender, uint @id);
         }
@@ -116,18 +87,25 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// These errors are global and can be emitted in response to any
-        /// server request.
+        /// These errors are global and can be emitted in response to anyserver request.<br/><br/>
         /// </summary>
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// server couldn't find object<br/><br/>
+            /// </summary>
             InvalidObject = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// method doesn't exist on the specified interface or malformed request<br/><br/>
+            /// </summary>
             InvalidMethod = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// server is out of memory<br/><br/>
+            /// </summary>
             NoMemory = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// implementation error in compositor<br/><br/>
+            /// </summary>
             Implementation = 3
         }
 
@@ -155,28 +133,9 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The singleton global registry object.  The server has a number of
-    /// global objects that are available to all clients.  These objects
-    /// typically represent an actual object in the server (for example,
-    /// an input device) or they are singleton objects that provide
-    /// extension functionality.
-    /// <br/>
-    /// <br/>
-    /// When a client creates a registry object, the registry object
-    /// will emit a global event for each global currently in the
-    /// registry.  Globals come and go as a result of device or
-    /// monitor hotplugs, reconfiguration or other events, and the
-    /// registry will send out global and global_remove events to
-    /// keep the client up to date with the changes.  To mark the end
-    /// of the initial burst of events, the client can use the
-    /// wl_display.sync request immediately after calling
-    /// wl_display.get_registry.
-    /// <br/>
-    /// <br/>
-    /// A client can bind to a global object by using the bind
-    /// request.  This creates a client-side handle that lets the object
-    /// emit events to the client and lets the client invoke requests on
-    /// the object.
+    /// The singleton global registry object.  The server has a number ofglobal objects that are available to all clients.  These objectstypically represent an actual object in the server (for example,an input device) or they are singleton objects that provideextension functionality.<br/><br/>
+    /// When a client creates a registry object, the registry objectwill emit a global event for each global currently in theregistry.  Globals come and go as a result of device ormonitor hotplugs, reconfiguration or other events, and theregistry will send out global and global_remove events tokeep the client up to date with the changes.  To mark the endof the initial burst of events, the client can use thewl_display.sync request immediately after callingwl_display.get_registry.<br/><br/>
+    /// A client can bind to a global object by using the bindrequest.  This creates a client-side handle that lets the objectemit events to the client and lets the client invoke requests onthe object.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlRegistry : WlProxy
     {
@@ -201,28 +160,15 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Notify the client of global objects.
-            /// <br/>
-            /// <br/>
-            /// The event notifies the client that a global object with
-            /// the given name is now available, and it implements the
-            /// given version of the given interface.
+            /// Notify the client of global objects.<br/><br/>
+            /// The event notifies the client that a global object withthe given name is now available, and it implements thegiven version of the given interface.<br/><br/>
             /// </summary>
             void OnGlobal(NWayland.Protocols.Wayland.WlRegistry eventSender, uint @name, string @interface, uint @version);
 
             /// <summary>
-            /// Notify the client of removed global objects.
-            /// <br/>
-            /// <br/>
-            /// This event notifies the client that the global identified
-            /// by name is no longer available.  If the client bound to
-            /// the global using the bind request, the client should now
-            /// destroy that object.
-            /// <br/>
-            /// <br/>
-            /// The object remains valid and requests to the object will be
-            /// ignored until the client destroys it, to avoid races between
-            /// the global going away and a client sending a request to it.
+            /// Notify the client of removed global objects.<br/><br/>
+            /// This event notifies the client that the global identifiedby name is no longer available.  If the client bound tothe global using the bind request, the client should nowdestroy that object.<br/><br/>
+            /// The object remains valid and requests to the object will beignored until the client destroys it, to avoid races betweenthe global going away and a client sending a request to it.<br/><br/>
             /// </summary>
             void OnGlobalRemove(NWayland.Protocols.Wayland.WlRegistry eventSender, uint @name);
         }
@@ -266,8 +212,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// Clients can handle the 'done' event to get notified when
-    /// the related request is done.
+    /// Clients can handle the 'done' event to get notified whenthe related request is done.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlCallback : WlProxy
     {
@@ -289,7 +234,7 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Notify the client when the related request is done.
+            /// Notify the client when the related request is done.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.Wayland.WlCallback eventSender, uint @callbackData);
         }
@@ -330,9 +275,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// A compositor.  This object is a singleton global.  The
-    /// compositor is in charge of combining the contents of multiple
-    /// surfaces into one displayable output.
+    /// A compositor.  This object is a singleton global.  Thecompositor is in charge of combining the contents of multiplesurfaces into one displayable output.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlCompositor : WlProxy
     {
@@ -353,7 +296,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Ask the compositor to create a new surface.
+        /// Ask the compositor to create a new surface.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlSurface CreateSurface()
         {
@@ -365,7 +308,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Ask the compositor to create a new region.
+        /// Ask the compositor to create a new region.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlRegion CreateRegion()
         {
@@ -410,13 +353,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The wl_shm_pool object encapsulates a piece of memory shared
-    /// between the compositor and client.  Through the wl_shm_pool
-    /// object, the client can allocate shared memory wl_buffer objects.
-    /// All objects created through the same pool share the same
-    /// underlying mapped memory. Reusing the mapped memory avoids the
-    /// setup/teardown overhead and is useful when interactively resizing
-    /// a surface or for many small buffers.
+    /// The wl_shm_pool object encapsulates a piece of memory sharedbetween the compositor and client.  Through the wl_shm_poolobject, the client can allocate shared memory wl_buffer objects.All objects created through the same pool share the sameunderlying mapped memory. Reusing the mapped memory avoids thesetup/teardown overhead and is useful when interactively resizinga surface or for many small buffers.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlShmPool : WlProxy
     {
@@ -438,19 +375,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Create a wl_buffer object from the pool.
-        /// <br/>
-        /// <br/>
-        /// The buffer is created offset bytes into the pool and has
-        /// width and height as specified.  The stride argument specifies
-        /// the number of bytes from the beginning of one row to the beginning
-        /// of the next.  The format is the pixel format of the buffer and
-        /// must be one of those advertised through the wl_shm.format event.
-        /// <br/>
-        /// <br/>
-        /// A buffer will keep a reference to the pool it was created from
-        /// so it is valid to destroy the pool immediately after creating
-        /// a buffer from it.
+        /// Create a wl_buffer object from the pool.<br/><br/>
+        /// The buffer is created offset bytes into the pool and haswidth and height as specified.  The stride argument specifiesthe number of bytes from the beginning of one row to the beginningof the next.  The format is the pixel format of the buffer andmust be one of those advertised through the wl_shm.format event.<br/><br/>
+        /// A buffer will keep a reference to the pool it was created fromso it is valid to destroy the pool immediately after creatinga buffer from it.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlBuffer CreateBuffer(int @offset, int @width, int @height, int @stride, NWayland.Protocols.Wayland.WlShm.FormatEnum @format)
         {
@@ -475,17 +402,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request will cause the server to remap the backing memory
-        /// for the pool from the file descriptor passed when the pool was
-        /// created, but using the new size.  This request can only be
-        /// used to make the pool bigger.
-        /// <br/>
-        /// <br/>
-        /// This request only changes the amount of bytes that are mmapped
-        /// by the server and does not touch the file corresponding to the
-        /// file descriptor passed at creation time. It is the client's
-        /// responsibility to ensure that the file is at least as big as
-        /// the new pool size.
+        /// This request will cause the server to remap the backing memoryfor the pool from the file descriptor passed when the pool wascreated, but using the new size.  This request can only beused to make the pool bigger.<br/><br/>
+        /// This request only changes the amount of bytes that are mmappedby the server and does not touch the file corresponding to thefile descriptor passed at creation time. It is the client'sresponsibility to ensure that the file is at least as big asthe new pool size.<br/><br/>
         /// </summary>
         public void Resize(int @size)
         {
@@ -529,17 +447,9 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// A singleton global object that provides support for shared
-    /// memory.
-    /// <br/>
-    /// <br/>
-    /// Clients can create wl_shm_pool objects using the create_pool
-    /// request.
-    /// <br/>
-    /// <br/>
-    /// On binding the wl_shm object one or more format events
-    /// are emitted to inform clients about the valid pixel formats
-    /// that can be used for buffers.
+    /// A singleton global object that provides support for sharedmemory.<br/><br/>
+    /// Clients can create wl_shm_pool objects using the create_poolrequest.<br/><br/>
+    /// On binding the wl_shm object one or more format eventsare emitted to inform clients about the valid pixel formatsthat can be used for buffers.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlShm : WlProxy
     {
@@ -561,12 +471,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Create a new wl_shm_pool object.
-        /// <br/>
-        /// <br/>
-        /// The pool can be used to create shared memory based buffer
-        /// objects.  The server will mmap size bytes of the passed file
-        /// descriptor, to use as backing memory for the pool.
+        /// Create a new wl_shm_pool object.<br/><br/>
+        /// The pool can be used to create shared memory based bufferobjects.  The server will mmap size bytes of the passed filedescriptor, to use as backing memory for the pool.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlShmPool CreatePool(int @fd, int @size)
         {
@@ -582,9 +488,7 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Informs the client about a valid pixel format that
-            /// can be used for buffers. Known formats include
-            /// argb8888 and xrgb8888.
+            /// Informs the client about a valid pixel format thatcan be used for buffers. Known formats includeargb8888 and xrgb8888.<br/><br/>
             /// </summary>
             void OnFormat(NWayland.Protocols.Wayland.WlShm eventSender, FormatEnum @format);
         }
@@ -602,204 +506,367 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// These errors can be emitted in response to wl_shm requests.
+        /// These errors can be emitted in response to wl_shm requests.<br/><br/>
         /// </summary>
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// buffer format is not known<br/><br/>
+            /// </summary>
             InvalidFormat = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// invalid size or stride during pool or buffer creation<br/><br/>
+            /// </summary>
             InvalidStride = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// mmapping the file descriptor failed<br/><br/>
+            /// </summary>
             InvalidFd = 2
         }
 
         /// <summary>
-        /// This describes the memory layout of an individual pixel.
-        /// <br/>
-        /// <br/>
-        /// All renderers should support argb8888 and xrgb8888 but any other
-        /// formats are optional and may not be supported by the particular
-        /// renderer in use.
-        /// <br/>
-        /// <br/>
-        /// The drm format codes match the macros defined in drm_fourcc.h, except
-        /// argb8888 and xrgb8888. The formats actually supported by the compositor
-        /// will be reported by the format event.
-        /// <br/>
-        /// <br/>
-        /// For all wl_shm formats and unless specified in another protocol
-        /// extension, pre-multiplied alpha is used for pixel values.
+        /// This describes the memory layout of an individual pixel.<br/><br/>
+        /// All renderers should support argb8888 and xrgb8888 but any otherformats are optional and may not be supported by the particularrenderer in use.<br/><br/>
+        /// The drm format codes match the macros defined in drm_fourcc.h, exceptargb8888 and xrgb8888. The formats actually supported by the compositorwill be reported by the format event.<br/><br/>
+        /// For all wl_shm formats and unless specified in another protocolextension, pre-multiplied alpha is used for pixel values.<br/><br/>
         /// </summary>
         public enum FormatEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit ARGB format, [31:0] A:R:G:B 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Argb8888 = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit RGB format, [31:0] x:R:G:B 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Xrgb8888 = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// 8-bit color index format, [7:0] C<br/><br/>
+            /// </summary>
             C8 = 0x20203843,
-            /// <summary></summary>
+            /// <summary>
+            /// 8-bit RGB format, [7:0] R:G:B 3:3:2<br/><br/>
+            /// </summary>
             Rgb332 = 0x38424752,
-            /// <summary></summary>
+            /// <summary>
+            /// 8-bit BGR format, [7:0] B:G:R 2:3:3<br/><br/>
+            /// </summary>
             Bgr233 = 0x38524742,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit xRGB format, [15:0] x:R:G:B 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Xrgb4444 = 0x32315258,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit xBGR format, [15:0] x:B:G:R 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Xbgr4444 = 0x32314258,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit RGBx format, [15:0] R:G:B:x 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Rgbx4444 = 0x32315852,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit BGRx format, [15:0] B:G:R:x 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Bgrx4444 = 0x32315842,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit ARGB format, [15:0] A:R:G:B 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Argb4444 = 0x32315241,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit ABGR format, [15:0] A:B:G:R 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Abgr4444 = 0x32314241,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit RBGA format, [15:0] R:G:B:A 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Rgba4444 = 0x32314152,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit BGRA format, [15:0] B:G:R:A 4:4:4:4 little endian<br/><br/>
+            /// </summary>
             Bgra4444 = 0x32314142,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit xRGB format, [15:0] x:R:G:B 1:5:5:5 little endian<br/><br/>
+            /// </summary>
             Xrgb1555 = 0x35315258,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit xBGR 1555 format, [15:0] x:B:G:R 1:5:5:5 little endian<br/><br/>
+            /// </summary>
             Xbgr1555 = 0x35314258,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit RGBx 5551 format, [15:0] R:G:B:x 5:5:5:1 little endian<br/><br/>
+            /// </summary>
             Rgbx5551 = 0x35315852,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit BGRx 5551 format, [15:0] B:G:R:x 5:5:5:1 little endian<br/><br/>
+            /// </summary>
             Bgrx5551 = 0x35315842,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit ARGB 1555 format, [15:0] A:R:G:B 1:5:5:5 little endian<br/><br/>
+            /// </summary>
             Argb1555 = 0x35315241,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit ABGR 1555 format, [15:0] A:B:G:R 1:5:5:5 little endian<br/><br/>
+            /// </summary>
             Abgr1555 = 0x35314241,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit RGBA 5551 format, [15:0] R:G:B:A 5:5:5:1 little endian<br/><br/>
+            /// </summary>
             Rgba5551 = 0x35314152,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit BGRA 5551 format, [15:0] B:G:R:A 5:5:5:1 little endian<br/><br/>
+            /// </summary>
             Bgra5551 = 0x35314142,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit RGB 565 format, [15:0] R:G:B 5:6:5 little endian<br/><br/>
+            /// </summary>
             Rgb565 = 0x36314752,
-            /// <summary></summary>
+            /// <summary>
+            /// 16-bit BGR 565 format, [15:0] B:G:R 5:6:5 little endian<br/><br/>
+            /// </summary>
             Bgr565 = 0x36314742,
-            /// <summary></summary>
+            /// <summary>
+            /// 24-bit RGB format, [23:0] R:G:B little endian<br/><br/>
+            /// </summary>
             Rgb888 = 0x34324752,
-            /// <summary></summary>
+            /// <summary>
+            /// 24-bit BGR format, [23:0] B:G:R little endian<br/><br/>
+            /// </summary>
             Bgr888 = 0x34324742,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit xBGR format, [31:0] x:B:G:R 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Xbgr8888 = 0x34324258,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit RGBx format, [31:0] R:G:B:x 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Rgbx8888 = 0x34325852,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit BGRx format, [31:0] B:G:R:x 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Bgrx8888 = 0x34325842,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit ABGR format, [31:0] A:B:G:R 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Abgr8888 = 0x34324241,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit RGBA format, [31:0] R:G:B:A 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Rgba8888 = 0x34324152,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit BGRA format, [31:0] B:G:R:A 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Bgra8888 = 0x34324142,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit xRGB format, [31:0] x:R:G:B 2:10:10:10 little endian<br/><br/>
+            /// </summary>
             Xrgb2101010 = 0x30335258,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit xBGR format, [31:0] x:B:G:R 2:10:10:10 little endian<br/><br/>
+            /// </summary>
             Xbgr2101010 = 0x30334258,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit RGBx format, [31:0] R:G:B:x 10:10:10:2 little endian<br/><br/>
+            /// </summary>
             Rgbx1010102 = 0x30335852,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit BGRx format, [31:0] B:G:R:x 10:10:10:2 little endian<br/><br/>
+            /// </summary>
             Bgrx1010102 = 0x30335842,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit ARGB format, [31:0] A:R:G:B 2:10:10:10 little endian<br/><br/>
+            /// </summary>
             Argb2101010 = 0x30335241,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit ABGR format, [31:0] A:B:G:R 2:10:10:10 little endian<br/><br/>
+            /// </summary>
             Abgr2101010 = 0x30334241,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit RGBA format, [31:0] R:G:B:A 10:10:10:2 little endian<br/><br/>
+            /// </summary>
             Rgba1010102 = 0x30334152,
-            /// <summary></summary>
+            /// <summary>
+            /// 32-bit BGRA format, [31:0] B:G:R:A 10:10:10:2 little endian<br/><br/>
+            /// </summary>
             Bgra1010102 = 0x30334142,
-            /// <summary></summary>
+            /// <summary>
+            /// packed YCbCr format, [31:0] Cr0:Y1:Cb0:Y0 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Yuyv = 0x56595559,
-            /// <summary></summary>
+            /// <summary>
+            /// packed YCbCr format, [31:0] Cb0:Y1:Cr0:Y0 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Yvyu = 0x55595659,
-            /// <summary></summary>
+            /// <summary>
+            /// packed YCbCr format, [31:0] Y1:Cr0:Y0:Cb0 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Uyvy = 0x59565955,
-            /// <summary></summary>
+            /// <summary>
+            /// packed YCbCr format, [31:0] Y1:Cb0:Y0:Cr0 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Vyuy = 0x59555956,
-            /// <summary></summary>
+            /// <summary>
+            /// packed AYCbCr format, [31:0] A:Y:Cb:Cr 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Ayuv = 0x56555941,
-            /// <summary></summary>
+            /// <summary>
+            /// 2 plane YCbCr Cr:Cb format, 2x2 subsampled Cr:Cb plane<br/><br/>
+            /// </summary>
             Nv12 = 0x3231564e,
-            /// <summary></summary>
+            /// <summary>
+            /// 2 plane YCbCr Cb:Cr format, 2x2 subsampled Cb:Cr plane<br/><br/>
+            /// </summary>
             Nv21 = 0x3132564e,
-            /// <summary></summary>
+            /// <summary>
+            /// 2 plane YCbCr Cr:Cb format, 2x1 subsampled Cr:Cb plane<br/><br/>
+            /// </summary>
             Nv16 = 0x3631564e,
-            /// <summary></summary>
+            /// <summary>
+            /// 2 plane YCbCr Cb:Cr format, 2x1 subsampled Cb:Cr plane<br/><br/>
+            /// </summary>
             Nv61 = 0x3136564e,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 4x4 subsampled Cb (1) and Cr (2) planes<br/><br/>
+            /// </summary>
             Yuv410 = 0x39565559,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 4x4 subsampled Cr (1) and Cb (2) planes<br/><br/>
+            /// </summary>
             Yvu410 = 0x39555659,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 4x1 subsampled Cb (1) and Cr (2) planes<br/><br/>
+            /// </summary>
             Yuv411 = 0x31315559,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 4x1 subsampled Cr (1) and Cb (2) planes<br/><br/>
+            /// </summary>
             Yvu411 = 0x31315659,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 2x2 subsampled Cb (1) and Cr (2) planes<br/><br/>
+            /// </summary>
             Yuv420 = 0x32315559,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 2x2 subsampled Cr (1) and Cb (2) planes<br/><br/>
+            /// </summary>
             Yvu420 = 0x32315659,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 2x1 subsampled Cb (1) and Cr (2) planes<br/><br/>
+            /// </summary>
             Yuv422 = 0x36315559,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, 2x1 subsampled Cr (1) and Cb (2) planes<br/><br/>
+            /// </summary>
             Yvu422 = 0x36315659,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, non-subsampled Cb (1) and Cr (2) planes<br/><br/>
+            /// </summary>
             Yuv444 = 0x34325559,
-            /// <summary></summary>
+            /// <summary>
+            /// 3 plane YCbCr format, non-subsampled Cr (1) and Cb (2) planes<br/><br/>
+            /// </summary>
             Yvu444 = 0x34325659,
-            /// <summary></summary>
+            /// <summary>
+            /// [7:0] R<br/><br/>
+            /// </summary>
             R8 = 0x20203852,
-            /// <summary></summary>
+            /// <summary>
+            /// [15:0] R little endian<br/><br/>
+            /// </summary>
             R16 = 0x20363152,
-            /// <summary></summary>
+            /// <summary>
+            /// [15:0] R:G 8:8 little endian<br/><br/>
+            /// </summary>
             Rg88 = 0x38384752,
-            /// <summary></summary>
+            /// <summary>
+            /// [15:0] G:R 8:8 little endian<br/><br/>
+            /// </summary>
             Gr88 = 0x38385247,
-            /// <summary></summary>
+            /// <summary>
+            /// [31:0] R:G 16:16 little endian<br/><br/>
+            /// </summary>
             Rg1616 = 0x32334752,
-            /// <summary></summary>
+            /// <summary>
+            /// [31:0] G:R 16:16 little endian<br/><br/>
+            /// </summary>
             Gr1616 = 0x32335247,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] x:R:G:B 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Xrgb16161616f = 0x48345258,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] x:B:G:R 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Xbgr16161616f = 0x48344258,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] A:R:G:B 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Argb16161616f = 0x48345241,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] A:B:G:R 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Abgr16161616f = 0x48344241,
-            /// <summary></summary>
+            /// <summary>
+            /// [31:0] X:Y:Cb:Cr 8:8:8:8 little endian<br/><br/>
+            /// </summary>
             Xyuv8888 = 0x56555958,
-            /// <summary></summary>
+            /// <summary>
+            /// [23:0] Cr:Cb:Y 8:8:8 little endian<br/><br/>
+            /// </summary>
             Vuy888 = 0x34325556,
-            /// <summary></summary>
+            /// <summary>
+            /// Y followed by U then V, 10:10:10. Non-linear modifier only<br/><br/>
+            /// </summary>
             Vuy101010 = 0x30335556,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] Cr0:0:Y1:0:Cb0:0:Y0:0 10:6:10:6:10:6:10:6 little endian per 2 Y pixels<br/><br/>
+            /// </summary>
             Y210 = 0x30313259,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] Cr0:0:Y1:0:Cb0:0:Y0:0 12:4:12:4:12:4:12:4 little endian per 2 Y pixels<br/><br/>
+            /// </summary>
             Y212 = 0x32313259,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] Cr0:Y1:Cb0:Y0 16:16:16:16 little endian per 2 Y pixels<br/><br/>
+            /// </summary>
             Y216 = 0x36313259,
-            /// <summary></summary>
+            /// <summary>
+            /// [31:0] A:Cr:Y:Cb 2:10:10:10 little endian<br/><br/>
+            /// </summary>
             Y410 = 0x30313459,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] A:0:Cr:0:Y:0:Cb:0 12:4:12:4:12:4:12:4 little endian<br/><br/>
+            /// </summary>
             Y412 = 0x32313459,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] A:Cr:Y:Cb 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Y416 = 0x36313459,
-            /// <summary></summary>
+            /// <summary>
+            /// [31:0] X:Cr:Y:Cb 2:10:10:10 little endian<br/><br/>
+            /// </summary>
             Xvyu2101010 = 0x30335658,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] X:0:Cr:0:Y:0:Cb:0 12:4:12:4:12:4:12:4 little endian<br/><br/>
+            /// </summary>
             Xvyu1216161616 = 0x36335658,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] X:Cr:Y:Cb 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Xvyu16161616 = 0x38345658,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0]   A3:A2:Y3:0:Cr0:0:Y2:0:A1:A0:Y1:0:Cb0:0:Y0:0  1:1:8:2:8:2:8:2:1:1:8:2:8:2:8:2 little endian<br/><br/>
+            /// </summary>
             Y0l0 = 0x304c3059,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0]   X3:X2:Y3:0:Cr0:0:Y2:0:X1:X0:Y1:0:Cb0:0:Y0:0  1:1:8:2:8:2:8:2:1:1:8:2:8:2:8:2 little endian<br/><br/>
+            /// </summary>
             X0l0 = 0x304c3058,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0]   A3:A2:Y3:Cr0:Y2:A1:A0:Y1:Cb0:Y0  1:1:10:10:10:1:1:10:10:10 little endian<br/><br/>
+            /// </summary>
             Y0l2 = 0x324c3059,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0]   X3:X2:Y3:Cr0:Y2:X1:X0:Y1:Cb0:Y0  1:1:10:10:10:1:1:10:10:10 little endian<br/><br/>
+            /// </summary>
             X0l2 = 0x324c3058,
             Yuv4208bit = 0x38305559,
             Yuv42010bit = 0x30315559,
@@ -811,31 +878,55 @@ namespace NWayland.Protocols.Wayland
             Bgr888A8 = 0x38413842,
             Rgb565A8 = 0x38413552,
             Bgr565A8 = 0x38413542,
-            /// <summary></summary>
+            /// <summary>
+            /// non-subsampled Cr:Cb plane<br/><br/>
+            /// </summary>
             Nv24 = 0x3432564e,
-            /// <summary></summary>
+            /// <summary>
+            /// non-subsampled Cb:Cr plane<br/><br/>
+            /// </summary>
             Nv42 = 0x3234564e,
-            /// <summary></summary>
+            /// <summary>
+            /// 2x1 subsampled Cr:Cb plane, 10 bit per channel<br/><br/>
+            /// </summary>
             P210 = 0x30313250,
-            /// <summary></summary>
+            /// <summary>
+            /// 2x2 subsampled Cr:Cb plane 10 bits per channel<br/><br/>
+            /// </summary>
             P010 = 0x30313050,
-            /// <summary></summary>
+            /// <summary>
+            /// 2x2 subsampled Cr:Cb plane 12 bits per channel<br/><br/>
+            /// </summary>
             P012 = 0x32313050,
-            /// <summary></summary>
+            /// <summary>
+            /// 2x2 subsampled Cr:Cb plane 16 bits per channel<br/><br/>
+            /// </summary>
             P016 = 0x36313050,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] A:x:B:x:G:x:R:x 10:6:10:6:10:6:10:6 little endian<br/><br/>
+            /// </summary>
             Axbxgxrx106106106106 = 0x30314241,
-            /// <summary></summary>
+            /// <summary>
+            /// 2x2 subsampled Cr:Cb plane<br/><br/>
+            /// </summary>
             Nv15 = 0x3531564e,
             Q410 = 0x30313451,
             Q401 = 0x31303451,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] x:R:G:B 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Xrgb16161616 = 0x38345258,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] x:B:G:R 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Xbgr16161616 = 0x38344258,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] A:R:G:B 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Argb16161616 = 0x38345241,
-            /// <summary></summary>
+            /// <summary>
+            /// [63:0] A:B:G:R 16:16:16:16 little endian<br/><br/>
+            /// </summary>
             Abgr16161616 = 0x38344241
         }
 
@@ -863,17 +954,8 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// A buffer provides the content for a wl_surface. Buffers are
-    /// created through factory interfaces such as wl_shm, wp_linux_buffer_params
-    /// (from the linux-dmabuf protocol extension) or similar. It has a width and
-    /// a height and can be attached to a wl_surface, but the mechanism by which a
-    /// client provides and updates the contents is defined by the buffer factory
-    /// interface.
-    /// <br/>
-    /// <br/>
-    /// If the buffer uses a format that has an alpha channel, the alpha channel
-    /// is assumed to be premultiplied in the color channels unless otherwise
-    /// specified.
+    /// A buffer provides the content for a wl_surface. Buffers arecreated through factory interfaces such as wl_shm, wp_linux_buffer_params(from the linux-dmabuf protocol extension) or similar. It has a width anda height and can be attached to a wl_surface, but the mechanism by which aclient provides and updates the contents is defined by the buffer factoryinterface.<br/><br/>
+    /// If the buffer uses a format that has an alpha channel, the alpha channelis assumed to be premultiplied in the color channels unless otherwisespecified.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlBuffer : WlProxy
     {
@@ -905,19 +987,8 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Sent when this wl_buffer is no longer used by the compositor.
-            /// The client is now free to reuse or destroy this buffer and its
-            /// backing storage.
-            /// <br/>
-            /// <br/>
-            /// If a client receives a release event before the frame callback
-            /// requested in the same wl_surface.commit that attaches this
-            /// wl_buffer to a surface, then the client is immediately free to
-            /// reuse the buffer and its backing storage, and does not need a
-            /// second buffer for the next surface content update. Typically
-            /// this is possible, when the compositor maintains a copy of the
-            /// wl_surface contents, e.g. as a GL texture. This is an important
-            /// optimization for GL(ES) compositors with wl_shm clients.
+            /// Sent when this wl_buffer is no longer used by the compositor.The client is now free to reuse or destroy this buffer and itsbacking storage.<br/><br/>
+            /// If a client receives a release event before the frame callbackrequested in the same wl_surface.commit that attaches thiswl_buffer to a surface, then the client is immediately free toreuse the buffer and its backing storage, and does not need asecond buffer for the next surface content update. Typicallythis is possible, when the compositor maintains a copy of thewl_surface contents, e.g. as a GL texture. This is an importantoptimization for GL(ES) compositors with wl_shm clients.<br/><br/>
             /// </summary>
             void OnRelease(NWayland.Protocols.Wayland.WlBuffer eventSender);
         }
@@ -958,12 +1029,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// A wl_data_offer represents a piece of data offered for transfer
-    /// by another client (the source client).  It is used by the
-    /// copy-and-paste and drag-and-drop mechanisms.  The offer
-    /// describes the different mime types that the data can be
-    /// converted to and provides the mechanism for transferring the
-    /// data directly from the source client.
+    /// A wl_data_offer represents a piece of data offered for transferby another client (the source client).  It is used by thecopy-and-paste and drag-and-drop mechanisms.  The offerdescribes the different mime types that the data can beconverted to and provides the mechanism for transferring thedata directly from the source client.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlDataOffer : WlProxy
     {
@@ -991,22 +1057,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Indicate that the client can accept the given mime type, or
-        /// NULL for not accepted.
-        /// <br/>
-        /// <br/>
-        /// For objects of version 2 or older, this request is used by the
-        /// client to give feedback whether the client can receive the given
-        /// mime type, or NULL if none is accepted; the feedback does not
-        /// determine whether the drag-and-drop operation succeeds or not.
-        /// <br/>
-        /// <br/>
-        /// For objects of version 3 or newer, this request determines the
-        /// final result of the drag-and-drop operation. If the end result
-        /// is that no mime types were accepted, the drag-and-drop operation
-        /// will be cancelled and the corresponding drag source will receive
-        /// wl_data_source.cancelled. Clients may still use this event in
-        /// conjunction with wl_data_source.action for feedback.
+        /// Indicate that the client can accept the given mime type, orNULL for not accepted.<br/><br/>
+        /// For objects of version 2 or older, this request is used by theclient to give feedback whether the client can receive the givenmime type, or NULL if none is accepted; the feedback does notdetermine whether the drag-and-drop operation succeeds or not.<br/><br/>
+        /// For objects of version 3 or newer, this request determines thefinal result of the drag-and-drop operation. If the end resultis that no mime types were accepted, the drag-and-drop operationwill be cancelled and the corresponding drag source will receivewl_data_source.cancelled. Clients may still use this event inconjunction with wl_data_source.action for feedback.<br/><br/>
         /// </summary>
         public void Accept(uint @serial, string? @mimeType)
         {
@@ -1019,23 +1072,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// To transfer the offered data, the client issues this request
-        /// and indicates the mime type it wants to receive.  The transfer
-        /// happens through the passed file descriptor (typically created
-        /// with the pipe system call).  The source client writes the data
-        /// in the mime type representation requested and then closes the
-        /// file descriptor.
-        /// <br/>
-        /// <br/>
-        /// The receiving client reads from the read end of the pipe until
-        /// EOF and then closes its end, at which point the transfer is
-        /// complete.
-        /// <br/>
-        /// <br/>
-        /// This request may happen multiple times for different mime types,
-        /// both before and after wl_data_device.drop. Drag-and-drop destination
-        /// clients may preemptively fetch data or examine it more closely to
-        /// determine acceptance.
+        /// To transfer the offered data, the client issues this requestand indicates the mime type it wants to receive.  The transferhappens through the passed file descriptor (typically createdwith the pipe system call).  The source client writes the datain the mime type representation requested and then closes thefile descriptor.<br/><br/>
+        /// The receiving client reads from the read end of the pipe untilEOF and then closes its end, at which point the transfer iscomplete.<br/><br/>
+        /// This request may happen multiple times for different mime types,both before and after wl_data_device.drop. Drag-and-drop destinationclients may preemptively fetch data or examine it more closely todetermine acceptance.<br/><br/>
         /// </summary>
         public void Receive(string @mimeType, int @fd)
         {
@@ -1058,23 +1097,10 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Notifies the compositor that the drag destination successfully
-        /// finished the drag-and-drop operation.
-        /// <br/>
-        /// <br/>
-        /// Upon receiving this request, the compositor will emit
-        /// wl_data_source.dnd_finished on the drag source client.
-        /// <br/>
-        /// <br/>
-        /// It is a client error to perform other requests than
-        /// wl_data_offer.destroy after this one. It is also an error to perform
-        /// this request after a NULL mime type has been set in
-        /// wl_data_offer.accept or no action was received through
-        /// wl_data_offer.action.
-        /// <br/>
-        /// <br/>
-        /// If wl_data_offer.finish request is received for a non drag and drop
-        /// operation, the invalid_finish protocol error is raised.
+        /// Notifies the compositor that the drag destination successfullyfinished the drag-and-drop operation.<br/><br/>
+        /// Upon receiving this request, the compositor will emitwl_data_source.dnd_finished on the drag source client.<br/><br/>
+        /// It is a client error to perform other requests thanwl_data_offer.destroy after this one. It is also an error to performthis request after a NULL mime type has been set inwl_data_offer.accept or no action was received throughwl_data_offer.action.<br/><br/>
+        /// If wl_data_offer.finish request is received for a non drag and dropoperation, the invalid_finish protocol error is raised.<br/><br/>
         /// </summary>
         public void Finish()
         {
@@ -1086,43 +1112,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Sets the actions that the destination side client supports for
-        /// this operation. This request may trigger the emission of
-        /// wl_data_source.action and wl_data_offer.action events if the compositor
-        /// needs to change the selected action.
-        /// <br/>
-        /// <br/>
-        /// This request can be called multiple times throughout the
-        /// drag-and-drop operation, typically in response to wl_data_device.enter
-        /// or wl_data_device.motion events.
-        /// <br/>
-        /// <br/>
-        /// This request determines the final result of the drag-and-drop
-        /// operation. If the end result is that no action is accepted,
-        /// the drag source will receive wl_data_source.cancelled.
-        /// <br/>
-        /// <br/>
-        /// The dnd_actions argument must contain only values expressed in the
-        /// wl_data_device_manager.dnd_actions enum, and the preferred_action
-        /// argument must only contain one of those values set, otherwise it
-        /// will result in a protocol error.
-        /// <br/>
-        /// <br/>
-        /// While managing an "ask" action, the destination drag-and-drop client
-        /// may perform further wl_data_offer.receive requests, and is expected
-        /// to perform one last wl_data_offer.set_actions request with a preferred
-        /// action other than "ask" (and optionally wl_data_offer.accept) before
-        /// requesting wl_data_offer.finish, in order to convey the action selected
-        /// by the user. If the preferred action is not in the
-        /// wl_data_offer.source_actions mask, an error will be raised.
-        /// <br/>
-        /// <br/>
-        /// If the "ask" action is dismissed (e.g. user cancellation), the client
-        /// is expected to perform wl_data_offer.destroy right away.
-        /// <br/>
-        /// <br/>
-        /// This request can only be made on drag-and-drop offers, a protocol error
-        /// will be raised otherwise.
+        /// Sets the actions that the destination side client supports forthis operation. This request may trigger the emission ofwl_data_source.action and wl_data_offer.action events if the compositorneeds to change the selected action.<br/><br/>
+        /// This request can be called multiple times throughout thedrag-and-drop operation, typically in response to wl_data_device.enteror wl_data_device.motion events.<br/><br/>
+        /// This request determines the final result of the drag-and-dropoperation. If the end result is that no action is accepted,the drag source will receive wl_data_source.cancelled.<br/><br/>
+        /// The dnd_actions argument must contain only values expressed in thewl_data_device_manager.dnd_actions enum, and the preferred_actionargument must only contain one of those values set, otherwise itwill result in a protocol error.<br/><br/>
+        /// While managing an "ask" action, the destination drag-and-drop clientmay perform further wl_data_offer.receive requests, and is expectedto perform one last wl_data_offer.set_actions request with a preferredaction other than "ask" (and optionally wl_data_offer.accept) beforerequesting wl_data_offer.finish, in order to convey the action selectedby the user. If the preferred action is not in thewl_data_offer.source_actions mask, an error will be raised.<br/><br/>
+        /// If the "ask" action is dismissed (e.g. user cancellation), the clientis expected to perform wl_data_offer.destroy right away.<br/><br/>
+        /// This request can only be made on drag-and-drop offers, a protocol errorwill be raised otherwise.<br/><br/>
         /// </summary>
         public void SetActions(NWayland.Protocols.Wayland.WlDataDeviceManager.DndActionEnum @dndActions, NWayland.Protocols.Wayland.WlDataDeviceManager.DndActionEnum @preferredAction)
         {
@@ -1138,60 +1134,23 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Sent immediately after creating the wl_data_offer object.  One
-            /// event per offered mime type.
+            /// Sent immediately after creating the wl_data_offer object.  Oneevent per offered mime type.<br/><br/>
             /// </summary>
             void OnOffer(NWayland.Protocols.Wayland.WlDataOffer eventSender, string @mimeType);
 
             /// <summary>
-            /// This event indicates the actions offered by the data source. It
-            /// will be sent right after wl_data_device.enter, or anytime the source
-            /// side changes its offered actions through wl_data_source.set_actions.
+            /// This event indicates the actions offered by the data source. Itwill be sent right after wl_data_device.enter, or anytime the sourceside changes its offered actions through wl_data_source.set_actions.<br/><br/>
             /// </summary>
             void OnSourceActions(NWayland.Protocols.Wayland.WlDataOffer eventSender, NWayland.Protocols.Wayland.WlDataDeviceManager.DndActionEnum @sourceActions);
 
             /// <summary>
-            /// This event indicates the action selected by the compositor after
-            /// matching the source/destination side actions. Only one action (or
-            /// none) will be offered here.
-            /// <br/>
-            /// <br/>
-            /// This event can be emitted multiple times during the drag-and-drop
-            /// operation in response to destination side action changes through
-            /// wl_data_offer.set_actions.
-            /// <br/>
-            /// <br/>
-            /// This event will no longer be emitted after wl_data_device.drop
-            /// happened on the drag-and-drop destination, the client must
-            /// honor the last action received, or the last preferred one set
-            /// through wl_data_offer.set_actions when handling an "ask" action.
-            /// <br/>
-            /// <br/>
-            /// Compositors may also change the selected action on the fly, mainly
-            /// in response to keyboard modifier changes during the drag-and-drop
-            /// operation.
-            /// <br/>
-            /// <br/>
-            /// The most recent action received is always the valid one. Prior to
-            /// receiving wl_data_device.drop, the chosen action may change (e.g.
-            /// due to keyboard modifiers being pressed). At the time of receiving
-            /// wl_data_device.drop the drag-and-drop destination must honor the
-            /// last action received.
-            /// <br/>
-            /// <br/>
-            /// Action changes may still happen after wl_data_device.drop,
-            /// especially on "ask" actions, where the drag-and-drop destination
-            /// may choose another action afterwards. Action changes happening
-            /// at this stage are always the result of inter-client negotiation, the
-            /// compositor shall no longer be able to induce a different action.
-            /// <br/>
-            /// <br/>
-            /// Upon "ask" actions, it is expected that the drag-and-drop destination
-            /// may potentially choose a different action and/or mime type,
-            /// based on wl_data_offer.source_actions and finally chosen by the
-            /// user (e.g. popping up a menu with the available options). The
-            /// final wl_data_offer.set_actions and wl_data_offer.accept requests
-            /// must happen before the call to wl_data_offer.finish.
+            /// This event indicates the action selected by the compositor aftermatching the source/destination side actions. Only one action (ornone) will be offered here.<br/><br/>
+            /// This event can be emitted multiple times during the drag-and-dropoperation in response to destination side action changes throughwl_data_offer.set_actions.<br/><br/>
+            /// This event will no longer be emitted after wl_data_device.drophappened on the drag-and-drop destination, the client musthonor the last action received, or the last preferred one setthrough wl_data_offer.set_actions when handling an "ask" action.<br/><br/>
+            /// Compositors may also change the selected action on the fly, mainlyin response to keyboard modifier changes during the drag-and-dropoperation.<br/><br/>
+            /// The most recent action received is always the valid one. Prior toreceiving wl_data_device.drop, the chosen action may change (e.g.due to keyboard modifiers being pressed). At the time of receivingwl_data_device.drop the drag-and-drop destination must honor thelast action received.<br/><br/>
+            /// Action changes may still happen after wl_data_device.drop,especially on "ask" actions, where the drag-and-drop destinationmay choose another action afterwards. Action changes happeningat this stage are always the result of inter-client negotiation, thecompositor shall no longer be able to induce a different action.<br/><br/>
+            /// Upon "ask" actions, it is expected that the drag-and-drop destinationmay potentially choose a different action and/or mime type,based on wl_data_offer.source_actions and finally chosen by theuser (e.g. popping up a menu with the available options). Thefinal wl_data_offer.set_actions and wl_data_offer.accept requestsmust happen before the call to wl_data_offer.finish.<br/><br/>
             /// </summary>
             void OnAction(NWayland.Protocols.Wayland.WlDataOffer eventSender, NWayland.Protocols.Wayland.WlDataDeviceManager.DndActionEnum @dndAction);
         }
@@ -1216,13 +1175,21 @@ namespace NWayland.Protocols.Wayland
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// finish request was called untimely<br/><br/>
+            /// </summary>
             InvalidFinish = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// action mask contains invalid values<br/><br/>
+            /// </summary>
             InvalidActionMask = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// action argument has an invalid value<br/><br/>
+            /// </summary>
             InvalidAction = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// offer doesn't accept this request<br/><br/>
+            /// </summary>
             InvalidOffer = 3
         }
 
@@ -1250,10 +1217,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The wl_data_source object is the source side of a wl_data_offer.
-    /// It is created by the source client in a data transfer and
-    /// provides a way to describe the offered data and a way to respond
-    /// to requests to transfer the data.
+    /// The wl_data_source object is the source side of a wl_data_offer.It is created by the source client in a data transfer andprovides a way to describe the offered data and a way to respondto requests to transfer the data.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlDataSource : WlProxy
     {
@@ -1282,9 +1246,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request adds a mime type to the set of mime types
-        /// advertised to targets.  Can be called several times to offer
-        /// multiple types.
+        /// This request adds a mime type to the set of mime typesadvertised to targets.  Can be called several times to offermultiple types.<br/><br/>
         /// </summary>
         public void Offer(string @mimeType)
         {
@@ -1306,21 +1268,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Sets the actions that the source side client supports for this
-        /// operation. This request may trigger wl_data_source.action and
-        /// wl_data_offer.action events if the compositor needs to change the
-        /// selected action.
-        /// <br/>
-        /// <br/>
-        /// The dnd_actions argument must contain only values expressed in the
-        /// wl_data_device_manager.dnd_actions enum, otherwise it will result
-        /// in a protocol error.
-        /// <br/>
-        /// <br/>
-        /// This request must be made once only, and can only be made on sources
-        /// used in drag-and-drop, so it must be performed before
-        /// wl_data_device.start_drag. Attempting to use the source other than
-        /// for drag-and-drop will raise a protocol error.
+        /// Sets the actions that the source side client supports for thisoperation. This request may trigger wl_data_source.action andwl_data_offer.action events if the compositor needs to change theselected action.<br/><br/>
+        /// The dnd_actions argument must contain only values expressed in thewl_data_device_manager.dnd_actions enum, otherwise it will resultin a protocol error.<br/><br/>
+        /// This request must be made once only, and can only be made on sourcesused in drag-and-drop, so it must be performed beforewl_data_device.start_drag. Attempting to use the source other thanfor drag-and-drop will raise a protocol error.<br/><br/>
         /// </summary>
         public void SetActions(NWayland.Protocols.Wayland.WlDataDeviceManager.DndActionEnum @dndActions)
         {
@@ -1335,105 +1285,44 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Sent when a target accepts pointer_focus or motion events.  If
-            /// a target does not accept any of the offered types, type is NULL.
-            /// <br/>
-            /// <br/>
-            /// Used for feedback during drag-and-drop.
+            /// Sent when a target accepts pointer_focus or motion events.  Ifa target does not accept any of the offered types, type is NULL.<br/><br/>
+            /// Used for feedback during drag-and-drop.<br/><br/>
             /// </summary>
             void OnTarget(NWayland.Protocols.Wayland.WlDataSource eventSender, string? @mimeType);
 
             /// <summary>
-            /// Request for data from the client.  Send the data as the
-            /// specified mime type over the passed file descriptor, then
-            /// close it.
+            /// Request for data from the client.  Send the data as thespecified mime type over the passed file descriptor, thenclose it.<br/><br/>
             /// </summary>
             void OnSend(NWayland.Protocols.Wayland.WlDataSource eventSender, string @mimeType, int @fd);
 
             /// <summary>
-            /// This data source is no longer valid. There are several reasons why
-            /// this could happen:
-            /// <br/>
-            /// <br/>
-            /// - The data source has been replaced by another data source.
-            /// - The drag-and-drop operation was performed, but the drop destination
-            /// did not accept any of the mime types offered through
-            /// wl_data_source.target.
-            /// - The drag-and-drop operation was performed, but the drop destination
-            /// did not select any of the actions present in the mask offered through
-            /// wl_data_source.action.
-            /// - The drag-and-drop operation was performed but didn't happen over a
-            /// surface.
-            /// - The compositor cancelled the drag-and-drop operation (e.g. compositor
-            /// dependent timeouts to avoid stale drag-and-drop transfers).
-            /// <br/>
-            /// <br/>
-            /// The client should clean up and destroy this data source.
-            /// <br/>
-            /// <br/>
-            /// For objects of version 2 or older, wl_data_source.cancelled will
-            /// only be emitted if the data source was replaced by another data
-            /// source.
+            /// This data source is no longer valid. There are several reasons whythis could happen:<br/><br/>
+            /// - The data source has been replaced by another data source.- The drag-and-drop operation was performed, but the drop destinationdid not accept any of the mime types offered throughwl_data_source.target.- The drag-and-drop operation was performed, but the drop destinationdid not select any of the actions present in the mask offered throughwl_data_source.action.- The drag-and-drop operation was performed but didn't happen over asurface.- The compositor cancelled the drag-and-drop operation (e.g. compositordependent timeouts to avoid stale drag-and-drop transfers).<br/><br/>
+            /// The client should clean up and destroy this data source.<br/><br/>
+            /// For objects of version 2 or older, wl_data_source.cancelled willonly be emitted if the data source was replaced by another datasource.<br/><br/>
             /// </summary>
             void OnCancelled(NWayland.Protocols.Wayland.WlDataSource eventSender);
 
             /// <summary>
-            /// The user performed the drop action. This event does not indicate
-            /// acceptance, wl_data_source.cancelled may still be emitted afterwards
-            /// if the drop destination does not accept any mime type.
-            /// <br/>
-            /// <br/>
-            /// However, this event might however not be received if the compositor
-            /// cancelled the drag-and-drop operation before this event could happen.
-            /// <br/>
-            /// <br/>
-            /// Note that the data_source may still be used in the future and should
-            /// not be destroyed here.
+            /// The user performed the drop action. This event does not indicateacceptance, wl_data_source.cancelled may still be emitted afterwardsif the drop destination does not accept any mime type.<br/><br/>
+            /// However, this event might however not be received if the compositorcancelled the drag-and-drop operation before this event could happen.<br/><br/>
+            /// Note that the data_source may still be used in the future and shouldnot be destroyed here.<br/><br/>
             /// </summary>
             void OnDndDropPerformed(NWayland.Protocols.Wayland.WlDataSource eventSender);
 
             /// <summary>
-            /// The drop destination finished interoperating with this data
-            /// source, so the client is now free to destroy this data source and
-            /// free all associated data.
-            /// <br/>
-            /// <br/>
-            /// If the action used to perform the operation was "move", the
-            /// source can now delete the transferred data.
+            /// The drop destination finished interoperating with this datasource, so the client is now free to destroy this data source andfree all associated data.<br/><br/>
+            /// If the action used to perform the operation was "move", thesource can now delete the transferred data.<br/><br/>
             /// </summary>
             void OnDndFinished(NWayland.Protocols.Wayland.WlDataSource eventSender);
 
             /// <summary>
-            /// This event indicates the action selected by the compositor after
-            /// matching the source/destination side actions. Only one action (or
-            /// none) will be offered here.
-            /// <br/>
-            /// <br/>
-            /// This event can be emitted multiple times during the drag-and-drop
-            /// operation, mainly in response to destination side changes through
-            /// wl_data_offer.set_actions, and as the data device enters/leaves
-            /// surfaces.
-            /// <br/>
-            /// <br/>
-            /// It is only possible to receive this event after
-            /// wl_data_source.dnd_drop_performed if the drag-and-drop operation
-            /// ended in an "ask" action, in which case the final wl_data_source.action
-            /// event will happen immediately before wl_data_source.dnd_finished.
-            /// <br/>
-            /// <br/>
-            /// Compositors may also change the selected action on the fly, mainly
-            /// in response to keyboard modifier changes during the drag-and-drop
-            /// operation.
-            /// <br/>
-            /// <br/>
-            /// The most recent action received is always the valid one. The chosen
-            /// action may change alongside negotiation (e.g. an "ask" action can turn
-            /// into a "move" operation), so the effects of the final action must
-            /// always be applied in wl_data_offer.dnd_finished.
-            /// <br/>
-            /// <br/>
-            /// Clients can trigger cursor surface changes from this point, so
-            /// they reflect the current action.
+            /// This event indicates the action selected by the compositor aftermatching the source/destination side actions. Only one action (ornone) will be offered here.<br/><br/>
+            /// This event can be emitted multiple times during the drag-and-dropoperation, mainly in response to destination side changes throughwl_data_offer.set_actions, and as the data device enters/leavessurfaces.<br/><br/>
+            /// It is only possible to receive this event afterwl_data_source.dnd_drop_performed if the drag-and-drop operationended in an "ask" action, in which case the final wl_data_source.actionevent will happen immediately before wl_data_source.dnd_finished.<br/><br/>
+            /// Compositors may also change the selected action on the fly, mainlyin response to keyboard modifier changes during the drag-and-dropoperation.<br/><br/>
+            /// The most recent action received is always the valid one. The chosenaction may change alongside negotiation (e.g. an "ask" action can turninto a "move" operation), so the effects of the final action mustalways be applied in wl_data_offer.dnd_finished.<br/><br/>
+            /// Clients can trigger cursor surface changes from this point, sothey reflect the current action.<br/><br/>
             /// </summary>
             void OnAction(NWayland.Protocols.Wayland.WlDataSource eventSender, NWayland.Protocols.Wayland.WlDataDeviceManager.DndActionEnum @dndAction);
         }
@@ -1467,9 +1356,13 @@ namespace NWayland.Protocols.Wayland
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// action mask contains invalid values<br/><br/>
+            /// </summary>
             InvalidActionMask = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// source doesn't accept this request<br/><br/>
+            /// </summary>
             InvalidSource = 1
         }
 
@@ -1497,12 +1390,8 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// There is one wl_data_device per seat which can be obtained
-    /// from the global wl_data_device_manager singleton.
-    /// <br/>
-    /// <br/>
-    /// A wl_data_device provides access to inter-client data transfer
-    /// mechanisms such as copy-and-paste and drag-and-drop.
+    /// There is one wl_data_device per seat which can be obtainedfrom the global wl_data_device_manager singleton.<br/><br/>
+    /// A wl_data_device provides access to inter-client data transfermechanisms such as copy-and-paste and drag-and-drop.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlDataDevice : WlProxy
     {
@@ -1531,38 +1420,11 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request asks the compositor to start a drag-and-drop
-        /// operation on behalf of the client.
-        /// <br/>
-        /// <br/>
-        /// The source argument is the data source that provides the data
-        /// for the eventual data transfer. If source is NULL, enter, leave
-        /// and motion events are sent only to the client that initiated the
-        /// drag and the client is expected to handle the data passing
-        /// internally. If source is destroyed, the drag-and-drop session will be
-        /// cancelled.
-        /// <br/>
-        /// <br/>
-        /// The origin surface is the surface where the drag originates and
-        /// the client must have an active implicit grab that matches the
-        /// serial.
-        /// <br/>
-        /// <br/>
-        /// The icon surface is an optional (can be NULL) surface that
-        /// provides an icon to be moved around with the cursor.  Initially,
-        /// the top-left corner of the icon surface is placed at the cursor
-        /// hotspot, but subsequent wl_surface.attach request can move the
-        /// relative position. Attach requests must be confirmed with
-        /// wl_surface.commit as usual. The icon surface is given the role of
-        /// a drag-and-drop icon. If the icon surface already has another role,
-        /// it raises a protocol error.
-        /// <br/>
-        /// <br/>
-        /// The current and pending input regions of the icon wl_surface are
-        /// cleared, and wl_surface.set_input_region is ignored until the
-        /// wl_surface is no longer used as the icon surface. When the use
-        /// as an icon ends, the current and pending input regions become
-        /// undefined, and the wl_surface is unmapped.
+        /// This request asks the compositor to start a drag-and-dropoperation on behalf of the client.<br/><br/>
+        /// The source argument is the data source that provides the datafor the eventual data transfer. If source is NULL, enter, leaveand motion events are sent only to the client that initiated thedrag and the client is expected to handle the data passinginternally. If source is destroyed, the drag-and-drop session will becancelled.<br/><br/>
+        /// The origin surface is the surface where the drag originates andthe client must have an active implicit grab that matches theserial.<br/><br/>
+        /// The icon surface is an optional (can be NULL) surface thatprovides an icon to be moved around with the cursor.  Initially,the top-left corner of the icon surface is placed at the cursorhotspot, but subsequent wl_surface.attach request can move therelative position. Attach requests must be confirmed withwl_surface.commit as usual. The icon surface is given the role ofa drag-and-drop icon. If the icon surface already has another role,it raises a protocol error.<br/><br/>
+        /// The current and pending input regions of the icon wl_surface arecleared, and wl_surface.set_input_region is ignored until thewl_surface is no longer used as the icon surface. When the useas an icon ends, the current and pending input regions becomeundefined, and the wl_surface is unmapped.<br/><br/>
         /// </summary>
         public void StartDrag(NWayland.Protocols.Wayland.WlDataSource? @source, NWayland.Protocols.Wayland.WlSurface @origin, NWayland.Protocols.Wayland.WlSurface? @icon, uint @serial)
         {
@@ -1578,11 +1440,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request asks the compositor to set the selection
-        /// to the data from the source on behalf of the client.
-        /// <br/>
-        /// <br/>
-        /// To unset the selection, set the source to NULL.
+        /// This request asks the compositor to set the selectionto the data from the source on behalf of the client.<br/><br/>
+        /// To unset the selection, set the source to NULL.<br/><br/>
         /// </summary>
         public void SetSelection(NWayland.Protocols.Wayland.WlDataSource? @source, uint @serial)
         {
@@ -1606,71 +1465,34 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// The data_offer event introduces a new wl_data_offer object,
-            /// which will subsequently be used in either the
-            /// data_device.enter event (for drag-and-drop) or the
-            /// data_device.selection event (for selections).  Immediately
-            /// following the data_device.data_offer event, the new data_offer
-            /// object will send out data_offer.offer events to describe the
-            /// mime types it offers.
+            /// The data_offer event introduces a new wl_data_offer object,which will subsequently be used in either thedata_device.enter event (for drag-and-drop) or thedata_device.selection event (for selections).  Immediatelyfollowing the data_device.data_offer event, the new data_offerobject will send out data_offer.offer events to describe themime types it offers.<br/><br/>
             /// </summary>
             void OnDataOffer(NWayland.Protocols.Wayland.WlDataDevice eventSender, WlDataOffer @id);
 
             /// <summary>
-            /// This event is sent when an active drag-and-drop pointer enters
-            /// a surface owned by the client.  The position of the pointer at
-            /// enter time is provided by the x and y arguments, in surface-local
-            /// coordinates.
+            /// This event is sent when an active drag-and-drop pointer entersa surface owned by the client.  The position of the pointer atenter time is provided by the x and y arguments, in surface-localcoordinates.<br/><br/>
             /// </summary>
             void OnEnter(NWayland.Protocols.Wayland.WlDataDevice eventSender, uint @serial, NWayland.Protocols.Wayland.WlSurface @surface, WlFixed @x, WlFixed @y, NWayland.Protocols.Wayland.WlDataOffer? @id);
 
             /// <summary>
-            /// This event is sent when the drag-and-drop pointer leaves the
-            /// surface and the session ends.  The client must destroy the
-            /// wl_data_offer introduced at enter time at this point.
+            /// This event is sent when the drag-and-drop pointer leaves thesurface and the session ends.  The client must destroy thewl_data_offer introduced at enter time at this point.<br/><br/>
             /// </summary>
             void OnLeave(NWayland.Protocols.Wayland.WlDataDevice eventSender);
 
             /// <summary>
-            /// This event is sent when the drag-and-drop pointer moves within
-            /// the currently focused surface. The new position of the pointer
-            /// is provided by the x and y arguments, in surface-local
-            /// coordinates.
+            /// This event is sent when the drag-and-drop pointer moves withinthe currently focused surface. The new position of the pointeris provided by the x and y arguments, in surface-localcoordinates.<br/><br/>
             /// </summary>
             void OnMotion(NWayland.Protocols.Wayland.WlDataDevice eventSender, uint @time, WlFixed @x, WlFixed @y);
 
             /// <summary>
-            /// The event is sent when a drag-and-drop operation is ended
-            /// because the implicit grab is removed.
-            /// <br/>
-            /// <br/>
-            /// The drag-and-drop destination is expected to honor the last action
-            /// received through wl_data_offer.action, if the resulting action is
-            /// "copy" or "move", the destination can still perform
-            /// wl_data_offer.receive requests, and is expected to end all
-            /// transfers with a wl_data_offer.finish request.
-            /// <br/>
-            /// <br/>
-            /// If the resulting action is "ask", the action will not be considered
-            /// final. The drag-and-drop destination is expected to perform one last
-            /// wl_data_offer.set_actions request, or wl_data_offer.destroy in order
-            /// to cancel the operation.
+            /// The event is sent when a drag-and-drop operation is endedbecause the implicit grab is removed.<br/><br/>
+            /// The drag-and-drop destination is expected to honor the last actionreceived through wl_data_offer.action, if the resulting action is"copy" or "move", the destination can still performwl_data_offer.receive requests, and is expected to end alltransfers with a wl_data_offer.finish request.<br/><br/>
+            /// If the resulting action is "ask", the action will not be consideredfinal. The drag-and-drop destination is expected to perform one lastwl_data_offer.set_actions request, or wl_data_offer.destroy in orderto cancel the operation.<br/><br/>
             /// </summary>
             void OnDrop(NWayland.Protocols.Wayland.WlDataDevice eventSender);
 
             /// <summary>
-            /// The selection event is sent out to notify the client of a new
-            /// wl_data_offer for the selection for this device.  The
-            /// data_device.data_offer and the data_offer.offer events are
-            /// sent out immediately before this event to introduce the data
-            /// offer object.  The selection event is sent to a client
-            /// immediately before receiving keyboard focus and when a new
-            /// selection is set while the client has keyboard focus.  The
-            /// data_offer is valid until a new data_offer or NULL is received
-            /// or until the client loses keyboard focus.  Switching surface with
-            /// keyboard focus within the same client doesn't mean a new selection
-            /// will be sent.  The client must destroy the previous selection
-            /// data_offer, if any, upon receiving this event.
+            /// The selection event is sent out to notify the client of a newwl_data_offer for the selection for this device.  Thedata_device.data_offer and the data_offer.offer events aresent out immediately before this event to introduce the dataoffer object.  The selection event is sent to a clientimmediately before receiving keyboard focus and when a newselection is set while the client has keyboard focus.  Thedata_offer is valid until a new data_offer or NULL is receivedor until the client loses keyboard focus.  Switching surface withkeyboard focus within the same client doesn't mean a new selectionwill be sent.  The client must destroy the previous selectiondata_offer, if any, upon receiving this event.<br/><br/>
             /// </summary>
             void OnSelection(NWayland.Protocols.Wayland.WlDataDevice eventSender, NWayland.Protocols.Wayland.WlDataOffer? @id);
         }
@@ -1704,7 +1526,9 @@ namespace NWayland.Protocols.Wayland
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// given wl_surface has another role<br/><br/>
+            /// </summary>
             Role = 0
         }
 
@@ -1732,17 +1556,8 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The wl_data_device_manager is a singleton global object that
-    /// provides access to inter-client data transfer mechanisms such as
-    /// copy-and-paste and drag-and-drop.  These mechanisms are tied to
-    /// a wl_seat and this interface lets a client get a wl_data_device
-    /// corresponding to a wl_seat.
-    /// <br/>
-    /// <br/>
-    /// Depending on the version bound, the objects created from the bound
-    /// wl_data_device_manager object will have different requirements for
-    /// functioning properly. See wl_data_source.set_actions,
-    /// wl_data_offer.accept and wl_data_offer.finish for details.
+    /// The wl_data_device_manager is a singleton global object thatprovides access to inter-client data transfer mechanisms such ascopy-and-paste and drag-and-drop.  These mechanisms are tied toa wl_seat and this interface lets a client get a wl_data_devicecorresponding to a wl_seat.<br/><br/>
+    /// Depending on the version bound, the objects created from the boundwl_data_device_manager object will have different requirements forfunctioning properly. See wl_data_source.set_actions,wl_data_offer.accept and wl_data_offer.finish for details.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlDataDeviceManager : WlProxy
     {
@@ -1763,7 +1578,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Create a new data source.
+        /// Create a new data source.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlDataSource CreateDataSource()
         {
@@ -1775,7 +1590,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Create a new data device for a given seat.
+        /// Create a new data device for a given seat.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlDataDevice GetDataDevice(NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -1800,44 +1615,30 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This is a bitmask of the available/preferred actions in a
-        /// drag-and-drop operation.
-        /// <br/>
-        /// <br/>
-        /// In the compositor, the selected action is a result of matching the
-        /// actions offered by the source and destination sides.  "action" events
-        /// with a "none" action will be sent to both source and destination if
-        /// there is no match. All further checks will effectively happen on
-        /// (source actions ∩ destination actions).
-        /// <br/>
-        /// <br/>
-        /// In addition, compositors may also pick different actions in
-        /// reaction to key modifiers being pressed. One common design that
-        /// is used in major toolkits (and the behavior recommended for
-        /// compositors) is:
-        /// <br/>
-        /// <br/>
-        /// - If no modifiers are pressed, the first match (in bit order)
-        /// will be used.
-        /// - Pressing Shift selects "move", if enabled in the mask.
-        /// - Pressing Control selects "copy", if enabled in the mask.
-        /// <br/>
-        /// <br/>
-        /// Behavior beyond that is considered implementation-dependent.
-        /// Compositors may for example bind other modifiers (like Alt/Meta)
-        /// or drags initiated with other buttons than BTN_LEFT to specific
-        /// actions (e.g. "ask").
+        /// This is a bitmask of the available/preferred actions in adrag-and-drop operation.<br/><br/>
+        /// In the compositor, the selected action is a result of matching theactions offered by the source and destination sides.  "action" eventswith a "none" action will be sent to both source and destination ifthere is no match. All further checks will effectively happen on(source actions ∩ destination actions).<br/><br/>
+        /// In addition, compositors may also pick different actions inreaction to key modifiers being pressed. One common design thatis used in major toolkits (and the behavior recommended forcompositors) is:<br/><br/>
+        /// - If no modifiers are pressed, the first match (in bit order)will be used.- Pressing Shift selects "move", if enabled in the mask.- Pressing Control selects "copy", if enabled in the mask.<br/><br/>
+        /// Behavior beyond that is considered implementation-dependent.Compositors may for example bind other modifiers (like Alt/Meta)or drags initiated with other buttons than BTN_LEFT to specificactions (e.g. "ask").<br/><br/>
         /// </summary>
         [Flags]
         public enum DndActionEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// no action<br/><br/>
+            /// </summary>
             None = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// copy action<br/><br/>
+            /// </summary>
             Copy = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// move action<br/><br/>
+            /// </summary>
             Move = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// ask action<br/><br/>
+            /// </summary>
             Ask = 4
         }
 
@@ -1865,17 +1666,9 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// This interface is implemented by servers that provide
-    /// desktop-style user interfaces.
-    /// <br/>
-    /// <br/>
-    /// It allows clients to associate a wl_shell_surface with
-    /// a basic surface.
-    /// <br/>
-    /// <br/>
-    /// Note! This protocol is deprecated and not intended for production use.
-    /// For desktop-style user interfaces, use xdg_shell. Compositors and clients
-    /// should not implement this interface.
+    /// This interface is implemented by servers that providedesktop-style user interfaces.<br/><br/>
+    /// It allows clients to associate a wl_shell_surface witha basic surface.<br/><br/>
+    /// Note! This protocol is deprecated and not intended for production use.For desktop-style user interfaces, use xdg_shell. Compositors and clientsshould not implement this interface.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlShell : WlProxy
     {
@@ -1895,12 +1688,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Create a shell surface for an existing surface. This gives
-        /// the wl_surface the role of a shell surface. If the wl_surface
-        /// already has another role, it raises a protocol error.
-        /// <br/>
-        /// <br/>
-        /// Only one shell surface can be associated with a given surface.
+        /// Create a shell surface for an existing surface. This givesthe wl_surface the role of a shell surface. If the wl_surfacealready has another role, it raises a protocol error.<br/><br/>
+        /// Only one shell surface can be associated with a given surface.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlShellSurface GetShellSurface(NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -1926,7 +1715,9 @@ namespace NWayland.Protocols.Wayland
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// given wl_surface has another role<br/><br/>
+            /// </summary>
             Role = 0
         }
 
@@ -1954,19 +1745,9 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// An interface that may be implemented by a wl_surface, for
-    /// implementations that provide a desktop-style user interface.
-    /// <br/>
-    /// <br/>
-    /// It provides requests to treat surfaces like toplevel, fullscreen
-    /// or popup windows, move, resize or maximize them, associate
-    /// metadata like title and class, etc.
-    /// <br/>
-    /// <br/>
-    /// On the server side the object is automatically destroyed when
-    /// the related wl_surface is destroyed. On the client side,
-    /// wl_shell_surface_destroy() must be called before destroying
-    /// the wl_surface object.
+    /// An interface that may be implemented by a wl_surface, forimplementations that provide a desktop-style user interface.<br/><br/>
+    /// It provides requests to treat surfaces like toplevel, fullscreenor popup windows, move, resize or maximize them, associatemetadata like title and class, etc.<br/><br/>
+    /// On the server side the object is automatically destroyed whenthe related wl_surface is destroyed. On the client side,wl_shell_surface_destroy() must be called before destroyingthe wl_surface object.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlShellSurface : WlProxy
     {
@@ -1999,8 +1780,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// A client must respond to a ping event with a pong request or
-        /// the client may be deemed unresponsive.
+        /// A client must respond to a ping event with a pong request orthe client may be deemed unresponsive.<br/><br/>
         /// </summary>
         public void Pong(uint @serial)
         {
@@ -2011,12 +1791,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Start a pointer-driven move of the surface.
-        /// <br/>
-        /// <br/>
-        /// This request must be used in response to a button press event.
-        /// The server may ignore move requests depending on the state of
-        /// the surface (e.g. fullscreen or maximized).
+        /// Start a pointer-driven move of the surface.<br/><br/>
+        /// This request must be used in response to a button press event.The server may ignore move requests depending on the state ofthe surface (e.g. fullscreen or maximized).<br/><br/>
         /// </summary>
         public void Move(NWayland.Protocols.Wayland.WlSeat @seat, uint @serial)
         {
@@ -2030,12 +1806,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Start a pointer-driven resizing of the surface.
-        /// <br/>
-        /// <br/>
-        /// This request must be used in response to a button press event.
-        /// The server may ignore resize requests depending on the state of
-        /// the surface (e.g. fullscreen or maximized).
+        /// Start a pointer-driven resizing of the surface.<br/><br/>
+        /// This request must be used in response to a button press event.The server may ignore resize requests depending on the state ofthe surface (e.g. fullscreen or maximized).<br/><br/>
         /// </summary>
         public void Resize(NWayland.Protocols.Wayland.WlSeat @seat, uint @serial, ResizeEnum @edges)
         {
@@ -2050,10 +1822,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Map the surface as a toplevel surface.
-        /// <br/>
-        /// <br/>
-        /// A toplevel surface is not fullscreen, maximized or transient.
+        /// Map the surface as a toplevel surface.<br/><br/>
+        /// A toplevel surface is not fullscreen, maximized or transient.<br/><br/>
         /// </summary>
         public void SetToplevel()
         {
@@ -2063,15 +1833,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Map the surface relative to an existing surface.
-        /// <br/>
-        /// <br/>
-        /// The x and y arguments specify the location of the upper left
-        /// corner of the surface relative to the upper left corner of the
-        /// parent surface, in surface-local coordinates.
-        /// <br/>
-        /// <br/>
-        /// The flags argument controls details of the transient behaviour.
+        /// Map the surface relative to an existing surface.<br/><br/>
+        /// The x and y arguments specify the location of the upper leftcorner of the surface relative to the upper left corner of theparent surface, in surface-local coordinates.<br/><br/>
+        /// The flags argument controls details of the transient behaviour.<br/><br/>
         /// </summary>
         public void SetTransient(NWayland.Protocols.Wayland.WlSurface @parent, int @x, int @y, TransientEnum @flags)
         {
@@ -2087,45 +1851,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Map the surface as a fullscreen surface.
-        /// <br/>
-        /// <br/>
-        /// If an output parameter is given then the surface will be made
-        /// fullscreen on that output. If the client does not specify the
-        /// output then the compositor will apply its policy - usually
-        /// choosing the output on which the surface has the biggest surface
-        /// area.
-        /// <br/>
-        /// <br/>
-        /// The client may specify a method to resolve a size conflict
-        /// between the output size and the surface size - this is provided
-        /// through the method parameter.
-        /// <br/>
-        /// <br/>
-        /// The framerate parameter is used only when the method is set
-        /// to "driver", to indicate the preferred framerate. A value of 0
-        /// indicates that the client does not care about framerate.  The
-        /// framerate is specified in mHz, that is framerate of 60000 is 60Hz.
-        /// <br/>
-        /// <br/>
-        /// A method of "scale" or "driver" implies a scaling operation of
-        /// the surface, either via a direct scaling operation or a change of
-        /// the output mode. This will override any kind of output scaling, so
-        /// that mapping a surface with a buffer size equal to the mode can
-        /// fill the screen independent of buffer_scale.
-        /// <br/>
-        /// <br/>
-        /// A method of "fill" means we don't scale up the buffer, however
-        /// any output scale is applied. This means that you may run into
-        /// an edge case where the application maps a buffer with the same
-        /// size of the output mode but buffer_scale 1 (thus making a
-        /// surface larger than the output). In this case it is allowed to
-        /// downscale the results to fit the screen.
-        /// <br/>
-        /// <br/>
-        /// The compositor must reply to this request with a configure event
-        /// with the dimensions for the output on which the surface will
-        /// be made fullscreen.
+        /// Map the surface as a fullscreen surface.<br/><br/>
+        /// If an output parameter is given then the surface will be madefullscreen on that output. If the client does not specify theoutput then the compositor will apply its policy - usuallychoosing the output on which the surface has the biggest surfacearea.<br/><br/>
+        /// The client may specify a method to resolve a size conflictbetween the output size and the surface size - this is providedthrough the method parameter.<br/><br/>
+        /// The framerate parameter is used only when the method is setto "driver", to indicate the preferred framerate. A value of 0indicates that the client does not care about framerate.  Theframerate is specified in mHz, that is framerate of 60000 is 60Hz.<br/><br/>
+        /// A method of "scale" or "driver" implies a scaling operation ofthe surface, either via a direct scaling operation or a change ofthe output mode. This will override any kind of output scaling, sothat mapping a surface with a buffer size equal to the mode canfill the screen independent of buffer_scale.<br/><br/>
+        /// A method of "fill" means we don't scale up the buffer, howeverany output scale is applied. This means that you may run intoan edge case where the application maps a buffer with the samesize of the output mode but buffer_scale 1 (thus making asurface larger than the output). In this case it is allowed todownscale the results to fit the screen.<br/><br/>
+        /// The compositor must reply to this request with a configure eventwith the dimensions for the output on which the surface willbe made fullscreen.<br/><br/>
         /// </summary>
         public void SetFullscreen(FullscreenMethodEnum @method, uint @framerate, NWayland.Protocols.Wayland.WlOutput? @output)
         {
@@ -2138,29 +1870,11 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Map the surface as a popup.
-        /// <br/>
-        /// <br/>
-        /// A popup surface is a transient surface with an added pointer
-        /// grab.
-        /// <br/>
-        /// <br/>
-        /// An existing implicit grab will be changed to owner-events mode,
-        /// and the popup grab will continue after the implicit grab ends
-        /// (i.e. releasing the mouse button does not cause the popup to
-        /// be unmapped).
-        /// <br/>
-        /// <br/>
-        /// The popup grab continues until the window is destroyed or a
-        /// mouse button is pressed in any other client's window. A click
-        /// in any of the client's surfaces is reported as normal, however,
-        /// clicks in other clients' surfaces will be discarded and trigger
-        /// the callback.
-        /// <br/>
-        /// <br/>
-        /// The x and y arguments specify the location of the upper left
-        /// corner of the surface relative to the upper left corner of the
-        /// parent surface, in surface-local coordinates.
+        /// Map the surface as a popup.<br/><br/>
+        /// A popup surface is a transient surface with an added pointergrab.<br/><br/>
+        /// An existing implicit grab will be changed to owner-events mode,and the popup grab will continue after the implicit grab ends(i.e. releasing the mouse button does not cause the popup tobe unmapped).<br/><br/>
+        /// The popup grab continues until the window is destroyed or amouse button is pressed in any other client's window. A clickin any of the client's surfaces is reported as normal, however,clicks in other clients' surfaces will be discarded and triggerthe callback.<br/><br/>
+        /// The x and y arguments specify the location of the upper leftcorner of the surface relative to the upper left corner of theparent surface, in surface-local coordinates.<br/><br/>
         /// </summary>
         public void SetPopup(NWayland.Protocols.Wayland.WlSeat @seat, uint @serial, NWayland.Protocols.Wayland.WlSurface @parent, int @x, int @y, TransientEnum @flags)
         {
@@ -2180,28 +1894,11 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Map the surface as a maximized surface.
-        /// <br/>
-        /// <br/>
-        /// If an output parameter is given then the surface will be
-        /// maximized on that output. If the client does not specify the
-        /// output then the compositor will apply its policy - usually
-        /// choosing the output on which the surface has the biggest surface
-        /// area.
-        /// <br/>
-        /// <br/>
-        /// The compositor will reply with a configure event telling
-        /// the expected new surface size. The operation is completed
-        /// on the next buffer attach to this surface.
-        /// <br/>
-        /// <br/>
-        /// A maximized surface typically fills the entire output it is
-        /// bound to, except for desktop elements such as panels. This is
-        /// the main difference between a maximized shell surface and a
-        /// fullscreen shell surface.
-        /// <br/>
-        /// <br/>
-        /// The details depend on the compositor implementation.
+        /// Map the surface as a maximized surface.<br/><br/>
+        /// If an output parameter is given then the surface will bemaximized on that output. If the client does not specify theoutput then the compositor will apply its policy - usuallychoosing the output on which the surface has the biggest surfacearea.<br/><br/>
+        /// The compositor will reply with a configure event tellingthe expected new surface size. The operation is completedon the next buffer attach to this surface.<br/><br/>
+        /// A maximized surface typically fills the entire output it isbound to, except for desktop elements such as panels. This isthe main difference between a maximized shell surface and afullscreen shell surface.<br/><br/>
+        /// The details depend on the compositor implementation.<br/><br/>
         /// </summary>
         public void SetMaximized(NWayland.Protocols.Wayland.WlOutput? @output)
         {
@@ -2212,15 +1909,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Set a short title for the surface.
-        /// <br/>
-        /// <br/>
-        /// This string may be used to identify the surface in a task bar,
-        /// window list, or other user interface elements provided by the
-        /// compositor.
-        /// <br/>
-        /// <br/>
-        /// The string must be encoded in UTF-8.
+        /// Set a short title for the surface.<br/><br/>
+        /// This string may be used to identify the surface in a task bar,window list, or other user interface elements provided by thecompositor.<br/><br/>
+        /// The string must be encoded in UTF-8.<br/><br/>
         /// </summary>
         public void SetTitle(string @title)
         {
@@ -2234,13 +1925,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Set a class for the surface.
-        /// <br/>
-        /// <br/>
-        /// The surface class identifies the general class of applications
-        /// to which the surface belongs. A common convention is to use the
-        /// file name (or the full path if it is a non-standard location) of
-        /// the application's .desktop file as the class.
+        /// Set a class for the surface.<br/><br/>
+        /// The surface class identifies the general class of applicationsto which the surface belongs. A common convention is to use thefile name (or the full path if it is a non-standard location) ofthe application's .desktop file as the class.<br/><br/>
         /// </summary>
         public void SetClass(string @class)
         {
@@ -2256,40 +1942,21 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Ping a client to check if it is receiving events and sending
-            /// requests. A client is expected to reply with a pong request.
+            /// Ping a client to check if it is receiving events and sendingrequests. A client is expected to reply with a pong request.<br/><br/>
             /// </summary>
             void OnPing(NWayland.Protocols.Wayland.WlShellSurface eventSender, uint @serial);
 
             /// <summary>
-            /// The configure event asks the client to resize its surface.
-            /// <br/>
-            /// <br/>
-            /// The size is a hint, in the sense that the client is free to
-            /// ignore it if it doesn't resize, pick a smaller size (to
-            /// satisfy aspect ratio or resize in steps of NxM pixels).
-            /// <br/>
-            /// <br/>
-            /// The edges parameter provides a hint about how the surface
-            /// was resized. The client may use this information to decide
-            /// how to adjust its content to the new size (e.g. a scrolling
-            /// area might adjust its content position to leave the viewable
-            /// content unmoved).
-            /// <br/>
-            /// <br/>
-            /// The client is free to dismiss all but the last configure
-            /// event it received.
-            /// <br/>
-            /// <br/>
-            /// The width and height arguments specify the size of the window
-            /// in surface-local coordinates.
+            /// The configure event asks the client to resize its surface.<br/><br/>
+            /// The size is a hint, in the sense that the client is free toignore it if it doesn't resize, pick a smaller size (tosatisfy aspect ratio or resize in steps of NxM pixels).<br/><br/>
+            /// The edges parameter provides a hint about how the surfacewas resized. The client may use this information to decidehow to adjust its content to the new size (e.g. a scrollingarea might adjust its content position to leave the viewablecontent unmoved).<br/><br/>
+            /// The client is free to dismiss all but the last configureevent it received.<br/><br/>
+            /// The width and height arguments specify the size of the windowin surface-local coordinates.<br/><br/>
             /// </summary>
             void OnConfigure(NWayland.Protocols.Wayland.WlShellSurface eventSender, ResizeEnum @edges, int @width, int @height);
 
             /// <summary>
-            /// The popup_done event is sent out when a popup grab is broken,
-            /// that is, when the user clicks a surface that doesn't belong
-            /// to the client owning the popup surface.
+            /// The popup_done event is sent out when a popup grab is broken,that is, when the user clicks a surface that doesn't belongto the client owning the popup surface.<br/><br/>
             /// </summary>
             void OnPopupDone(NWayland.Protocols.Wayland.WlShellSurface eventSender);
         }
@@ -2313,59 +1980,81 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// These values are used to indicate which edge of a surface
-        /// is being dragged in a resize operation. The server may
-        /// use this information to adapt its behavior, e.g. choose
-        /// an appropriate cursor image.
+        /// These values are used to indicate which edge of a surfaceis being dragged in a resize operation. The server mayuse this information to adapt its behavior, e.g. choosean appropriate cursor image.<br/><br/>
         /// </summary>
         [Flags]
         public enum ResizeEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// no edge<br/><br/>
+            /// </summary>
             None = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// top edge<br/><br/>
+            /// </summary>
             Top = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// bottom edge<br/><br/>
+            /// </summary>
             Bottom = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// left edge<br/><br/>
+            /// </summary>
             Left = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// top and left edges<br/><br/>
+            /// </summary>
             TopLeft = 5,
-            /// <summary></summary>
+            /// <summary>
+            /// bottom and left edges<br/><br/>
+            /// </summary>
             BottomLeft = 6,
-            /// <summary></summary>
+            /// <summary>
+            /// right edge<br/><br/>
+            /// </summary>
             Right = 8,
-            /// <summary></summary>
+            /// <summary>
+            /// top and right edges<br/><br/>
+            /// </summary>
             TopRight = 9,
-            /// <summary></summary>
+            /// <summary>
+            /// bottom and right edges<br/><br/>
+            /// </summary>
             BottomRight = 10
         }
 
         /// <summary>
-        /// These flags specify details of the expected behaviour
-        /// of transient surfaces. Used in the set_transient request.
+        /// These flags specify details of the expected behaviourof transient surfaces. Used in the set_transient request.<br/><br/>
         /// </summary>
         [Flags]
         public enum TransientEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// do not set keyboard focus<br/><br/>
+            /// </summary>
             Inactive = 0x1
         }
 
         /// <summary>
-        /// Hints to indicate to the compositor how to deal with a conflict
-        /// between the dimensions of the surface and the dimensions of the
-        /// output. The compositor is free to ignore this parameter.
+        /// Hints to indicate to the compositor how to deal with a conflictbetween the dimensions of the surface and the dimensions of theoutput. The compositor is free to ignore this parameter.<br/><br/>
         /// </summary>
         public enum FullscreenMethodEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// no preference, apply default policy<br/><br/>
+            /// </summary>
             Default = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// scale, preserve the surface's aspect ratio and center on output<br/><br/>
+            /// </summary>
             Scale = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// switch output mode to the smallest mode that can fit the surface, add black borders to compensate size mismatch<br/><br/>
+            /// </summary>
             Driver = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// no upscaling, center on output and add black borders to compensate size mismatch<br/><br/>
+            /// </summary>
             Fill = 3
         }
 
@@ -2393,52 +2082,12 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// A surface is a rectangular area that may be displayed on zero
-    /// or more outputs, and shown any number of times at the compositor's
-    /// discretion. They can present wl_buffers, receive user input, and
-    /// define a local coordinate system.
-    /// <br/>
-    /// <br/>
-    /// The size of a surface (and relative positions on it) is described
-    /// in surface-local coordinates, which may differ from the buffer
-    /// coordinates of the pixel content, in case a buffer_transform
-    /// or a buffer_scale is used.
-    /// <br/>
-    /// <br/>
-    /// A surface without a "role" is fairly useless: a compositor does
-    /// not know where, when or how to present it. The role is the
-    /// purpose of a wl_surface. Examples of roles are a cursor for a
-    /// pointer (as set by wl_pointer.set_cursor), a drag icon
-    /// (wl_data_device.start_drag), a sub-surface
-    /// (wl_subcompositor.get_subsurface), and a window as defined by a
-    /// shell protocol (e.g. wl_shell.get_shell_surface).
-    /// <br/>
-    /// <br/>
-    /// A surface can have only one role at a time. Initially a
-    /// wl_surface does not have a role. Once a wl_surface is given a
-    /// role, it is set permanently for the whole lifetime of the
-    /// wl_surface object. Giving the current role again is allowed,
-    /// unless explicitly forbidden by the relevant interface
-    /// specification.
-    /// <br/>
-    /// <br/>
-    /// Surface roles are given by requests in other interfaces such as
-    /// wl_pointer.set_cursor. The request should explicitly mention
-    /// that this request gives a role to a wl_surface. Often, this
-    /// request also creates a new protocol object that represents the
-    /// role and adds additional functionality to wl_surface. When a
-    /// client wants to destroy a wl_surface, they must destroy this 'role
-    /// object' before the wl_surface.
-    /// <br/>
-    /// <br/>
-    /// Destroying the role object does not remove the role from the
-    /// wl_surface, but it may stop the wl_surface from "playing the role".
-    /// For instance, if a wl_subsurface object is destroyed, the wl_surface
-    /// it was created for will be unmapped and forget its position and
-    /// z-order. It is allowed to create a wl_subsurface for the same
-    /// wl_surface again, but it is not allowed to use the wl_surface as
-    /// a cursor (cursor is a different role than sub-surface, and role
-    /// switching is not allowed).
+    /// A surface is a rectangular area that may be displayed on zeroor more outputs, and shown any number of times at the compositor'sdiscretion. They can present wl_buffers, receive user input, anddefine a local coordinate system.<br/><br/>
+    /// The size of a surface (and relative positions on it) is describedin surface-local coordinates, which may differ from the buffercoordinates of the pixel content, in case a buffer_transformor a buffer_scale is used.<br/><br/>
+    /// A surface without a "role" is fairly useless: a compositor doesnot know where, when or how to present it. The role is thepurpose of a wl_surface. Examples of roles are a cursor for apointer (as set by wl_pointer.set_cursor), a drag icon(wl_data_device.start_drag), a sub-surface(wl_subcompositor.get_subsurface), and a window as defined by ashell protocol (e.g. wl_shell.get_shell_surface).<br/><br/>
+    /// A surface can have only one role at a time. Initially awl_surface does not have a role. Once a wl_surface is given arole, it is set permanently for the whole lifetime of thewl_surface object. Giving the current role again is allowed,unless explicitly forbidden by the relevant interfacespecification.<br/><br/>
+    /// Surface roles are given by requests in other interfaces such aswl_pointer.set_cursor. The request should explicitly mentionthat this request gives a role to a wl_surface. Often, thisrequest also creates a new protocol object that represents therole and adds additional functionality to wl_surface. When aclient wants to destroy a wl_surface, they must destroy this 'roleobject' before the wl_surface.<br/><br/>
+    /// Destroying the role object does not remove the role from thewl_surface, but it may stop the wl_surface from "playing the role".For instance, if a wl_subsurface object is destroyed, the wl_surfaceit was created for will be unmapped and forget its position andz-order. It is allowed to create a wl_subsurface for the samewl_surface again, but it is not allowed to use the wl_surface asa cursor (cursor is a different role than sub-surface, and roleswitching is not allowed).<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlSurface : WlProxy
     {
@@ -2479,71 +2128,16 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Set a buffer as the content of this surface.
-        /// <br/>
-        /// <br/>
-        /// The new size of the surface is calculated based on the buffer
-        /// size transformed by the inverse buffer_transform and the
-        /// inverse buffer_scale. This means that at commit time the supplied
-        /// buffer size must be an integer multiple of the buffer_scale. If
-        /// that's not the case, an invalid_size error is sent.
-        /// <br/>
-        /// <br/>
-        /// The x and y arguments specify the location of the new pending
-        /// buffer's upper left corner, relative to the current buffer's upper
-        /// left corner, in surface-local coordinates. In other words, the
-        /// x and y, combined with the new surface size define in which
-        /// directions the surface's size changes. Setting anything other than 0
-        /// as x and y arguments is discouraged, and should instead be replaced
-        /// with using the separate wl_surface.offset request.
-        /// <br/>
-        /// <br/>
-        /// When the bound wl_surface version is 5 or higher, passing any
-        /// non-zero x or y is a protocol violation, and will result in an
-        /// 'invalid_offset' error being raised. To achieve equivalent semantics,
-        /// use wl_surface.offset.
-        /// <br/>
-        /// <br/>
-        /// Surface contents are double-buffered state, see wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// The initial surface contents are void; there is no content.
-        /// wl_surface.attach assigns the given wl_buffer as the pending
-        /// wl_buffer. wl_surface.commit makes the pending wl_buffer the new
-        /// surface contents, and the size of the surface becomes the size
-        /// calculated from the wl_buffer, as described above. After commit,
-        /// there is no pending buffer until the next attach.
-        /// <br/>
-        /// <br/>
-        /// Committing a pending wl_buffer allows the compositor to read the
-        /// pixels in the wl_buffer. The compositor may access the pixels at
-        /// any time after the wl_surface.commit request. When the compositor
-        /// will not access the pixels anymore, it will send the
-        /// wl_buffer.release event. Only after receiving wl_buffer.release,
-        /// the client may reuse the wl_buffer. A wl_buffer that has been
-        /// attached and then replaced by another attach instead of committed
-        /// will not receive a release event, and is not used by the
-        /// compositor.
-        /// <br/>
-        /// <br/>
-        /// If a pending wl_buffer has been committed to more than one wl_surface,
-        /// the delivery of wl_buffer.release events becomes undefined. A well
-        /// behaved client should not rely on wl_buffer.release events in this
-        /// case. Alternatively, a client could create multiple wl_buffer objects
-        /// from the same backing storage or use wp_linux_buffer_release.
-        /// <br/>
-        /// <br/>
-        /// Destroying the wl_buffer after wl_buffer.release does not change
-        /// the surface contents. Destroying the wl_buffer before wl_buffer.release
-        /// is allowed as long as the underlying buffer storage isn't re-used (this
-        /// can happen e.g. on client process termination). However, if the client
-        /// destroys the wl_buffer before receiving the wl_buffer.release event and
-        /// mutates the underlying buffer storage, the surface contents become
-        /// undefined immediately.
-        /// <br/>
-        /// <br/>
-        /// If wl_surface.attach is sent with a NULL wl_buffer, the
-        /// following wl_surface.commit will remove the surface content.
+        /// Set a buffer as the content of this surface.<br/><br/>
+        /// The new size of the surface is calculated based on the buffersize transformed by the inverse buffer_transform and theinverse buffer_scale. This means that at commit time the suppliedbuffer size must be an integer multiple of the buffer_scale. Ifthat's not the case, an invalid_size error is sent.<br/><br/>
+        /// The x and y arguments specify the location of the new pendingbuffer's upper left corner, relative to the current buffer's upperleft corner, in surface-local coordinates. In other words, thex and y, combined with the new surface size define in whichdirections the surface's size changes. Setting anything other than 0as x and y arguments is discouraged, and should instead be replacedwith using the separate wl_surface.offset request.<br/><br/>
+        /// When the bound wl_surface version is 5 or higher, passing anynon-zero x or y is a protocol violation, and will result in an'invalid_offset' error being raised. To achieve equivalent semantics,use wl_surface.offset.<br/><br/>
+        /// Surface contents are double-buffered state, see wl_surface.commit.<br/><br/>
+        /// The initial surface contents are void; there is no content.wl_surface.attach assigns the given wl_buffer as the pendingwl_buffer. wl_surface.commit makes the pending wl_buffer the newsurface contents, and the size of the surface becomes the sizecalculated from the wl_buffer, as described above. After commit,there is no pending buffer until the next attach.<br/><br/>
+        /// Committing a pending wl_buffer allows the compositor to read thepixels in the wl_buffer. The compositor may access the pixels atany time after the wl_surface.commit request. When the compositorwill not access the pixels anymore, it will send thewl_buffer.release event. Only after receiving wl_buffer.release,the client may reuse the wl_buffer. A wl_buffer that has beenattached and then replaced by another attach instead of committedwill not receive a release event, and is not used by thecompositor.<br/><br/>
+        /// If a pending wl_buffer has been committed to more than one wl_surface,the delivery of wl_buffer.release events becomes undefined. A wellbehaved client should not rely on wl_buffer.release events in thiscase. Alternatively, a client could create multiple wl_buffer objectsfrom the same backing storage or use wp_linux_buffer_release.<br/><br/>
+        /// Destroying the wl_buffer after wl_buffer.release does not changethe surface contents. Destroying the wl_buffer before wl_buffer.releaseis allowed as long as the underlying buffer storage isn't re-used (thiscan happen e.g. on client process termination). However, if the clientdestroys the wl_buffer before receiving the wl_buffer.release event andmutates the underlying buffer storage, the surface contents becomeundefined immediately.<br/><br/>
+        /// If wl_surface.attach is sent with a NULL wl_buffer, thefollowing wl_surface.commit will remove the surface content.<br/><br/>
         /// </summary>
         public void Attach(NWayland.Protocols.Wayland.WlBuffer? @buffer, int @x, int @y)
         {
@@ -2556,32 +2150,12 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request is used to describe the regions where the pending
-        /// buffer is different from the current surface contents, and where
-        /// the surface therefore needs to be repainted. The compositor
-        /// ignores the parts of the damage that fall outside of the surface.
-        /// <br/>
-        /// <br/>
-        /// Damage is double-buffered state, see wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// The damage rectangle is specified in surface-local coordinates,
-        /// where x and y specify the upper left corner of the damage rectangle.
-        /// <br/>
-        /// <br/>
-        /// The initial value for pending damage is empty: no damage.
-        /// wl_surface.damage adds pending damage: the new pending damage
-        /// is the union of old pending damage and the given rectangle.
-        /// <br/>
-        /// <br/>
-        /// wl_surface.commit assigns pending damage as the current damage,
-        /// and clears pending damage. The server will clear the current
-        /// damage as it repaints the surface.
-        /// <br/>
-        /// <br/>
-        /// Note! New clients should not use this request. Instead damage can be
-        /// posted with wl_surface.damage_buffer which uses buffer coordinates
-        /// instead of surface coordinates.
+        /// This request is used to describe the regions where the pendingbuffer is different from the current surface contents, and wherethe surface therefore needs to be repainted. The compositorignores the parts of the damage that fall outside of the surface.<br/><br/>
+        /// Damage is double-buffered state, see wl_surface.commit.<br/><br/>
+        /// The damage rectangle is specified in surface-local coordinates,where x and y specify the upper left corner of the damage rectangle.<br/><br/>
+        /// The initial value for pending damage is empty: no damage.wl_surface.damage adds pending damage: the new pending damageis the union of old pending damage and the given rectangle.<br/><br/>
+        /// wl_surface.commit assigns pending damage as the current damage,and clears pending damage. The server will clear the currentdamage as it repaints the surface.<br/><br/>
+        /// Note! New clients should not use this request. Instead damage can beposted with wl_surface.damage_buffer which uses buffer coordinatesinstead of surface coordinates.<br/><br/>
         /// </summary>
         public void Damage(int @x, int @y, int @width, int @height)
         {
@@ -2595,44 +2169,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Request a notification when it is a good time to start drawing a new
-        /// frame, by creating a frame callback. This is useful for throttling
-        /// redrawing operations, and driving animations.
-        /// <br/>
-        /// <br/>
-        /// When a client is animating on a wl_surface, it can use the 'frame'
-        /// request to get notified when it is a good time to draw and commit the
-        /// next frame of animation. If the client commits an update earlier than
-        /// that, it is likely that some updates will not make it to the display,
-        /// and the client is wasting resources by drawing too often.
-        /// <br/>
-        /// <br/>
-        /// The frame request will take effect on the next wl_surface.commit.
-        /// The notification will only be posted for one frame unless
-        /// requested again. For a wl_surface, the notifications are posted in
-        /// the order the frame requests were committed.
-        /// <br/>
-        /// <br/>
-        /// The server must send the notifications so that a client
-        /// will not send excessive updates, while still allowing
-        /// the highest possible update rate for clients that wait for the reply
-        /// before drawing again. The server should give some time for the client
-        /// to draw and commit after sending the frame callback events to let it
-        /// hit the next output refresh.
-        /// <br/>
-        /// <br/>
-        /// A server should avoid signaling the frame callbacks if the
-        /// surface is not visible in any way, e.g. the surface is off-screen,
-        /// or completely obscured by other opaque surfaces.
-        /// <br/>
-        /// <br/>
-        /// The object returned by this request will be destroyed by the
-        /// compositor after the callback is fired and as such the client must not
-        /// attempt to use it after that point.
-        /// <br/>
-        /// <br/>
-        /// The callback_data passed in the callback is the current time, in
-        /// milliseconds, with an undefined base.
+        /// Request a notification when it is a good time to start drawing a newframe, by creating a frame callback. This is useful for throttlingredrawing operations, and driving animations.<br/><br/>
+        /// When a client is animating on a wl_surface, it can use the 'frame'request to get notified when it is a good time to draw and commit thenext frame of animation. If the client commits an update earlier thanthat, it is likely that some updates will not make it to the display,and the client is wasting resources by drawing too often.<br/><br/>
+        /// The frame request will take effect on the next wl_surface.commit.The notification will only be posted for one frame unlessrequested again. For a wl_surface, the notifications are posted inthe order the frame requests were committed.<br/><br/>
+        /// The server must send the notifications so that a clientwill not send excessive updates, while still allowingthe highest possible update rate for clients that wait for the replybefore drawing again. The server should give some time for the clientto draw and commit after sending the frame callback events to let ithit the next output refresh.<br/><br/>
+        /// A server should avoid signaling the frame callbacks if thesurface is not visible in any way, e.g. the surface is off-screen,or completely obscured by other opaque surfaces.<br/><br/>
+        /// The object returned by this request will be destroyed by thecompositor after the callback is fired and as such the client must notattempt to use it after that point.<br/><br/>
+        /// The callback_data passed in the callback is the current time, inmilliseconds, with an undefined base.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlCallback Frame()
         {
@@ -2644,36 +2187,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request sets the region of the surface that contains
-        /// opaque content.
-        /// <br/>
-        /// <br/>
-        /// The opaque region is an optimization hint for the compositor
-        /// that lets it optimize the redrawing of content behind opaque
-        /// regions.  Setting an opaque region is not required for correct
-        /// behaviour, but marking transparent content as opaque will result
-        /// in repaint artifacts.
-        /// <br/>
-        /// <br/>
-        /// The opaque region is specified in surface-local coordinates.
-        /// <br/>
-        /// <br/>
-        /// The compositor ignores the parts of the opaque region that fall
-        /// outside of the surface.
-        /// <br/>
-        /// <br/>
-        /// Opaque region is double-buffered state, see wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// wl_surface.set_opaque_region changes the pending opaque region.
-        /// wl_surface.commit copies the pending region to the current region.
-        /// Otherwise, the pending and current regions are never changed.
-        /// <br/>
-        /// <br/>
-        /// The initial value for an opaque region is empty. Setting the pending
-        /// opaque region has copy semantics, and the wl_region object can be
-        /// destroyed immediately. A NULL wl_region causes the pending opaque
-        /// region to be set to empty.
+        /// This request sets the region of the surface that containsopaque content.<br/><br/>
+        /// The opaque region is an optimization hint for the compositorthat lets it optimize the redrawing of content behind opaqueregions.  Setting an opaque region is not required for correctbehaviour, but marking transparent content as opaque will resultin repaint artifacts.<br/><br/>
+        /// The opaque region is specified in surface-local coordinates.<br/><br/>
+        /// The compositor ignores the parts of the opaque region that falloutside of the surface.<br/><br/>
+        /// Opaque region is double-buffered state, see wl_surface.commit.<br/><br/>
+        /// wl_surface.set_opaque_region changes the pending opaque region.wl_surface.commit copies the pending region to the current region.Otherwise, the pending and current regions are never changed.<br/><br/>
+        /// The initial value for an opaque region is empty. Setting the pendingopaque region has copy semantics, and the wl_region object can bedestroyed immediately. A NULL wl_region causes the pending opaqueregion to be set to empty.<br/><br/>
         /// </summary>
         public void SetOpaqueRegion(NWayland.Protocols.Wayland.WlRegion? @region)
         {
@@ -2684,33 +2204,12 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request sets the region of the surface that can receive
-        /// pointer and touch events.
-        /// <br/>
-        /// <br/>
-        /// Input events happening outside of this region will try the next
-        /// surface in the server surface stack. The compositor ignores the
-        /// parts of the input region that fall outside of the surface.
-        /// <br/>
-        /// <br/>
-        /// The input region is specified in surface-local coordinates.
-        /// <br/>
-        /// <br/>
-        /// Input region is double-buffered state, see wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// wl_surface.set_input_region changes the pending input region.
-        /// wl_surface.commit copies the pending region to the current region.
-        /// Otherwise the pending and current regions are never changed,
-        /// except cursor and icon surfaces are special cases, see
-        /// wl_pointer.set_cursor and wl_data_device.start_drag.
-        /// <br/>
-        /// <br/>
-        /// The initial value for an input region is infinite. That means the
-        /// whole surface will accept input. Setting the pending input region
-        /// has copy semantics, and the wl_region object can be destroyed
-        /// immediately. A NULL wl_region causes the input region to be set
-        /// to infinite.
+        /// This request sets the region of the surface that can receivepointer and touch events.<br/><br/>
+        /// Input events happening outside of this region will try the nextsurface in the server surface stack. The compositor ignores theparts of the input region that fall outside of the surface.<br/><br/>
+        /// The input region is specified in surface-local coordinates.<br/><br/>
+        /// Input region is double-buffered state, see wl_surface.commit.<br/><br/>
+        /// wl_surface.set_input_region changes the pending input region.wl_surface.commit copies the pending region to the current region.Otherwise the pending and current regions are never changed,except cursor and icon surfaces are special cases, seewl_pointer.set_cursor and wl_data_device.start_drag.<br/><br/>
+        /// The initial value for an input region is infinite. That means thewhole surface will accept input. Setting the pending input regionhas copy semantics, and the wl_region object can be destroyedimmediately. A NULL wl_region causes the input region to be setto infinite.<br/><br/>
         /// </summary>
         public void SetInputRegion(NWayland.Protocols.Wayland.WlRegion? @region)
         {
@@ -2721,26 +2220,10 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Surface state (input, opaque, and damage regions, attached buffers,
-        /// etc.) is double-buffered. Protocol requests modify the pending state,
-        /// as opposed to the current state in use by the compositor. A commit
-        /// request atomically applies all pending state, replacing the current
-        /// state. After commit, the new pending state is as documented for each
-        /// related request.
-        /// <br/>
-        /// <br/>
-        /// On commit, a pending wl_buffer is applied first, and all other state
-        /// second. This means that all coordinates in double-buffered state are
-        /// relative to the new wl_buffer coming into use, except for
-        /// wl_surface.attach itself. If there is no pending wl_buffer, the
-        /// coordinates are relative to the current surface contents.
-        /// <br/>
-        /// <br/>
-        /// All requests that need a commit to become effective are documented
-        /// to affect double-buffered state.
-        /// <br/>
-        /// <br/>
-        /// Other interfaces may add further double-buffered surface state.
+        /// Surface state (input, opaque, and damage regions, attached buffers,etc.) is double-buffered. Protocol requests modify the pending state,as opposed to the current state in use by the compositor. A commitrequest atomically applies all pending state, replacing the currentstate. After commit, the new pending state is as documented for eachrelated request.<br/><br/>
+        /// On commit, a pending wl_buffer is applied first, and all other statesecond. This means that all coordinates in double-buffered state arerelative to the new wl_buffer coming into use, except forwl_surface.attach itself. If there is no pending wl_buffer, thecoordinates are relative to the current surface contents.<br/><br/>
+        /// All requests that need a commit to become effective are documentedto affect double-buffered state.<br/><br/>
+        /// Other interfaces may add further double-buffered surface state.<br/><br/>
         /// </summary>
         public void Commit()
         {
@@ -2750,41 +2233,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request sets an optional transformation on how the compositor
-        /// interprets the contents of the buffer attached to the surface. The
-        /// accepted values for the transform parameter are the values for
-        /// wl_output.transform.
-        /// <br/>
-        /// <br/>
-        /// Buffer transform is double-buffered state, see wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// A newly created surface has its buffer transformation set to normal.
-        /// <br/>
-        /// <br/>
-        /// wl_surface.set_buffer_transform changes the pending buffer
-        /// transformation. wl_surface.commit copies the pending buffer
-        /// transformation to the current one. Otherwise, the pending and current
-        /// values are never changed.
-        /// <br/>
-        /// <br/>
-        /// The purpose of this request is to allow clients to render content
-        /// according to the output transform, thus permitting the compositor to
-        /// use certain optimizations even if the display is rotated. Using
-        /// hardware overlays and scanning out a client buffer for fullscreen
-        /// surfaces are examples of such optimizations. Those optimizations are
-        /// highly dependent on the compositor implementation, so the use of this
-        /// request should be considered on a case-by-case basis.
-        /// <br/>
-        /// <br/>
-        /// Note that if the transform value includes 90 or 270 degree rotation,
-        /// the width of the buffer will become the surface height and the height
-        /// of the buffer will become the surface width.
-        /// <br/>
-        /// <br/>
-        /// If transform is not one of the values from the
-        /// wl_output.transform enum the invalid_transform protocol error
-        /// is raised.
+        /// This request sets an optional transformation on how the compositorinterprets the contents of the buffer attached to the surface. Theaccepted values for the transform parameter are the values forwl_output.transform.<br/><br/>
+        /// Buffer transform is double-buffered state, see wl_surface.commit.<br/><br/>
+        /// A newly created surface has its buffer transformation set to normal.<br/><br/>
+        /// wl_surface.set_buffer_transform changes the pending buffertransformation. wl_surface.commit copies the pending buffertransformation to the current one. Otherwise, the pending and currentvalues are never changed.<br/><br/>
+        /// The purpose of this request is to allow clients to render contentaccording to the output transform, thus permitting the compositor touse certain optimizations even if the display is rotated. Usinghardware overlays and scanning out a client buffer for fullscreensurfaces are examples of such optimizations. Those optimizations arehighly dependent on the compositor implementation, so the use of thisrequest should be considered on a case-by-case basis.<br/><br/>
+        /// Note that if the transform value includes 90 or 270 degree rotation,the width of the buffer will become the surface height and the heightof the buffer will become the surface width.<br/><br/>
+        /// If transform is not one of the values from thewl_output.transform enum the invalid_transform protocol erroris raised.<br/><br/>
         /// </summary>
         public void SetBufferTransform(NWayland.Protocols.Wayland.WlOutput.TransformEnum @transform)
         {
@@ -2797,35 +2252,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request sets an optional scaling factor on how the compositor
-        /// interprets the contents of the buffer attached to the window.
-        /// <br/>
-        /// <br/>
-        /// Buffer scale is double-buffered state, see wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// A newly created surface has its buffer scale set to 1.
-        /// <br/>
-        /// <br/>
-        /// wl_surface.set_buffer_scale changes the pending buffer scale.
-        /// wl_surface.commit copies the pending buffer scale to the current one.
-        /// Otherwise, the pending and current values are never changed.
-        /// <br/>
-        /// <br/>
-        /// The purpose of this request is to allow clients to supply higher
-        /// resolution buffer data for use on high resolution outputs. It is
-        /// intended that you pick the same buffer scale as the scale of the
-        /// output that the surface is displayed on. This means the compositor
-        /// can avoid scaling when rendering the surface on that output.
-        /// <br/>
-        /// <br/>
-        /// Note that if the scale is larger than 1, then you have to attach
-        /// a buffer that is larger (by a factor of scale in each dimension)
-        /// than the desired surface size.
-        /// <br/>
-        /// <br/>
-        /// If scale is not positive the invalid_scale protocol error is
-        /// raised.
+        /// This request sets an optional scaling factor on how the compositorinterprets the contents of the buffer attached to the window.<br/><br/>
+        /// Buffer scale is double-buffered state, see wl_surface.commit.<br/><br/>
+        /// A newly created surface has its buffer scale set to 1.<br/><br/>
+        /// wl_surface.set_buffer_scale changes the pending buffer scale.wl_surface.commit copies the pending buffer scale to the current one.Otherwise, the pending and current values are never changed.<br/><br/>
+        /// The purpose of this request is to allow clients to supply higherresolution buffer data for use on high resolution outputs. It isintended that you pick the same buffer scale as the scale of theoutput that the surface is displayed on. This means the compositorcan avoid scaling when rendering the surface on that output.<br/><br/>
+        /// Note that if the scale is larger than 1, then you have to attacha buffer that is larger (by a factor of scale in each dimension)than the desired surface size.<br/><br/>
+        /// If scale is not positive the invalid_scale protocol error israised.<br/><br/>
         /// </summary>
         public void SetBufferScale(int @scale)
         {
@@ -2838,44 +2271,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This request is used to describe the regions where the pending
-        /// buffer is different from the current surface contents, and where
-        /// the surface therefore needs to be repainted. The compositor
-        /// ignores the parts of the damage that fall outside of the surface.
-        /// <br/>
-        /// <br/>
-        /// Damage is double-buffered state, see wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// The damage rectangle is specified in buffer coordinates,
-        /// where x and y specify the upper left corner of the damage rectangle.
-        /// <br/>
-        /// <br/>
-        /// The initial value for pending damage is empty: no damage.
-        /// wl_surface.damage_buffer adds pending damage: the new pending
-        /// damage is the union of old pending damage and the given rectangle.
-        /// <br/>
-        /// <br/>
-        /// wl_surface.commit assigns pending damage as the current damage,
-        /// and clears pending damage. The server will clear the current
-        /// damage as it repaints the surface.
-        /// <br/>
-        /// <br/>
-        /// This request differs from wl_surface.damage in only one way - it
-        /// takes damage in buffer coordinates instead of surface-local
-        /// coordinates. While this generally is more intuitive than surface
-        /// coordinates, it is especially desirable when using wp_viewport
-        /// or when a drawing library (like EGL) is unaware of buffer scale
-        /// and buffer transform.
-        /// <br/>
-        /// <br/>
-        /// Note: Because buffer transformation changes and damage requests may
-        /// be interleaved in the protocol stream, it is impossible to determine
-        /// the actual mapping between surface and buffer damage until
-        /// wl_surface.commit time. Therefore, compositors wishing to take both
-        /// kinds of damage into account will have to accumulate damage from the
-        /// two requests separately and only transform from one to the other
-        /// after receiving the wl_surface.commit.
+        /// This request is used to describe the regions where the pendingbuffer is different from the current surface contents, and wherethe surface therefore needs to be repainted. The compositorignores the parts of the damage that fall outside of the surface.<br/><br/>
+        /// Damage is double-buffered state, see wl_surface.commit.<br/><br/>
+        /// The damage rectangle is specified in buffer coordinates,where x and y specify the upper left corner of the damage rectangle.<br/><br/>
+        /// The initial value for pending damage is empty: no damage.wl_surface.damage_buffer adds pending damage: the new pendingdamage is the union of old pending damage and the given rectangle.<br/><br/>
+        /// wl_surface.commit assigns pending damage as the current damage,and clears pending damage. The server will clear the currentdamage as it repaints the surface.<br/><br/>
+        /// This request differs from wl_surface.damage in only one way - ittakes damage in buffer coordinates instead of surface-localcoordinates. While this generally is more intuitive than surfacecoordinates, it is especially desirable when using wp_viewportor when a drawing library (like EGL) is unaware of buffer scaleand buffer transform.<br/><br/>
+        /// Note: Because buffer transformation changes and damage requests maybe interleaved in the protocol stream, it is impossible to determinethe actual mapping between surface and buffer damage untilwl_surface.commit time. Therefore, compositors wishing to take bothkinds of damage into account will have to accumulate damage from thetwo requests separately and only transform from one to the otherafter receiving the wl_surface.commit.<br/><br/>
         /// </summary>
         public void DamageBuffer(int @x, int @y, int @width, int @height)
         {
@@ -2891,20 +2293,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// The x and y arguments specify the location of the new pending
-        /// buffer's upper left corner, relative to the current buffer's upper
-        /// left corner, in surface-local coordinates. In other words, the
-        /// x and y, combined with the new surface size define in which
-        /// directions the surface's size changes.
-        /// <br/>
-        /// <br/>
-        /// Surface location offset is double-buffered state, see
-        /// wl_surface.commit.
-        /// <br/>
-        /// <br/>
-        /// This request is semantically equivalent to and the replaces the x and y
-        /// arguments in the wl_surface.attach request in wl_surface versions prior
-        /// to 5. See wl_surface.attach for details.
+        /// The x and y arguments specify the location of the new pendingbuffer's upper left corner, relative to the current buffer's upperleft corner, in surface-local coordinates. In other words, thex and y, combined with the new surface size define in whichdirections the surface's size changes.<br/><br/>
+        /// Surface location offset is double-buffered state, seewl_surface.commit.<br/><br/>
+        /// This request is semantically equivalent to and the replaces the x and yarguments in the wl_surface.attach request in wl_surface versions priorto 5. See wl_surface.attach for details.<br/><br/>
         /// </summary>
         public void Offset(int @x, int @y)
         {
@@ -2920,26 +2311,14 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// This is emitted whenever a surface's creation, movement, or resizing
-            /// results in some part of it being within the scanout region of an
-            /// output.
-            /// <br/>
-            /// <br/>
-            /// Note that a surface may be overlapping with zero or more outputs.
+            /// This is emitted whenever a surface's creation, movement, or resizingresults in some part of it being within the scanout region of anoutput.<br/><br/>
+            /// Note that a surface may be overlapping with zero or more outputs.<br/><br/>
             /// </summary>
             void OnEnter(NWayland.Protocols.Wayland.WlSurface eventSender, NWayland.Protocols.Wayland.WlOutput @output);
 
             /// <summary>
-            /// This is emitted whenever a surface's creation, movement, or resizing
-            /// results in it no longer having any part of it within the scanout region
-            /// of an output.
-            /// <br/>
-            /// <br/>
-            /// Clients should not use the number of outputs the surface is on for frame
-            /// throttling purposes. The surface might be hidden even if no leave event
-            /// has been sent, and the compositor might expect new surface content
-            /// updates even if no enter event has been sent. The frame event should be
-            /// used instead.
+            /// This is emitted whenever a surface's creation, movement, or resizingresults in it no longer having any part of it within the scanout regionof an output.<br/><br/>
+            /// Clients should not use the number of outputs the surface is on for framethrottling purposes. The surface might be hidden even if no leave eventhas been sent, and the compositor might expect new surface contentupdates even if no enter event has been sent. The frame event should beused instead.<br/><br/>
             /// </summary>
             void OnLeave(NWayland.Protocols.Wayland.WlSurface eventSender, NWayland.Protocols.Wayland.WlOutput @output);
         }
@@ -2960,17 +2339,25 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// These errors can be emitted in response to wl_surface requests.
+        /// These errors can be emitted in response to wl_surface requests.<br/><br/>
         /// </summary>
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// buffer scale value is invalid<br/><br/>
+            /// </summary>
             InvalidScale = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// buffer transform value is invalid<br/><br/>
+            /// </summary>
             InvalidTransform = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// buffer size is invalid<br/><br/>
+            /// </summary>
             InvalidSize = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// buffer offset is invalid<br/><br/>
+            /// </summary>
             InvalidOffset = 3
         }
 
@@ -2998,10 +2385,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// A seat is a group of keyboards, pointer and touch devices. This
-    /// object is published as a global during start up, or when such a
-    /// device is hot plugged.  A seat typically has a pointer and
-    /// maintains a keyboard focus and a pointer focus.
+    /// A seat is a group of keyboards, pointer and touch devices. Thisobject is published as a global during start up, or when such adevice is hot plugged.  A seat typically has a pointer andmaintains a keyboard focus and a pointer focus.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlSeat : WlProxy
     {
@@ -3027,15 +2411,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// The ID provided will be initialized to the wl_pointer interface
-        /// for this seat.
-        /// <br/>
-        /// <br/>
-        /// This request only takes effect if the seat has the pointer
-        /// capability, or has had the pointer capability in the past.
-        /// It is a protocol violation to issue this request on a seat that has
-        /// never had the pointer capability. The missing_capability error will
-        /// be sent in this case.
+        /// The ID provided will be initialized to the wl_pointer interfacefor this seat.<br/><br/>
+        /// This request only takes effect if the seat has the pointercapability, or has had the pointer capability in the past.It is a protocol violation to issue this request on a seat that hasnever had the pointer capability. The missing_capability error willbe sent in this case.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlPointer GetPointer()
         {
@@ -3047,15 +2424,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// The ID provided will be initialized to the wl_keyboard interface
-        /// for this seat.
-        /// <br/>
-        /// <br/>
-        /// This request only takes effect if the seat has the keyboard
-        /// capability, or has had the keyboard capability in the past.
-        /// It is a protocol violation to issue this request on a seat that has
-        /// never had the keyboard capability. The missing_capability error will
-        /// be sent in this case.
+        /// The ID provided will be initialized to the wl_keyboard interfacefor this seat.<br/><br/>
+        /// This request only takes effect if the seat has the keyboardcapability, or has had the keyboard capability in the past.It is a protocol violation to issue this request on a seat that hasnever had the keyboard capability. The missing_capability error willbe sent in this case.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlKeyboard GetKeyboard()
         {
@@ -3067,15 +2437,8 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// The ID provided will be initialized to the wl_touch interface
-        /// for this seat.
-        /// <br/>
-        /// <br/>
-        /// This request only takes effect if the seat has the touch
-        /// capability, or has had the touch capability in the past.
-        /// It is a protocol violation to issue this request on a seat that has
-        /// never had the touch capability. The missing_capability error will
-        /// be sent in this case.
+        /// The ID provided will be initialized to the wl_touch interfacefor this seat.<br/><br/>
+        /// This request only takes effect if the seat has the touchcapability, or has had the touch capability in the past.It is a protocol violation to issue this request on a seat that hasnever had the touch capability. The missing_capability error willbe sent in this case.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlTouch GetTouch()
         {
@@ -3099,58 +2462,20 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// This is emitted whenever a seat gains or loses the pointer,
-            /// keyboard or touch capabilities.  The argument is a capability
-            /// enum containing the complete set of capabilities this seat has.
-            /// <br/>
-            /// <br/>
-            /// When the pointer capability is added, a client may create a
-            /// wl_pointer object using the wl_seat.get_pointer request. This object
-            /// will receive pointer events until the capability is removed in the
-            /// future.
-            /// <br/>
-            /// <br/>
-            /// When the pointer capability is removed, a client should destroy the
-            /// wl_pointer objects associated with the seat where the capability was
-            /// removed, using the wl_pointer.release request. No further pointer
-            /// events will be received on these objects.
-            /// <br/>
-            /// <br/>
-            /// In some compositors, if a seat regains the pointer capability and a
-            /// client has a previously obtained wl_pointer object of version 4 or
-            /// less, that object may start sending pointer events again. This
-            /// behavior is considered a misinterpretation of the intended behavior
-            /// and must not be relied upon by the client. wl_pointer objects of
-            /// version 5 or later must not send events if created before the most
-            /// recent event notifying the client of an added pointer capability.
-            /// <br/>
-            /// <br/>
-            /// The above behavior also applies to wl_keyboard and wl_touch with the
-            /// keyboard and touch capabilities, respectively.
+            /// This is emitted whenever a seat gains or loses the pointer,keyboard or touch capabilities.  The argument is a capabilityenum containing the complete set of capabilities this seat has.<br/><br/>
+            /// When the pointer capability is added, a client may create awl_pointer object using the wl_seat.get_pointer request. This objectwill receive pointer events until the capability is removed in thefuture.<br/><br/>
+            /// When the pointer capability is removed, a client should destroy thewl_pointer objects associated with the seat where the capability wasremoved, using the wl_pointer.release request. No further pointerevents will be received on these objects.<br/><br/>
+            /// In some compositors, if a seat regains the pointer capability and aclient has a previously obtained wl_pointer object of version 4 orless, that object may start sending pointer events again. Thisbehavior is considered a misinterpretation of the intended behaviorand must not be relied upon by the client. wl_pointer objects ofversion 5 or later must not send events if created before the mostrecent event notifying the client of an added pointer capability.<br/><br/>
+            /// The above behavior also applies to wl_keyboard and wl_touch with thekeyboard and touch capabilities, respectively.<br/><br/>
             /// </summary>
             void OnCapabilities(NWayland.Protocols.Wayland.WlSeat eventSender, CapabilityEnum @capabilities);
 
             /// <summary>
-            /// In a multi-seat configuration the seat name can be used by clients to
-            /// help identify which physical devices the seat represents.
-            /// <br/>
-            /// <br/>
-            /// The seat name is a UTF-8 string with no convention defined for its
-            /// contents. Each name is unique among all wl_seat globals. The name is
-            /// only guaranteed to be unique for the current compositor instance.
-            /// <br/>
-            /// <br/>
-            /// The same seat names are used for all clients. Thus, the name can be
-            /// shared across processes to refer to a specific wl_seat global.
-            /// <br/>
-            /// <br/>
-            /// The name event is sent after binding to the seat global. This event is
-            /// only sent once per seat object, and the name does not change over the
-            /// lifetime of the wl_seat global.
-            /// <br/>
-            /// <br/>
-            /// Compositors may re-use the same seat name if the wl_seat global is
-            /// destroyed and re-created later.
+            /// In a multi-seat configuration the seat name can be used by clients tohelp identify which physical devices the seat represents.<br/><br/>
+            /// The seat name is a UTF-8 string with no convention defined for itscontents. Each name is unique among all wl_seat globals. The name isonly guaranteed to be unique for the current compositor instance.<br/><br/>
+            /// The same seat names are used for all clients. Thus, the name can beshared across processes to refer to a specific wl_seat global.<br/><br/>
+            /// The name event is sent after binding to the seat global. This event isonly sent once per seat object, and the name does not change over thelifetime of the wl_seat global.<br/><br/>
+            /// Compositors may re-use the same seat name if the wl_seat global isdestroyed and re-created later.<br/><br/>
             /// </summary>
             void OnName(NWayland.Protocols.Wayland.WlSeat eventSender, string @name);
         }
@@ -3171,26 +2496,33 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This is a bitmask of capabilities this seat has; if a member is
-        /// set, then it is present on the seat.
+        /// This is a bitmask of capabilities this seat has; if a member isset, then it is present on the seat.<br/><br/>
         /// </summary>
         [Flags]
         public enum CapabilityEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// the seat has pointer devices<br/><br/>
+            /// </summary>
             Pointer = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// the seat has one or more keyboards<br/><br/>
+            /// </summary>
             Keyboard = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// the seat has touch devices<br/><br/>
+            /// </summary>
             Touch = 4
         }
 
         /// <summary>
-        /// These errors can be emitted in response to wl_seat requests.
+        /// These errors can be emitted in response to wl_seat requests.<br/><br/>
         /// </summary>
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// get_pointer, get_keyboard or get_touch called on seat without the matching capability<br/><br/>
+            /// </summary>
             MissingCapability = 0
         }
 
@@ -3218,15 +2550,8 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The wl_pointer interface represents one or more input devices,
-    /// such as mice, which control the pointer location and pointer_focus
-    /// of a seat.
-    /// <br/>
-    /// <br/>
-    /// The wl_pointer interface generates motion, enter and leave
-    /// events for the surfaces that the pointer is located over,
-    /// and button and axis events for button presses, button releases
-    /// and scrolling.
+    /// The wl_pointer interface represents one or more input devices,such as mice, which control the pointer location and pointer_focusof a seat.<br/><br/>
+    /// The wl_pointer interface generates motion, enter and leaveevents for the surfaces that the pointer is located over,and button and axis events for button presses, button releasesand scrolling.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlPointer : WlProxy
     {
@@ -3258,47 +2583,13 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Set the pointer surface, i.e., the surface that contains the
-        /// pointer image (cursor). This request gives the surface the role
-        /// of a cursor. If the surface already has another role, it raises
-        /// a protocol error.
-        /// <br/>
-        /// <br/>
-        /// The cursor actually changes only if the pointer
-        /// focus for this device is one of the requesting client's surfaces
-        /// or the surface parameter is the current pointer surface. If
-        /// there was a previous surface set with this request it is
-        /// replaced. If surface is NULL, the pointer image is hidden.
-        /// <br/>
-        /// <br/>
-        /// The parameters hotspot_x and hotspot_y define the position of
-        /// the pointer surface relative to the pointer location. Its
-        /// top-left corner is always at (x, y) - (hotspot_x, hotspot_y),
-        /// where (x, y) are the coordinates of the pointer location, in
-        /// surface-local coordinates.
-        /// <br/>
-        /// <br/>
-        /// On surface.attach requests to the pointer surface, hotspot_x
-        /// and hotspot_y are decremented by the x and y parameters
-        /// passed to the request. Attach must be confirmed by
-        /// wl_surface.commit as usual.
-        /// <br/>
-        /// <br/>
-        /// The hotspot can also be updated by passing the currently set
-        /// pointer surface to this request with new values for hotspot_x
-        /// and hotspot_y.
-        /// <br/>
-        /// <br/>
-        /// The current and pending input regions of the wl_surface are
-        /// cleared, and wl_surface.set_input_region is ignored until the
-        /// wl_surface is no longer used as the cursor. When the use as a
-        /// cursor ends, the current and pending input regions become
-        /// undefined, and the wl_surface is unmapped.
-        /// <br/>
-        /// <br/>
-        /// The serial parameter must match the latest wl_pointer.enter
-        /// serial number sent to the client. Otherwise the request will be
-        /// ignored.
+        /// Set the pointer surface, i.e., the surface that contains thepointer image (cursor). This request gives the surface the roleof a cursor. If the surface already has another role, it raisesa protocol error.<br/><br/>
+        /// The cursor actually changes only if the pointerfocus for this device is one of the requesting client's surfacesor the surface parameter is the current pointer surface. Ifthere was a previous surface set with this request it isreplaced. If surface is NULL, the pointer image is hidden.<br/><br/>
+        /// The parameters hotspot_x and hotspot_y define the position ofthe pointer surface relative to the pointer location. Itstop-left corner is always at (x, y) - (hotspot_x, hotspot_y),where (x, y) are the coordinates of the pointer location, insurface-local coordinates.<br/><br/>
+        /// On surface.attach requests to the pointer surface, hotspot_xand hotspot_y are decremented by the x and y parameterspassed to the request. Attach must be confirmed bywl_surface.commit as usual.<br/><br/>
+        /// The hotspot can also be updated by passing the currently setpointer surface to this request with new values for hotspot_xand hotspot_y.<br/><br/>
+        /// The current and pending input regions of the wl_surface arecleared, and wl_surface.set_input_region is ignored until thewl_surface is no longer used as the cursor. When the use as acursor ends, the current and pending input regions becomeundefined, and the wl_surface is unmapped.<br/><br/>
+        /// The serial parameter must match the latest wl_pointer.enterserial number sent to the client. Otherwise the request will beignored.<br/><br/>
         /// </summary>
         public void SetCursor(uint @serial, NWayland.Protocols.Wayland.WlSurface? @surface, int @hotspotX, int @hotspotY)
         {
@@ -3324,243 +2615,85 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// Notification that this seat's pointer is focused on a certain
-            /// surface.
-            /// <br/>
-            /// <br/>
-            /// When a seat's focus enters a surface, the pointer image
-            /// is undefined and a client should respond to this event by setting
-            /// an appropriate pointer image with the set_cursor request.
+            /// Notification that this seat's pointer is focused on a certainsurface.<br/><br/>
+            /// When a seat's focus enters a surface, the pointer imageis undefined and a client should respond to this event by settingan appropriate pointer image with the set_cursor request.<br/><br/>
             /// </summary>
             void OnEnter(NWayland.Protocols.Wayland.WlPointer eventSender, uint @serial, NWayland.Protocols.Wayland.WlSurface @surface, WlFixed @surfaceX, WlFixed @surfaceY);
 
             /// <summary>
-            /// Notification that this seat's pointer is no longer focused on
-            /// a certain surface.
-            /// <br/>
-            /// <br/>
-            /// The leave notification is sent before the enter notification
-            /// for the new focus.
+            /// Notification that this seat's pointer is no longer focused ona certain surface.<br/><br/>
+            /// The leave notification is sent before the enter notificationfor the new focus.<br/><br/>
             /// </summary>
             void OnLeave(NWayland.Protocols.Wayland.WlPointer eventSender, uint @serial, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Notification of pointer location change. The arguments
-            /// surface_x and surface_y are the location relative to the
-            /// focused surface.
+            /// Notification of pointer location change. The argumentssurface_x and surface_y are the location relative to thefocused surface.<br/><br/>
             /// </summary>
             void OnMotion(NWayland.Protocols.Wayland.WlPointer eventSender, uint @time, WlFixed @surfaceX, WlFixed @surfaceY);
 
             /// <summary>
-            /// Mouse button click and release notifications.
-            /// <br/>
-            /// <br/>
-            /// The location of the click is given by the last motion or
-            /// enter event.
-            /// The time argument is a timestamp with millisecond
-            /// granularity, with an undefined base.
-            /// <br/>
-            /// <br/>
-            /// The button is a button code as defined in the Linux kernel's
-            /// linux/input-event-codes.h header file, e.g. BTN_LEFT.
-            /// <br/>
-            /// <br/>
-            /// Any 16-bit button code value is reserved for future additions to the
-            /// kernel's event code list. All other button codes above 0xFFFF are
-            /// currently undefined but may be used in future versions of this
-            /// protocol.
+            /// Mouse button click and release notifications.<br/><br/>
+            /// The location of the click is given by the last motion orenter event.The time argument is a timestamp with millisecondgranularity, with an undefined base.<br/><br/>
+            /// The button is a button code as defined in the Linux kernel'slinux/input-event-codes.h header file, e.g. BTN_LEFT.<br/><br/>
+            /// Any 16-bit button code value is reserved for future additions to thekernel's event code list. All other button codes above 0xFFFF arecurrently undefined but may be used in future versions of thisprotocol.<br/><br/>
             /// </summary>
             void OnButton(NWayland.Protocols.Wayland.WlPointer eventSender, uint @serial, uint @time, uint @button, ButtonStateEnum @state);
 
             /// <summary>
-            /// Scroll and other axis notifications.
-            /// <br/>
-            /// <br/>
-            /// For scroll events (vertical and horizontal scroll axes), the
-            /// value parameter is the length of a vector along the specified
-            /// axis in a coordinate space identical to those of motion events,
-            /// representing a relative movement along the specified axis.
-            /// <br/>
-            /// <br/>
-            /// For devices that support movements non-parallel to axes multiple
-            /// axis events will be emitted.
-            /// <br/>
-            /// <br/>
-            /// When applicable, for example for touch pads, the server can
-            /// choose to emit scroll events where the motion vector is
-            /// equivalent to a motion event vector.
-            /// <br/>
-            /// <br/>
-            /// When applicable, a client can transform its content relative to the
-            /// scroll distance.
+            /// Scroll and other axis notifications.<br/><br/>
+            /// For scroll events (vertical and horizontal scroll axes), thevalue parameter is the length of a vector along the specifiedaxis in a coordinate space identical to those of motion events,representing a relative movement along the specified axis.<br/><br/>
+            /// For devices that support movements non-parallel to axes multipleaxis events will be emitted.<br/><br/>
+            /// When applicable, for example for touch pads, the server canchoose to emit scroll events where the motion vector isequivalent to a motion event vector.<br/><br/>
+            /// When applicable, a client can transform its content relative to thescroll distance.<br/><br/>
             /// </summary>
             void OnAxis(NWayland.Protocols.Wayland.WlPointer eventSender, uint @time, AxisEnum @axis, WlFixed @value);
 
             /// <summary>
-            /// Indicates the end of a set of events that logically belong together.
-            /// A client is expected to accumulate the data in all events within the
-            /// frame before proceeding.
-            /// <br/>
-            /// <br/>
-            /// All wl_pointer events before a wl_pointer.frame event belong
-            /// logically together. For example, in a diagonal scroll motion the
-            /// compositor will send an optional wl_pointer.axis_source event, two
-            /// wl_pointer.axis events (horizontal and vertical) and finally a
-            /// wl_pointer.frame event. The client may use this information to
-            /// calculate a diagonal vector for scrolling.
-            /// <br/>
-            /// <br/>
-            /// When multiple wl_pointer.axis events occur within the same frame,
-            /// the motion vector is the combined motion of all events.
-            /// When a wl_pointer.axis and a wl_pointer.axis_stop event occur within
-            /// the same frame, this indicates that axis movement in one axis has
-            /// stopped but continues in the other axis.
-            /// When multiple wl_pointer.axis_stop events occur within the same
-            /// frame, this indicates that these axes stopped in the same instance.
-            /// <br/>
-            /// <br/>
-            /// A wl_pointer.frame event is sent for every logical event group,
-            /// even if the group only contains a single wl_pointer event.
-            /// Specifically, a client may get a sequence: motion, frame, button,
-            /// frame, axis, frame, axis_stop, frame.
-            /// <br/>
-            /// <br/>
-            /// The wl_pointer.enter and wl_pointer.leave events are logical events
-            /// generated by the compositor and not the hardware. These events are
-            /// also grouped by a wl_pointer.frame. When a pointer moves from one
-            /// surface to another, a compositor should group the
-            /// wl_pointer.leave event within the same wl_pointer.frame.
-            /// However, a client must not rely on wl_pointer.leave and
-            /// wl_pointer.enter being in the same wl_pointer.frame.
-            /// Compositor-specific policies may require the wl_pointer.leave and
-            /// wl_pointer.enter event being split across multiple wl_pointer.frame
-            /// groups.
+            /// Indicates the end of a set of events that logically belong together.A client is expected to accumulate the data in all events within theframe before proceeding.<br/><br/>
+            /// All wl_pointer events before a wl_pointer.frame event belonglogically together. For example, in a diagonal scroll motion thecompositor will send an optional wl_pointer.axis_source event, twowl_pointer.axis events (horizontal and vertical) and finally awl_pointer.frame event. The client may use this information tocalculate a diagonal vector for scrolling.<br/><br/>
+            /// When multiple wl_pointer.axis events occur within the same frame,the motion vector is the combined motion of all events.When a wl_pointer.axis and a wl_pointer.axis_stop event occur withinthe same frame, this indicates that axis movement in one axis hasstopped but continues in the other axis.When multiple wl_pointer.axis_stop events occur within the sameframe, this indicates that these axes stopped in the same instance.<br/><br/>
+            /// A wl_pointer.frame event is sent for every logical event group,even if the group only contains a single wl_pointer event.Specifically, a client may get a sequence: motion, frame, button,frame, axis, frame, axis_stop, frame.<br/><br/>
+            /// The wl_pointer.enter and wl_pointer.leave events are logical eventsgenerated by the compositor and not the hardware. These events arealso grouped by a wl_pointer.frame. When a pointer moves from onesurface to another, a compositor should group thewl_pointer.leave event within the same wl_pointer.frame.However, a client must not rely on wl_pointer.leave andwl_pointer.enter being in the same wl_pointer.frame.Compositor-specific policies may require the wl_pointer.leave andwl_pointer.enter event being split across multiple wl_pointer.framegroups.<br/><br/>
             /// </summary>
             void OnFrame(NWayland.Protocols.Wayland.WlPointer eventSender);
 
             /// <summary>
-            /// Source information for scroll and other axes.
-            /// <br/>
-            /// <br/>
-            /// This event does not occur on its own. It is sent before a
-            /// wl_pointer.frame event and carries the source information for
-            /// all events within that frame.
-            /// <br/>
-            /// <br/>
-            /// The source specifies how this event was generated. If the source is
-            /// wl_pointer.axis_source.finger, a wl_pointer.axis_stop event will be
-            /// sent when the user lifts the finger off the device.
-            /// <br/>
-            /// <br/>
-            /// If the source is wl_pointer.axis_source.wheel,
-            /// wl_pointer.axis_source.wheel_tilt or
-            /// wl_pointer.axis_source.continuous, a wl_pointer.axis_stop event may
-            /// or may not be sent. Whether a compositor sends an axis_stop event
-            /// for these sources is hardware-specific and implementation-dependent;
-            /// clients must not rely on receiving an axis_stop event for these
-            /// scroll sources and should treat scroll sequences from these scroll
-            /// sources as unterminated by default.
-            /// <br/>
-            /// <br/>
-            /// This event is optional. If the source is unknown for a particular
-            /// axis event sequence, no event is sent.
-            /// Only one wl_pointer.axis_source event is permitted per frame.
-            /// <br/>
-            /// <br/>
-            /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
-            /// not guaranteed.
+            /// Source information for scroll and other axes.<br/><br/>
+            /// This event does not occur on its own. It is sent before awl_pointer.frame event and carries the source information forall events within that frame.<br/><br/>
+            /// The source specifies how this event was generated. If the source iswl_pointer.axis_source.finger, a wl_pointer.axis_stop event will besent when the user lifts the finger off the device.<br/><br/>
+            /// If the source is wl_pointer.axis_source.wheel,wl_pointer.axis_source.wheel_tilt orwl_pointer.axis_source.continuous, a wl_pointer.axis_stop event mayor may not be sent. Whether a compositor sends an axis_stop eventfor these sources is hardware-specific and implementation-dependent;clients must not rely on receiving an axis_stop event for thesescroll sources and should treat scroll sequences from these scrollsources as unterminated by default.<br/><br/>
+            /// This event is optional. If the source is unknown for a particularaxis event sequence, no event is sent.Only one wl_pointer.axis_source event is permitted per frame.<br/><br/>
+            /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source isnot guaranteed.<br/><br/>
             /// </summary>
             void OnAxisSource(NWayland.Protocols.Wayland.WlPointer eventSender, AxisSourceEnum @axisSource);
 
             /// <summary>
-            /// Stop notification for scroll and other axes.
-            /// <br/>
-            /// <br/>
-            /// For some wl_pointer.axis_source types, a wl_pointer.axis_stop event
-            /// is sent to notify a client that the axis sequence has terminated.
-            /// This enables the client to implement kinetic scrolling.
-            /// See the wl_pointer.axis_source documentation for information on when
-            /// this event may be generated.
-            /// <br/>
-            /// <br/>
-            /// Any wl_pointer.axis events with the same axis_source after this
-            /// event should be considered as the start of a new axis motion.
-            /// <br/>
-            /// <br/>
-            /// The timestamp is to be interpreted identical to the timestamp in the
-            /// wl_pointer.axis event. The timestamp value may be the same as a
-            /// preceding wl_pointer.axis event.
+            /// Stop notification for scroll and other axes.<br/><br/>
+            /// For some wl_pointer.axis_source types, a wl_pointer.axis_stop eventis sent to notify a client that the axis sequence has terminated.This enables the client to implement kinetic scrolling.See the wl_pointer.axis_source documentation for information on whenthis event may be generated.<br/><br/>
+            /// Any wl_pointer.axis events with the same axis_source after thisevent should be considered as the start of a new axis motion.<br/><br/>
+            /// The timestamp is to be interpreted identical to the timestamp in thewl_pointer.axis event. The timestamp value may be the same as apreceding wl_pointer.axis event.<br/><br/>
             /// </summary>
             void OnAxisStop(NWayland.Protocols.Wayland.WlPointer eventSender, uint @time, AxisEnum @axis);
 
             /// <summary>
-            /// Discrete step information for scroll and other axes.
-            /// <br/>
-            /// <br/>
-            /// This event carries the axis value of the wl_pointer.axis event in
-            /// discrete steps (e.g. mouse wheel clicks).
-            /// <br/>
-            /// <br/>
-            /// This event is deprecated with wl_pointer version 8 - this event is not
-            /// sent to clients supporting version 8 or later.
-            /// <br/>
-            /// <br/>
-            /// This event does not occur on its own, it is coupled with a
-            /// wl_pointer.axis event that represents this axis value on a
-            /// continuous scale. The protocol guarantees that each axis_discrete
-            /// event is always followed by exactly one axis event with the same
-            /// axis number within the same wl_pointer.frame. Note that the protocol
-            /// allows for other events to occur between the axis_discrete and
-            /// its coupled axis event, including other axis_discrete or axis
-            /// events. A wl_pointer.frame must not contain more than one axis_discrete
-            /// event per axis type.
-            /// <br/>
-            /// <br/>
-            /// This event is optional; continuous scrolling devices
-            /// like two-finger scrolling on touchpads do not have discrete
-            /// steps and do not generate this event.
-            /// <br/>
-            /// <br/>
-            /// The discrete value carries the directional information. e.g. a value
-            /// of -2 is two steps towards the negative direction of this axis.
-            /// <br/>
-            /// <br/>
-            /// The axis number is identical to the axis number in the associated
-            /// axis event.
-            /// <br/>
-            /// <br/>
-            /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source is
-            /// not guaranteed.
+            /// Discrete step information for scroll and other axes.<br/><br/>
+            /// This event carries the axis value of the wl_pointer.axis event indiscrete steps (e.g. mouse wheel clicks).<br/><br/>
+            /// This event is deprecated with wl_pointer version 8 - this event is notsent to clients supporting version 8 or later.<br/><br/>
+            /// This event does not occur on its own, it is coupled with awl_pointer.axis event that represents this axis value on acontinuous scale. The protocol guarantees that each axis_discreteevent is always followed by exactly one axis event with the sameaxis number within the same wl_pointer.frame. Note that the protocolallows for other events to occur between the axis_discrete andits coupled axis event, including other axis_discrete or axisevents. A wl_pointer.frame must not contain more than one axis_discreteevent per axis type.<br/><br/>
+            /// This event is optional; continuous scrolling deviceslike two-finger scrolling on touchpads do not have discretesteps and do not generate this event.<br/><br/>
+            /// The discrete value carries the directional information. e.g. a valueof -2 is two steps towards the negative direction of this axis.<br/><br/>
+            /// The axis number is identical to the axis number in the associatedaxis event.<br/><br/>
+            /// The order of wl_pointer.axis_discrete and wl_pointer.axis_source isnot guaranteed.<br/><br/>
             /// </summary>
             void OnAxisDiscrete(NWayland.Protocols.Wayland.WlPointer eventSender, AxisEnum @axis, int @discrete);
 
             /// <summary>
-            /// Discrete high-resolution scroll information.
-            /// <br/>
-            /// <br/>
-            /// This event carries high-resolution wheel scroll information,
-            /// with each multiple of 120 representing one logical scroll step
-            /// (a wheel detent). For example, an axis_value120 of 30 is one quarter of
-            /// a logical scroll step in the positive direction, a value120 of
-            /// -240 are two logical scroll steps in the negative direction within the
-            /// same hardware event.
-            /// Clients that rely on discrete scrolling should accumulate the
-            /// value120 to multiples of 120 before processing the event.
-            /// <br/>
-            /// <br/>
-            /// The value120 must not be zero.
-            /// <br/>
-            /// <br/>
-            /// This event replaces the wl_pointer.axis_discrete event in clients
-            /// supporting wl_pointer version 8 or later.
-            /// <br/>
-            /// <br/>
-            /// Where a wl_pointer.axis_source event occurs in the same
-            /// wl_pointer.frame, the axis source applies to this event.
-            /// <br/>
-            /// <br/>
-            /// The order of wl_pointer.axis_value120 and wl_pointer.axis_source is
-            /// not guaranteed.
+            /// Discrete high-resolution scroll information.<br/><br/>
+            /// This event carries high-resolution wheel scroll information,with each multiple of 120 representing one logical scroll step(a wheel detent). For example, an axis_value120 of 30 is one quarter ofa logical scroll step in the positive direction, a value120 of-240 are two logical scroll steps in the negative direction within thesame hardware event.Clients that rely on discrete scrolling should accumulate thevalue120 to multiples of 120 before processing the event.<br/><br/>
+            /// The value120 must not be zero.<br/><br/>
+            /// This event replaces the wl_pointer.axis_discrete event in clientssupporting wl_pointer version 8 or later.<br/><br/>
+            /// Where a wl_pointer.axis_source event occurs in the samewl_pointer.frame, the axis source applies to this event.<br/><br/>
+            /// The order of wl_pointer.axis_value120 and wl_pointer.axis_source isnot guaranteed.<br/><br/>
             /// </summary>
             void OnAxisValue120(NWayland.Protocols.Wayland.WlPointer eventSender, AxisEnum @axis, int @value120);
         }
@@ -3606,62 +2739,64 @@ namespace NWayland.Protocols.Wayland
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// given wl_surface has another role<br/><br/>
+            /// </summary>
             Role = 0
         }
 
         /// <summary>
-        /// Describes the physical state of a button that produced the button
-        /// event.
+        /// Describes the physical state of a button that produced the buttonevent.<br/><br/>
         /// </summary>
         public enum ButtonStateEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// the button is not pressed<br/><br/>
+            /// </summary>
             Released = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// the button is pressed<br/><br/>
+            /// </summary>
             Pressed = 1
         }
 
         /// <summary>
-        /// Describes the axis types of scroll events.
+        /// Describes the axis types of scroll events.<br/><br/>
         /// </summary>
         public enum AxisEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// vertical axis<br/><br/>
+            /// </summary>
             VerticalScroll = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// horizontal axis<br/><br/>
+            /// </summary>
             HorizontalScroll = 1
         }
 
         /// <summary>
-        /// Describes the source types for axis events. This indicates to the
-        /// client how an axis event was physically generated; a client may
-        /// adjust the user interface accordingly. For example, scroll events
-        /// from a "finger" source may be in a smooth coordinate space with
-        /// kinetic scrolling whereas a "wheel" source may be in discrete steps
-        /// of a number of lines.
-        /// <br/>
-        /// <br/>
-        /// The "continuous" axis source is a device generating events in a
-        /// continuous coordinate space, but using something other than a
-        /// finger. One example for this source is button-based scrolling where
-        /// the vertical motion of a device is converted to scroll events while
-        /// a button is held down.
-        /// <br/>
-        /// <br/>
-        /// The "wheel tilt" axis source indicates that the actual device is a
-        /// wheel but the scroll event is not caused by a rotation but a
-        /// (usually sideways) tilt of the wheel.
+        /// Describes the source types for axis events. This indicates to theclient how an axis event was physically generated; a client mayadjust the user interface accordingly. For example, scroll eventsfrom a "finger" source may be in a smooth coordinate space withkinetic scrolling whereas a "wheel" source may be in discrete stepsof a number of lines.<br/><br/>
+        /// The "continuous" axis source is a device generating events in acontinuous coordinate space, but using something other than afinger. One example for this source is button-based scrolling wherethe vertical motion of a device is converted to scroll events whilea button is held down.<br/><br/>
+        /// The "wheel tilt" axis source indicates that the actual device is awheel but the scroll event is not caused by a rotation but a(usually sideways) tilt of the wheel.<br/><br/>
         /// </summary>
         public enum AxisSourceEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// a physical wheel rotation<br/><br/>
+            /// </summary>
             Wheel = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// finger on a touch surface<br/><br/>
+            /// </summary>
             Finger = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// continuous coordinate space<br/><br/>
+            /// </summary>
             Continuous = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// a physical wheel tilt<br/><br/>
+            /// </summary>
             WheelTilt = 3
         }
 
@@ -3689,8 +2824,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The wl_keyboard interface represents one or more keyboards
-    /// associated with a seat.
+    /// The wl_keyboard interface represents one or more keyboardsassociated with a seat.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlKeyboard : WlProxy
     {
@@ -3729,77 +2863,41 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// This event provides a file descriptor to the client which can be
-            /// memory-mapped in read-only mode to provide a keyboard mapping
-            /// description.
-            /// <br/>
-            /// <br/>
-            /// From version 7 onwards, the fd must be mapped with MAP_PRIVATE by
-            /// the recipient, as MAP_SHARED may fail.
+            /// This event provides a file descriptor to the client which can bememory-mapped in read-only mode to provide a keyboard mappingdescription.<br/><br/>
+            /// From version 7 onwards, the fd must be mapped with MAP_PRIVATE bythe recipient, as MAP_SHARED may fail.<br/><br/>
             /// </summary>
             void OnKeymap(NWayland.Protocols.Wayland.WlKeyboard eventSender, KeymapFormatEnum @format, int @fd, uint @size);
 
             /// <summary>
-            /// Notification that this seat's keyboard focus is on a certain
-            /// surface.
-            /// <br/>
-            /// <br/>
-            /// The compositor must send the wl_keyboard.modifiers event after this
-            /// event.
+            /// Notification that this seat's keyboard focus is on a certainsurface.<br/><br/>
+            /// The compositor must send the wl_keyboard.modifiers event after thisevent.<br/><br/>
             /// </summary>
             void OnEnter(NWayland.Protocols.Wayland.WlKeyboard eventSender, uint @serial, NWayland.Protocols.Wayland.WlSurface @surface, ReadOnlySpan<int> @keys);
 
             /// <summary>
-            /// Notification that this seat's keyboard focus is no longer on
-            /// a certain surface.
-            /// <br/>
-            /// <br/>
-            /// The leave notification is sent before the enter notification
-            /// for the new focus.
-            /// <br/>
-            /// <br/>
-            /// After this event client must assume that all keys, including modifiers,
-            /// are lifted and also it must stop key repeating if there's some going on.
+            /// Notification that this seat's keyboard focus is no longer ona certain surface.<br/><br/>
+            /// The leave notification is sent before the enter notificationfor the new focus.<br/><br/>
+            /// After this event client must assume that all keys, including modifiers,are lifted and also it must stop key repeating if there's some going on.<br/><br/>
             /// </summary>
             void OnLeave(NWayland.Protocols.Wayland.WlKeyboard eventSender, uint @serial, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// A key was pressed or released.
-            /// The time argument is a timestamp with millisecond
-            /// granularity, with an undefined base.
-            /// <br/>
-            /// <br/>
-            /// The key is a platform-specific key code that can be interpreted
-            /// by feeding it to the keyboard mapping (see the keymap event).
-            /// <br/>
-            /// <br/>
-            /// If this event produces a change in modifiers, then the resulting
-            /// wl_keyboard.modifiers event must be sent after this event.
+            /// A key was pressed or released.The time argument is a timestamp with millisecondgranularity, with an undefined base.<br/><br/>
+            /// The key is a platform-specific key code that can be interpretedby feeding it to the keyboard mapping (see the keymap event).<br/><br/>
+            /// If this event produces a change in modifiers, then the resultingwl_keyboard.modifiers event must be sent after this event.<br/><br/>
             /// </summary>
             void OnKey(NWayland.Protocols.Wayland.WlKeyboard eventSender, uint @serial, uint @time, uint @key, KeyStateEnum @state);
 
             /// <summary>
-            /// Notifies clients that the modifier and/or group state has
-            /// changed, and it should update its local state.
+            /// Notifies clients that the modifier and/or group state haschanged, and it should update its local state.<br/><br/>
             /// </summary>
             void OnModifiers(NWayland.Protocols.Wayland.WlKeyboard eventSender, uint @serial, uint @modsDepressed, uint @modsLatched, uint @modsLocked, uint @group);
 
             /// <summary>
-            /// Informs the client about the keyboard's repeat rate and delay.
-            /// <br/>
-            /// <br/>
-            /// This event is sent as soon as the wl_keyboard object has been created,
-            /// and is guaranteed to be received by the client before any key press
-            /// event.
-            /// <br/>
-            /// <br/>
-            /// Negative values for either rate or delay are illegal. A rate of zero
-            /// will disable any repeating (regardless of the value of delay).
-            /// <br/>
-            /// <br/>
-            /// This event can be sent later on as well with a new value if necessary,
-            /// so clients should continue listening for the event past the creation
-            /// of wl_keyboard.
+            /// Informs the client about the keyboard's repeat rate and delay.<br/><br/>
+            /// This event is sent as soon as the wl_keyboard object has been created,and is guaranteed to be received by the client before any key pressevent.<br/><br/>
+            /// Negative values for either rate or delay are illegal. A rate of zerowill disable any repeating (regardless of the value of delay).<br/><br/>
+            /// This event can be sent later on as well with a new value if necessary,so clients should continue listening for the event past the creationof wl_keyboard.<br/><br/>
             /// </summary>
             void OnRepeatInfo(NWayland.Protocols.Wayland.WlKeyboard eventSender, int @rate, int @delay);
         }
@@ -3832,25 +2930,32 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This specifies the format of the keymap provided to the
-        /// client with the wl_keyboard.keymap event.
+        /// This specifies the format of the keymap provided to theclient with the wl_keyboard.keymap event.<br/><br/>
         /// </summary>
         public enum KeymapFormatEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// no keymap; client must understand how to interpret the raw keycode<br/><br/>
+            /// </summary>
             NoKeymap = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// libxkbcommon compatible, null-terminated string; to determine the xkb keycode, clients must add 8 to the key event keycode<br/><br/>
+            /// </summary>
             XkbV1 = 1
         }
 
         /// <summary>
-        /// Describes the physical state of a key that produced the key event.
+        /// Describes the physical state of a key that produced the key event.<br/><br/>
         /// </summary>
         public enum KeyStateEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// key is not pressed<br/><br/>
+            /// </summary>
             Released = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// key is pressed<br/><br/>
+            /// </summary>
             Pressed = 1
         }
 
@@ -3878,15 +2983,8 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The wl_touch interface represents a touchscreen
-    /// associated with a seat.
-    /// <br/>
-    /// <br/>
-    /// Touch interactions can consist of one or more contacts.
-    /// For each contact, a series of events is generated, starting
-    /// with a down event, followed by zero or more motion events,
-    /// and ending with an up event. Events relating to the same
-    /// contact point can be identified by the ID of the sequence.
+    /// The wl_touch interface represents a touchscreenassociated with a seat.<br/><br/>
+    /// Touch interactions can consist of one or more contacts.For each contact, a series of events is generated, startingwith a down event, followed by zero or more motion events,and ending with an up event. Events relating to the samecontact point can be identified by the ID of the sequence.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlTouch : WlProxy
     {
@@ -3926,109 +3024,46 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// A new touch point has appeared on the surface. This touch point is
-            /// assigned a unique ID. Future events from this touch point reference
-            /// this ID. The ID ceases to be valid after a touch up event and may be
-            /// reused in the future.
+            /// A new touch point has appeared on the surface. This touch point isassigned a unique ID. Future events from this touch point referencethis ID. The ID ceases to be valid after a touch up event and may bereused in the future.<br/><br/>
             /// </summary>
             void OnDown(NWayland.Protocols.Wayland.WlTouch eventSender, uint @serial, uint @time, NWayland.Protocols.Wayland.WlSurface @surface, int @id, WlFixed @x, WlFixed @y);
 
             /// <summary>
-            /// The touch point has disappeared. No further events will be sent for
-            /// this touch point and the touch point's ID is released and may be
-            /// reused in a future touch down event.
+            /// The touch point has disappeared. No further events will be sent forthis touch point and the touch point's ID is released and may bereused in a future touch down event.<br/><br/>
             /// </summary>
             void OnUp(NWayland.Protocols.Wayland.WlTouch eventSender, uint @serial, uint @time, int @id);
 
             /// <summary>
-            /// A touch point has changed coordinates.
+            /// A touch point has changed coordinates.<br/><br/>
             /// </summary>
             void OnMotion(NWayland.Protocols.Wayland.WlTouch eventSender, uint @time, int @id, WlFixed @x, WlFixed @y);
 
             /// <summary>
-            /// Indicates the end of a set of events that logically belong together.
-            /// A client is expected to accumulate the data in all events within the
-            /// frame before proceeding.
-            /// <br/>
-            /// <br/>
-            /// A wl_touch.frame terminates at least one event but otherwise no
-            /// guarantee is provided about the set of events within a frame. A client
-            /// must assume that any state not updated in a frame is unchanged from the
-            /// previously known state.
+            /// Indicates the end of a set of events that logically belong together.A client is expected to accumulate the data in all events within theframe before proceeding.<br/><br/>
+            /// A wl_touch.frame terminates at least one event but otherwise noguarantee is provided about the set of events within a frame. A clientmust assume that any state not updated in a frame is unchanged from thepreviously known state.<br/><br/>
             /// </summary>
             void OnFrame(NWayland.Protocols.Wayland.WlTouch eventSender);
 
             /// <summary>
-            /// Sent if the compositor decides the touch stream is a global
-            /// gesture. No further events are sent to the clients from that
-            /// particular gesture. Touch cancellation applies to all touch points
-            /// currently active on this client's surface. The client is
-            /// responsible for finalizing the touch points, future touch points on
-            /// this surface may reuse the touch point ID.
+            /// Sent if the compositor decides the touch stream is a globalgesture. No further events are sent to the clients from thatparticular gesture. Touch cancellation applies to all touch pointscurrently active on this client's surface. The client isresponsible for finalizing the touch points, future touch points onthis surface may reuse the touch point ID.<br/><br/>
             /// </summary>
             void OnCancel(NWayland.Protocols.Wayland.WlTouch eventSender);
 
             /// <summary>
-            /// Sent when a touchpoint has changed its shape.
-            /// <br/>
-            /// <br/>
-            /// This event does not occur on its own. It is sent before a
-            /// wl_touch.frame event and carries the new shape information for
-            /// any previously reported, or new touch points of that frame.
-            /// <br/>
-            /// <br/>
-            /// Other events describing the touch point such as wl_touch.down,
-            /// wl_touch.motion or wl_touch.orientation may be sent within the
-            /// same wl_touch.frame. A client should treat these events as a single
-            /// logical touch point update. The order of wl_touch.shape,
-            /// wl_touch.orientation and wl_touch.motion is not guaranteed.
-            /// A wl_touch.down event is guaranteed to occur before the first
-            /// wl_touch.shape event for this touch ID but both events may occur within
-            /// the same wl_touch.frame.
-            /// <br/>
-            /// <br/>
-            /// A touchpoint shape is approximated by an ellipse through the major and
-            /// minor axis length. The major axis length describes the longer diameter
-            /// of the ellipse, while the minor axis length describes the shorter
-            /// diameter. Major and minor are orthogonal and both are specified in
-            /// surface-local coordinates. The center of the ellipse is always at the
-            /// touchpoint location as reported by wl_touch.down or wl_touch.move.
-            /// <br/>
-            /// <br/>
-            /// This event is only sent by the compositor if the touch device supports
-            /// shape reports. The client has to make reasonable assumptions about the
-            /// shape if it did not receive this event.
+            /// Sent when a touchpoint has changed its shape.<br/><br/>
+            /// This event does not occur on its own. It is sent before awl_touch.frame event and carries the new shape information forany previously reported, or new touch points of that frame.<br/><br/>
+            /// Other events describing the touch point such as wl_touch.down,wl_touch.motion or wl_touch.orientation may be sent within thesame wl_touch.frame. A client should treat these events as a singlelogical touch point update. The order of wl_touch.shape,wl_touch.orientation and wl_touch.motion is not guaranteed.A wl_touch.down event is guaranteed to occur before the firstwl_touch.shape event for this touch ID but both events may occur withinthe same wl_touch.frame.<br/><br/>
+            /// A touchpoint shape is approximated by an ellipse through the major andminor axis length. The major axis length describes the longer diameterof the ellipse, while the minor axis length describes the shorterdiameter. Major and minor are orthogonal and both are specified insurface-local coordinates. The center of the ellipse is always at thetouchpoint location as reported by wl_touch.down or wl_touch.move.<br/><br/>
+            /// This event is only sent by the compositor if the touch device supportsshape reports. The client has to make reasonable assumptions about theshape if it did not receive this event.<br/><br/>
             /// </summary>
             void OnShape(NWayland.Protocols.Wayland.WlTouch eventSender, int @id, WlFixed @major, WlFixed @minor);
 
             /// <summary>
-            /// Sent when a touchpoint has changed its orientation.
-            /// <br/>
-            /// <br/>
-            /// This event does not occur on its own. It is sent before a
-            /// wl_touch.frame event and carries the new shape information for
-            /// any previously reported, or new touch points of that frame.
-            /// <br/>
-            /// <br/>
-            /// Other events describing the touch point such as wl_touch.down,
-            /// wl_touch.motion or wl_touch.shape may be sent within the
-            /// same wl_touch.frame. A client should treat these events as a single
-            /// logical touch point update. The order of wl_touch.shape,
-            /// wl_touch.orientation and wl_touch.motion is not guaranteed.
-            /// A wl_touch.down event is guaranteed to occur before the first
-            /// wl_touch.orientation event for this touch ID but both events may occur
-            /// within the same wl_touch.frame.
-            /// <br/>
-            /// <br/>
-            /// The orientation describes the clockwise angle of a touchpoint's major
-            /// axis to the positive surface y-axis and is normalized to the -180 to
-            /// +180 degree range. The granularity of orientation depends on the touch
-            /// device, some devices only support binary rotation values between 0 and
-            /// 90 degrees.
-            /// <br/>
-            /// <br/>
-            /// This event is only sent by the compositor if the touch device supports
-            /// orientation reports.
+            /// Sent when a touchpoint has changed its orientation.<br/><br/>
+            /// This event does not occur on its own. It is sent before awl_touch.frame event and carries the new shape information forany previously reported, or new touch points of that frame.<br/><br/>
+            /// Other events describing the touch point such as wl_touch.down,wl_touch.motion or wl_touch.shape may be sent within thesame wl_touch.frame. A client should treat these events as a singlelogical touch point update. The order of wl_touch.shape,wl_touch.orientation and wl_touch.motion is not guaranteed.A wl_touch.down event is guaranteed to occur before the firstwl_touch.orientation event for this touch ID but both events may occurwithin the same wl_touch.frame.<br/><br/>
+            /// The orientation describes the clockwise angle of a touchpoint's majoraxis to the positive surface y-axis and is normalized to the -180 to+180 degree range. The granularity of orientation depends on the touchdevice, some devices only support binary rotation values between 0 and90 degrees.<br/><br/>
+            /// This event is only sent by the compositor if the touch device supportsorientation reports.<br/><br/>
             /// </summary>
             void OnOrientation(NWayland.Protocols.Wayland.WlTouch eventSender, int @id, WlFixed @orientation);
         }
@@ -4087,12 +3122,7 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// An output describes part of the compositor geometry.  The
-    /// compositor works in the 'compositor coordinate system' and an
-    /// output corresponds to a rectangular area in that space that is
-    /// actually visible.  This typically corresponds to a monitor that
-    /// displays part of the compositor space.  This object is published
-    /// as global during start up, or when a monitor is hotplugged.
+    /// An output describes part of the compositor geometry.  Thecompositor works in the 'compositor coordinate system' and anoutput corresponds to a rectangular area in that space that isactually visible.  This typically corresponds to a monitor thatdisplays part of the compositor space.  This object is publishedas global during start up, or when a monitor is hotplugged.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlOutput : WlProxy
     {
@@ -4131,165 +3161,55 @@ namespace NWayland.Protocols.Wayland
         public interface IEvents
         {
             /// <summary>
-            /// The geometry event describes geometric properties of the output.
-            /// The event is sent when binding to the output object and whenever
-            /// any of the properties change.
-            /// <br/>
-            /// <br/>
-            /// The physical size can be set to zero if it doesn't make sense for this
-            /// output (e.g. for projectors or virtual outputs).
-            /// <br/>
-            /// <br/>
-            /// The geometry event will be followed by a done event (starting from
-            /// version 2).
-            /// <br/>
-            /// <br/>
-            /// Note: wl_output only advertises partial information about the output
-            /// position and identification. Some compositors, for instance those not
-            /// implementing a desktop-style output layout or those exposing virtual
-            /// outputs, might fake this information. Instead of using x and y, clients
-            /// should use xdg_output.logical_position. Instead of using make and model,
-            /// clients should use name and description.
+            /// The geometry event describes geometric properties of the output.The event is sent when binding to the output object and wheneverany of the properties change.<br/><br/>
+            /// The physical size can be set to zero if it doesn't make sense for thisoutput (e.g. for projectors or virtual outputs).<br/><br/>
+            /// The geometry event will be followed by a done event (starting fromversion 2).<br/><br/>
+            /// Note: wl_output only advertises partial information about the outputposition and identification. Some compositors, for instance those notimplementing a desktop-style output layout or those exposing virtualoutputs, might fake this information. Instead of using x and y, clientsshould use xdg_output.logical_position. Instead of using make and model,clients should use name and description.<br/><br/>
             /// </summary>
             void OnGeometry(NWayland.Protocols.Wayland.WlOutput eventSender, int @x, int @y, int @physicalWidth, int @physicalHeight, SubpixelEnum @subpixel, string @make, string @model, TransformEnum @transform);
 
             /// <summary>
-            /// The mode event describes an available mode for the output.
-            /// <br/>
-            /// <br/>
-            /// The event is sent when binding to the output object and there
-            /// will always be one mode, the current mode.  The event is sent
-            /// again if an output changes mode, for the mode that is now
-            /// current.  In other words, the current mode is always the last
-            /// mode that was received with the current flag set.
-            /// <br/>
-            /// <br/>
-            /// Non-current modes are deprecated. A compositor can decide to only
-            /// advertise the current mode and never send other modes. Clients
-            /// should not rely on non-current modes.
-            /// <br/>
-            /// <br/>
-            /// The size of a mode is given in physical hardware units of
-            /// the output device. This is not necessarily the same as
-            /// the output size in the global compositor space. For instance,
-            /// the output may be scaled, as described in wl_output.scale,
-            /// or transformed, as described in wl_output.transform. Clients
-            /// willing to retrieve the output size in the global compositor
-            /// space should use xdg_output.logical_size instead.
-            /// <br/>
-            /// <br/>
-            /// The vertical refresh rate can be set to zero if it doesn't make
-            /// sense for this output (e.g. for virtual outputs).
-            /// <br/>
-            /// <br/>
-            /// The mode event will be followed by a done event (starting from
-            /// version 2).
-            /// <br/>
-            /// <br/>
-            /// Clients should not use the refresh rate to schedule frames. Instead,
-            /// they should use the wl_surface.frame event or the presentation-time
-            /// protocol.
-            /// <br/>
-            /// <br/>
-            /// Note: this information is not always meaningful for all outputs. Some
-            /// compositors, such as those exposing virtual outputs, might fake the
-            /// refresh rate or the size.
+            /// The mode event describes an available mode for the output.<br/><br/>
+            /// The event is sent when binding to the output object and therewill always be one mode, the current mode.  The event is sentagain if an output changes mode, for the mode that is nowcurrent.  In other words, the current mode is always the lastmode that was received with the current flag set.<br/><br/>
+            /// Non-current modes are deprecated. A compositor can decide to onlyadvertise the current mode and never send other modes. Clientsshould not rely on non-current modes.<br/><br/>
+            /// The size of a mode is given in physical hardware units ofthe output device. This is not necessarily the same asthe output size in the global compositor space. For instance,the output may be scaled, as described in wl_output.scale,or transformed, as described in wl_output.transform. Clientswilling to retrieve the output size in the global compositorspace should use xdg_output.logical_size instead.<br/><br/>
+            /// The vertical refresh rate can be set to zero if it doesn't makesense for this output (e.g. for virtual outputs).<br/><br/>
+            /// The mode event will be followed by a done event (starting fromversion 2).<br/><br/>
+            /// Clients should not use the refresh rate to schedule frames. Instead,they should use the wl_surface.frame event or the presentation-timeprotocol.<br/><br/>
+            /// Note: this information is not always meaningful for all outputs. Somecompositors, such as those exposing virtual outputs, might fake therefresh rate or the size.<br/><br/>
             /// </summary>
             void OnMode(NWayland.Protocols.Wayland.WlOutput eventSender, ModeEnum @flags, int @width, int @height, int @refresh);
 
             /// <summary>
-            /// This event is sent after all other properties have been
-            /// sent after binding to the output object and after any
-            /// other property changes done after that. This allows
-            /// changes to the output properties to be seen as
-            /// atomic, even if they happen via multiple events.
+            /// This event is sent after all other properties have beensent after binding to the output object and after anyother property changes done after that. This allowschanges to the output properties to be seen asatomic, even if they happen via multiple events.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.Wayland.WlOutput eventSender);
 
             /// <summary>
-            /// This event contains scaling geometry information
-            /// that is not in the geometry event. It may be sent after
-            /// binding the output object or if the output scale changes
-            /// later. If it is not sent, the client should assume a
-            /// scale of 1.
-            /// <br/>
-            /// <br/>
-            /// A scale larger than 1 means that the compositor will
-            /// automatically scale surface buffers by this amount
-            /// when rendering. This is used for very high resolution
-            /// displays where applications rendering at the native
-            /// resolution would be too small to be legible.
-            /// <br/>
-            /// <br/>
-            /// It is intended that scaling aware clients track the
-            /// current output of a surface, and if it is on a scaled
-            /// output it should use wl_surface.set_buffer_scale with
-            /// the scale of the output. That way the compositor can
-            /// avoid scaling the surface, and the client can supply
-            /// a higher detail image.
-            /// <br/>
-            /// <br/>
-            /// The scale event will be followed by a done event.
+            /// This event contains scaling geometry informationthat is not in the geometry event. It may be sent afterbinding the output object or if the output scale changeslater. If it is not sent, the client should assume ascale of 1.<br/><br/>
+            /// A scale larger than 1 means that the compositor willautomatically scale surface buffers by this amountwhen rendering. This is used for very high resolutiondisplays where applications rendering at the nativeresolution would be too small to be legible.<br/><br/>
+            /// It is intended that scaling aware clients track thecurrent output of a surface, and if it is on a scaledoutput it should use wl_surface.set_buffer_scale withthe scale of the output. That way the compositor canavoid scaling the surface, and the client can supplya higher detail image.<br/><br/>
+            /// The scale event will be followed by a done event.<br/><br/>
             /// </summary>
             void OnScale(NWayland.Protocols.Wayland.WlOutput eventSender, int @factor);
 
             /// <summary>
-            /// Many compositors will assign user-friendly names to their outputs, show
-            /// them to the user, allow the user to refer to an output, etc. The client
-            /// may wish to know this name as well to offer the user similar behaviors.
-            /// <br/>
-            /// <br/>
-            /// The name is a UTF-8 string with no convention defined for its contents.
-            /// Each name is unique among all wl_output globals. The name is only
-            /// guaranteed to be unique for the compositor instance.
-            /// <br/>
-            /// <br/>
-            /// The same output name is used for all clients for a given wl_output
-            /// global. Thus, the name can be shared across processes to refer to a
-            /// specific wl_output global.
-            /// <br/>
-            /// <br/>
-            /// The name is not guaranteed to be persistent across sessions, thus cannot
-            /// be used to reliably identify an output in e.g. configuration files.
-            /// <br/>
-            /// <br/>
-            /// Examples of names include 'HDMI-A-1', 'WL-1', 'X11-1', etc. However, do
-            /// not assume that the name is a reflection of an underlying DRM connector,
-            /// X11 connection, etc.
-            /// <br/>
-            /// <br/>
-            /// The name event is sent after binding the output object. This event is
-            /// only sent once per output object, and the name does not change over the
-            /// lifetime of the wl_output global.
-            /// <br/>
-            /// <br/>
-            /// Compositors may re-use the same output name if the wl_output global is
-            /// destroyed and re-created later. Compositors should avoid re-using the
-            /// same name if possible.
-            /// <br/>
-            /// <br/>
-            /// The name event will be followed by a done event.
+            /// Many compositors will assign user-friendly names to their outputs, showthem to the user, allow the user to refer to an output, etc. The clientmay wish to know this name as well to offer the user similar behaviors.<br/><br/>
+            /// The name is a UTF-8 string with no convention defined for its contents.Each name is unique among all wl_output globals. The name is onlyguaranteed to be unique for the compositor instance.<br/><br/>
+            /// The same output name is used for all clients for a given wl_outputglobal. Thus, the name can be shared across processes to refer to aspecific wl_output global.<br/><br/>
+            /// The name is not guaranteed to be persistent across sessions, thus cannotbe used to reliably identify an output in e.g. configuration files.<br/><br/>
+            /// Examples of names include 'HDMI-A-1', 'WL-1', 'X11-1', etc. However, donot assume that the name is a reflection of an underlying DRM connector,X11 connection, etc.<br/><br/>
+            /// The name event is sent after binding the output object. This event isonly sent once per output object, and the name does not change over thelifetime of the wl_output global.<br/><br/>
+            /// Compositors may re-use the same output name if the wl_output global isdestroyed and re-created later. Compositors should avoid re-using thesame name if possible.<br/><br/>
+            /// The name event will be followed by a done event.<br/><br/>
             /// </summary>
             void OnName(NWayland.Protocols.Wayland.WlOutput eventSender, string @name);
 
             /// <summary>
-            /// Many compositors can produce human-readable descriptions of their
-            /// outputs. The client may wish to know this description as well, e.g. for
-            /// output selection purposes.
-            /// <br/>
-            /// <br/>
-            /// The description is a UTF-8 string with no convention defined for its
-            /// contents. The description is not guaranteed to be unique among all
-            /// wl_output globals. Examples might include 'Foocorp 11" Display' or
-            /// 'Virtual X11 output via :1'.
-            /// <br/>
-            /// <br/>
-            /// The description event is sent after binding the output object and
-            /// whenever the description changes. The description is optional, and may
-            /// not be sent at all.
-            /// <br/>
-            /// <br/>
-            /// The description event will be followed by a done event.
+            /// Many compositors can produce human-readable descriptions of theiroutputs. The client may wish to know this description as well, e.g. foroutput selection purposes.<br/><br/>
+            /// The description is a UTF-8 string with no convention defined for itscontents. The description is not guaranteed to be unique among allwl_output globals. Examples might include 'Foocorp 11" Display' or'Virtual X11 output via :1'.<br/><br/>
+            /// The description event is sent after binding the output object andwhenever the description changes. The description is optional, and maynot be sent at all.<br/><br/>
+            /// The description event will be followed by a done event.<br/><br/>
             /// </summary>
             void OnDescription(NWayland.Protocols.Wayland.WlOutput eventSender, string @description);
         }
@@ -4322,70 +3242,90 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This enumeration describes how the physical
-        /// pixels on an output are laid out.
+        /// This enumeration describes how the physicalpixels on an output are laid out.<br/><br/>
         /// </summary>
         public enum SubpixelEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// unknown geometry<br/><br/>
+            /// </summary>
             Unknown = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// no geometry<br/><br/>
+            /// </summary>
             None = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// horizontal RGB<br/><br/>
+            /// </summary>
             HorizontalRgb = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// horizontal BGR<br/><br/>
+            /// </summary>
             HorizontalBgr = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// vertical RGB<br/><br/>
+            /// </summary>
             VerticalRgb = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// vertical BGR<br/><br/>
+            /// </summary>
             VerticalBgr = 5
         }
 
         /// <summary>
-        /// This describes the transform that a compositor will apply to a
-        /// surface to compensate for the rotation or mirroring of an
-        /// output device.
-        /// <br/>
-        /// <br/>
-        /// The flipped values correspond to an initial flip around a
-        /// vertical axis followed by rotation.
-        /// <br/>
-        /// <br/>
-        /// The purpose is mainly to allow clients to render accordingly and
-        /// tell the compositor, so that for fullscreen surfaces, the
-        /// compositor will still be able to scan out directly from client
-        /// surfaces.
+        /// This describes the transform that a compositor will apply to asurface to compensate for the rotation or mirroring of anoutput device.<br/><br/>
+        /// The flipped values correspond to an initial flip around avertical axis followed by rotation.<br/><br/>
+        /// The purpose is mainly to allow clients to render accordingly andtell the compositor, so that for fullscreen surfaces, thecompositor will still be able to scan out directly from clientsurfaces.<br/><br/>
         /// </summary>
         public enum TransformEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// no transform<br/><br/>
+            /// </summary>
             Normal = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// 90 degrees counter-clockwise<br/><br/>
+            /// </summary>
             k_90 = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// 180 degrees counter-clockwise<br/><br/>
+            /// </summary>
             k_180 = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// 270 degrees counter-clockwise<br/><br/>
+            /// </summary>
             k_270 = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// 180 degree flip around a vertical axis<br/><br/>
+            /// </summary>
             Flipped = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// flip and rotate 90 degrees counter-clockwise<br/><br/>
+            /// </summary>
             Flipped90 = 5,
-            /// <summary></summary>
+            /// <summary>
+            /// flip and rotate 180 degrees counter-clockwise<br/><br/>
+            /// </summary>
             Flipped180 = 6,
-            /// <summary></summary>
+            /// <summary>
+            /// flip and rotate 270 degrees counter-clockwise<br/><br/>
+            /// </summary>
             Flipped270 = 7
         }
 
         /// <summary>
-        /// These flags describe properties of an output mode.
-        /// They are used in the flags bitfield of the mode event.
+        /// These flags describe properties of an output mode.They are used in the flags bitfield of the mode event.<br/><br/>
         /// </summary>
         [Flags]
         public enum ModeEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// indicates this is the current mode<br/><br/>
+            /// </summary>
             Current = 0x1,
-            /// <summary></summary>
+            /// <summary>
+            /// indicates this is the preferred mode<br/><br/>
+            /// </summary>
             Preferred = 0x2
         }
 
@@ -4413,11 +3353,8 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// A region object describes an area.
-    /// <br/>
-    /// <br/>
-    /// Region objects are used to describe the opaque and input
-    /// regions of a surface.
+    /// A region object describes an area.<br/><br/>
+    /// Region objects are used to describe the opaque and inputregions of a surface.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlRegion : WlProxy
     {
@@ -4447,7 +3384,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Add the specified rectangle to the region.
+        /// Add the specified rectangle to the region.<br/><br/>
         /// </summary>
         public void Add(int @x, int @y, int @width, int @height)
         {
@@ -4461,7 +3398,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Subtract the specified rectangle from the region.
+        /// Subtract the specified rectangle from the region.<br/><br/>
         /// </summary>
         public void Subtract(int @x, int @y, int @width, int @height)
         {
@@ -4508,28 +3445,10 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// The global interface exposing sub-surface compositing capabilities.
-    /// A wl_surface, that has sub-surfaces associated, is called the
-    /// parent surface. Sub-surfaces can be arbitrarily nested and create
-    /// a tree of sub-surfaces.
-    /// <br/>
-    /// <br/>
-    /// The root surface in a tree of sub-surfaces is the main
-    /// surface. The main surface cannot be a sub-surface, because
-    /// sub-surfaces must always have a parent.
-    /// <br/>
-    /// <br/>
-    /// A main surface with its sub-surfaces forms a (compound) window.
-    /// For window management purposes, this set of wl_surface objects is
-    /// to be considered as a single window, and it should also behave as
-    /// such.
-    /// <br/>
-    /// <br/>
-    /// The aim of sub-surfaces is to offload some of the compositing work
-    /// within a window from clients to the compositor. A prime example is
-    /// a video player with decorations and video in separate wl_surface
-    /// objects. This should allow the compositor to pass YUV video buffer
-    /// processing to dedicated overlay hardware when possible.
+    /// The global interface exposing sub-surface compositing capabilities.A wl_surface, that has sub-surfaces associated, is called theparent surface. Sub-surfaces can be arbitrarily nested and createa tree of sub-surfaces.<br/><br/>
+    /// The root surface in a tree of sub-surfaces is the mainsurface. The main surface cannot be a sub-surface, becausesub-surfaces must always have a parent.<br/><br/>
+    /// A main surface with its sub-surfaces forms a (compound) window.For window management purposes, this set of wl_surface objects isto be considered as a single window, and it should also behave assuch.<br/><br/>
+    /// The aim of sub-surfaces is to offload some of the compositing workwithin a window from clients to the compositor. A prime example isa video player with decorations and video in separate wl_surfaceobjects. This should allow the compositor to pass YUV video bufferprocessing to dedicated overlay hardware when possible.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlSubcompositor : WlProxy
     {
@@ -4558,24 +3477,11 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Create a sub-surface interface for the given surface, and
-        /// associate it with the given parent surface. This turns a
-        /// plain wl_surface into a sub-surface.
-        /// <br/>
-        /// <br/>
-        /// The to-be sub-surface must not already have another role, and it
-        /// must not have an existing wl_subsurface object. Otherwise a protocol
-        /// error is raised.
-        /// <br/>
-        /// <br/>
-        /// Adding sub-surfaces to a parent is a double-buffered operation on the
-        /// parent (see wl_surface.commit). The effect of adding a sub-surface
-        /// becomes visible on the next time the state of the parent surface is
-        /// applied.
-        /// <br/>
-        /// <br/>
-        /// This request modifies the behaviour of wl_surface.commit request on
-        /// the sub-surface, see the documentation on wl_subsurface interface.
+        /// Create a sub-surface interface for the given surface, andassociate it with the given parent surface. This turns aplain wl_surface into a sub-surface.<br/><br/>
+        /// The to-be sub-surface must not already have another role, and itmust not have an existing wl_subsurface object. Otherwise thebad_surface protocol error is raised.<br/><br/>
+        /// Adding sub-surfaces to a parent is a double-buffered operation on theparent (see wl_surface.commit). The effect of adding a sub-surfacebecomes visible on the next time the state of the parent surface isapplied.<br/><br/>
+        /// The parent surface must not be one of the child surface's descendants,and the parent must be different from the child surface, otherwise thebad_parent protocol error is raised.<br/><br/>
+        /// This request modifies the behaviour of wl_surface.commit request onthe sub-surface, see the documentation on wl_subsurface interface.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlSubsurface GetSubsurface(NWayland.Protocols.Wayland.WlSurface @surface, NWayland.Protocols.Wayland.WlSurface @parent)
         {
@@ -4604,8 +3510,14 @@ namespace NWayland.Protocols.Wayland
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
-            BadSurface = 0
+            /// <summary>
+            /// the to-be sub-surface is invalid<br/><br/>
+            /// </summary>
+            BadSurface = 0,
+            /// <summary>
+            /// the to-be sub-surface parent is invalid<br/><br/>
+            /// </summary>
+            BadParent = 1
         }
 
         private class ProxyFactory : IBindFactory<WlSubcompositor>
@@ -4632,62 +3544,14 @@ namespace NWayland.Protocols.Wayland
     }
 
     /// <summary>
-    /// An additional interface to a wl_surface object, which has been
-    /// made a sub-surface. A sub-surface has one parent surface. A
-    /// sub-surface's size and position are not limited to that of the parent.
-    /// Particularly, a sub-surface is not automatically clipped to its
-    /// parent's area.
-    /// <br/>
-    /// <br/>
-    /// A sub-surface becomes mapped, when a non-NULL wl_buffer is applied
-    /// and the parent surface is mapped. The order of which one happens
-    /// first is irrelevant. A sub-surface is hidden if the parent becomes
-    /// hidden, or if a NULL wl_buffer is applied. These rules apply
-    /// recursively through the tree of surfaces.
-    /// <br/>
-    /// <br/>
-    /// The behaviour of a wl_surface.commit request on a sub-surface
-    /// depends on the sub-surface's mode. The possible modes are
-    /// synchronized and desynchronized, see methods
-    /// wl_subsurface.set_sync and wl_subsurface.set_desync. Synchronized
-    /// mode caches the wl_surface state to be applied when the parent's
-    /// state gets applied, and desynchronized mode applies the pending
-    /// wl_surface state directly. A sub-surface is initially in the
-    /// synchronized mode.
-    /// <br/>
-    /// <br/>
-    /// Sub-surfaces also have another kind of state, which is managed by
-    /// wl_subsurface requests, as opposed to wl_surface requests. This
-    /// state includes the sub-surface position relative to the parent
-    /// surface (wl_subsurface.set_position), and the stacking order of
-    /// the parent and its sub-surfaces (wl_subsurface.place_above and
-    /// .place_below). This state is applied when the parent surface's
-    /// wl_surface state is applied, regardless of the sub-surface's mode.
-    /// As the exception, set_sync and set_desync are effective immediately.
-    /// <br/>
-    /// <br/>
-    /// The main surface can be thought to be always in desynchronized mode,
-    /// since it does not have a parent in the sub-surfaces sense.
-    /// <br/>
-    /// <br/>
-    /// Even if a sub-surface is in desynchronized mode, it will behave as
-    /// in synchronized mode, if its parent surface behaves as in
-    /// synchronized mode. This rule is applied recursively throughout the
-    /// tree of surfaces. This means, that one can set a sub-surface into
-    /// synchronized mode, and then assume that all its child and grand-child
-    /// sub-surfaces are synchronized, too, without explicitly setting them.
-    /// <br/>
-    /// <br/>
-    /// If the wl_surface associated with the wl_subsurface is destroyed, the
-    /// wl_subsurface object becomes inert. Note, that destroying either object
-    /// takes effect immediately. If you need to synchronize the removal
-    /// of a sub-surface to the parent surface update, unmap the sub-surface
-    /// first by attaching a NULL wl_buffer, update parent, and then destroy
-    /// the sub-surface.
-    /// <br/>
-    /// <br/>
-    /// If the parent wl_surface object is destroyed, the sub-surface is
-    /// unmapped.
+    /// An additional interface to a wl_surface object, which has beenmade a sub-surface. A sub-surface has one parent surface. Asub-surface's size and position are not limited to that of the parent.Particularly, a sub-surface is not automatically clipped to itsparent's area.<br/><br/>
+    /// A sub-surface becomes mapped, when a non-NULL wl_buffer is appliedand the parent surface is mapped. The order of which one happensfirst is irrelevant. A sub-surface is hidden if the parent becomeshidden, or if a NULL wl_buffer is applied. These rules applyrecursively through the tree of surfaces.<br/><br/>
+    /// The behaviour of a wl_surface.commit request on a sub-surfacedepends on the sub-surface's mode. The possible modes aresynchronized and desynchronized, see methodswl_subsurface.set_sync and wl_subsurface.set_desync. Synchronizedmode caches the wl_surface state to be applied when the parent'sstate gets applied, and desynchronized mode applies the pendingwl_surface state directly. A sub-surface is initially in thesynchronized mode.<br/><br/>
+    /// Sub-surfaces also have another kind of state, which is managed bywl_subsurface requests, as opposed to wl_surface requests. Thisstate includes the sub-surface position relative to the parentsurface (wl_subsurface.set_position), and the stacking order ofthe parent and its sub-surfaces (wl_subsurface.place_above and.place_below). This state is applied when the parent surface'swl_surface state is applied, regardless of the sub-surface's mode.As the exception, set_sync and set_desync are effective immediately.<br/><br/>
+    /// The main surface can be thought to be always in desynchronized mode,since it does not have a parent in the sub-surfaces sense.<br/><br/>
+    /// Even if a sub-surface is in desynchronized mode, it will behave asin synchronized mode, if its parent surface behaves as insynchronized mode. This rule is applied recursively throughout thetree of surfaces. This means, that one can set a sub-surface intosynchronized mode, and then assume that all its child and grand-childsub-surfaces are synchronized, too, without explicitly setting them.<br/><br/>
+    /// If the wl_surface associated with the wl_subsurface is destroyed, thewl_subsurface object becomes inert. Note, that destroying either objecttakes effect immediately. If you need to synchronize the removalof a sub-surface to the parent surface update, unmap the sub-surfacefirst by attaching a NULL wl_buffer, update parent, and then destroythe sub-surface.<br/><br/>
+    /// If the parent wl_surface object is destroyed, the sub-surface isunmapped.<br/><br/>
     /// </summary>
     public sealed unsafe partial class WlSubsurface : WlProxy
     {
@@ -4720,25 +3584,10 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This schedules a sub-surface position change.
-        /// The sub-surface will be moved so that its origin (top left
-        /// corner pixel) will be at the location x, y of the parent surface
-        /// coordinate system. The coordinates are not restricted to the parent
-        /// surface area. Negative values are allowed.
-        /// <br/>
-        /// <br/>
-        /// The scheduled coordinates will take effect whenever the state of the
-        /// parent surface is applied. When this happens depends on whether the
-        /// parent surface is in synchronized mode or not. See
-        /// wl_subsurface.set_sync and wl_subsurface.set_desync for details.
-        /// <br/>
-        /// <br/>
-        /// If more than one set_position request is invoked by the client before
-        /// the commit of the parent surface, the position of a new request always
-        /// replaces the scheduled position from any previous request.
-        /// <br/>
-        /// <br/>
-        /// The initial position is 0, 0.
+        /// This schedules a sub-surface position change.The sub-surface will be moved so that its origin (top leftcorner pixel) will be at the location x, y of the parent surfacecoordinate system. The coordinates are not restricted to the parentsurface area. Negative values are allowed.<br/><br/>
+        /// The scheduled coordinates will take effect whenever the state of theparent surface is applied. When this happens depends on whether theparent surface is in synchronized mode or not. Seewl_subsurface.set_sync and wl_subsurface.set_desync for details.<br/><br/>
+        /// If more than one set_position request is invoked by the client beforethe commit of the parent surface, the position of a new request alwaysreplaces the scheduled position from any previous request.<br/><br/>
+        /// The initial position is 0, 0.<br/><br/>
         /// </summary>
         public void SetPosition(int @x, int @y)
         {
@@ -4750,23 +3599,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// This sub-surface is taken from the stack, and put back just
-        /// above the reference surface, changing the z-order of the sub-surfaces.
-        /// The reference surface must be one of the sibling surfaces, or the
-        /// parent surface. Using any other surface, including this sub-surface,
-        /// will cause a protocol error.
-        /// <br/>
-        /// <br/>
-        /// The z-order is double-buffered. Requests are handled in order and
-        /// applied immediately to a pending state. The final pending state is
-        /// copied to the active state the next time the state of the parent
-        /// surface is applied. When this happens depends on whether the parent
-        /// surface is in synchronized mode or not. See wl_subsurface.set_sync and
-        /// wl_subsurface.set_desync for details.
-        /// <br/>
-        /// <br/>
-        /// A new sub-surface is initially added as the top-most in the stack
-        /// of its siblings and parent.
+        /// This sub-surface is taken from the stack, and put back justabove the reference surface, changing the z-order of the sub-surfaces.The reference surface must be one of the sibling surfaces, or theparent surface. Using any other surface, including this sub-surface,will cause a protocol error.<br/><br/>
+        /// The z-order is double-buffered. Requests are handled in order andapplied immediately to a pending state. The final pending state iscopied to the active state the next time the state of the parentsurface is applied. When this happens depends on whether the parentsurface is in synchronized mode or not. See wl_subsurface.set_sync andwl_subsurface.set_desync for details.<br/><br/>
+        /// A new sub-surface is initially added as the top-most in the stackof its siblings and parent.<br/><br/>
         /// </summary>
         public void PlaceAbove(NWayland.Protocols.Wayland.WlSurface @sibling)
         {
@@ -4779,8 +3614,7 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// The sub-surface is placed just below the reference surface.
-        /// See wl_subsurface.place_above.
+        /// The sub-surface is placed just below the reference surface.See wl_subsurface.place_above.<br/><br/>
         /// </summary>
         public void PlaceBelow(NWayland.Protocols.Wayland.WlSurface @sibling)
         {
@@ -4793,21 +3627,9 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Change the commit behaviour of the sub-surface to synchronized
-        /// mode, also described as the parent dependent mode.
-        /// <br/>
-        /// <br/>
-        /// In synchronized mode, wl_surface.commit on a sub-surface will
-        /// accumulate the committed state in a cache, but the state will
-        /// not be applied and hence will not change the compositor output.
-        /// The cached state is applied to the sub-surface immediately after
-        /// the parent surface's state is applied. This ensures atomic
-        /// updates of the parent and all its synchronized sub-surfaces.
-        /// Applying the cached state will invalidate the cache, so further
-        /// parent surface commits do not (re-)apply old state.
-        /// <br/>
-        /// <br/>
-        /// See wl_subsurface for the recursive effect of this mode.
+        /// Change the commit behaviour of the sub-surface to synchronizedmode, also described as the parent dependent mode.<br/><br/>
+        /// In synchronized mode, wl_surface.commit on a sub-surface willaccumulate the committed state in a cache, but the state willnot be applied and hence will not change the compositor output.The cached state is applied to the sub-surface immediately afterthe parent surface's state is applied. This ensures atomicupdates of the parent and all its synchronized sub-surfaces.Applying the cached state will invalidate the cache, so furtherparent surface commits do not (re-)apply old state.<br/><br/>
+        /// See wl_subsurface for the recursive effect of this mode.<br/><br/>
         /// </summary>
         public void SetSync()
         {
@@ -4817,29 +3639,11 @@ namespace NWayland.Protocols.Wayland
         }
 
         /// <summary>
-        /// Change the commit behaviour of the sub-surface to desynchronized
-        /// mode, also described as independent or freely running mode.
-        /// <br/>
-        /// <br/>
-        /// In desynchronized mode, wl_surface.commit on a sub-surface will
-        /// apply the pending state directly, without caching, as happens
-        /// normally with a wl_surface. Calling wl_surface.commit on the
-        /// parent surface has no effect on the sub-surface's wl_surface
-        /// state. This mode allows a sub-surface to be updated on its own.
-        /// <br/>
-        /// <br/>
-        /// If cached state exists when wl_surface.commit is called in
-        /// desynchronized mode, the pending state is added to the cached
-        /// state, and applied as a whole. This invalidates the cache.
-        /// <br/>
-        /// <br/>
-        /// Note: even if a sub-surface is set to desynchronized, a parent
-        /// sub-surface may override it to behave as synchronized. For details,
-        /// see wl_subsurface.
-        /// <br/>
-        /// <br/>
-        /// If a surface's parent surface behaves as desynchronized, then
-        /// the cached state is applied on set_desync.
+        /// Change the commit behaviour of the sub-surface to desynchronizedmode, also described as independent or freely running mode.<br/><br/>
+        /// In desynchronized mode, wl_surface.commit on a sub-surface willapply the pending state directly, without caching, as happensnormally with a wl_surface. Calling wl_surface.commit on theparent surface has no effect on the sub-surface's wl_surfacestate. This mode allows a sub-surface to be updated on its own.<br/><br/>
+        /// If cached state exists when wl_surface.commit is called indesynchronized mode, the pending state is added to the cachedstate, and applied as a whole. This invalidates the cache.<br/><br/>
+        /// Note: even if a sub-surface is set to desynchronized, a parentsub-surface may override it to behave as synchronized. For details,see wl_subsurface.<br/><br/>
+        /// If a surface's parent surface behaves as desynchronized, thenthe cached state is applied on set_desync.<br/><br/>
         /// </summary>
         public void SetDesync()
         {
@@ -4860,7 +3664,9 @@ namespace NWayland.Protocols.Wayland
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// wl_surface is not a sibling or the parent<br/><br/>
+            /// </summary>
             BadSurface = 0
         }
 

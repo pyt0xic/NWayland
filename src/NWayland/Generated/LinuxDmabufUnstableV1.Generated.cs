@@ -8,87 +8,20 @@ using NWayland.Interop;
 namespace NWayland.Protocols.LinuxDmabufUnstableV1
 {
     /// <summary>
-    /// Following the interfaces from:
-    /// https://www.khronos.org/registry/egl/extensions/EXT/EGL_EXT_image_dma_buf_import.txt
-    /// https://www.khronos.org/registry/EGL/extensions/EXT/EGL_EXT_image_dma_buf_import_modifiers.txt
-    /// and the Linux DRM sub-system's AddFb2 ioctl.
-    /// <br/>
-    /// <br/>
-    /// This interface offers ways to create generic dmabuf-based wl_buffers.
-    /// <br/>
-    /// <br/>
-    /// Clients can use the get_surface_feedback request to get dmabuf feedback
-    /// for a particular surface. If the client wants to retrieve feedback not
-    /// tied to a surface, they can use the get_default_feedback request.
-    /// <br/>
-    /// <br/>
-    /// The following are required from clients:
-    /// <br/>
-    /// <br/>
-    /// - Clients must ensure that either all data in the dma-buf is
-    /// coherent for all subsequent read access or that coherency is
-    /// correctly handled by the underlying kernel-side dma-buf
-    /// implementation.
-    /// <br/>
-    /// <br/>
-    /// - Don't make any more attachments after sending the buffer to the
-    /// compositor. Making more attachments later increases the risk of
-    /// the compositor not being able to use (re-import) an existing
-    /// dmabuf-based wl_buffer.
-    /// <br/>
-    /// <br/>
-    /// The underlying graphics stack must ensure the following:
-    /// <br/>
-    /// <br/>
-    /// - The dmabuf file descriptors relayed to the server will stay valid
-    /// for the whole lifetime of the wl_buffer. This means the server may
-    /// at any time use those fds to import the dmabuf into any kernel
-    /// sub-system that might accept it.
-    /// <br/>
-    /// <br/>
-    /// However, when the underlying graphics stack fails to deliver the
-    /// promise, because of e.g. a device hot-unplug which raises internal
-    /// errors, after the wl_buffer has been successfully created the
-    /// compositor must not raise protocol errors to the client when dmabuf
-    /// import later fails.
-    /// <br/>
-    /// <br/>
-    /// To create a wl_buffer from one or more dmabufs, a client creates a
-    /// zwp_linux_dmabuf_params_v1 object with a zwp_linux_dmabuf_v1.create_params
-    /// request. All planes required by the intended format are added with
-    /// the 'add' request. Finally, a 'create' or 'create_immed' request is
-    /// issued, which has the following outcome depending on the import success.
-    /// <br/>
-    /// <br/>
-    /// The 'create' request,
-    /// - on success, triggers a 'created' event which provides the final
-    /// wl_buffer to the client.
-    /// - on failure, triggers a 'failed' event to convey that the server
-    /// cannot use the dmabufs received from the client.
-    /// <br/>
-    /// <br/>
-    /// For the 'create_immed' request,
-    /// - on success, the server immediately imports the added dmabufs to
-    /// create a wl_buffer. No event is sent from the server in this case.
-    /// - on failure, the server can choose to either:
-    /// - terminate the client by raising a fatal error.
-    /// - mark the wl_buffer as failed, and send a 'failed' event to the
-    /// client. If the client uses a failed wl_buffer as an argument to any
-    /// request, the behaviour is compositor implementation-defined.
-    /// <br/>
-    /// <br/>
-    /// For all DRM formats and unless specified in another protocol extension,
-    /// pre-multiplied alpha is used for pixel values.
-    /// <br/>
-    /// <br/>
-    /// Warning! The protocol described in this file is experimental and
-    /// backward incompatible changes may be made. Backward compatible changes
-    /// may be added together with the corresponding interface version bump.
-    /// Backward incompatible changes are done by bumping the version number in
-    /// the protocol and interface names and resetting the interface version.
-    /// Once the protocol is to be declared stable, the 'z' prefix and the
-    /// version number in the protocol and interface names are removed and the
-    /// interface version number is reset.
+    /// Following the interfaces from:https://www.khronos.org/registry/egl/extensions/EXT/EGL_EXT_image_dma_buf_import.txthttps://www.khronos.org/registry/EGL/extensions/EXT/EGL_EXT_image_dma_buf_import_modifiers.txtand the Linux DRM sub-system's AddFb2 ioctl.<br/><br/>
+    /// This interface offers ways to create generic dmabuf-based wl_buffers.<br/><br/>
+    /// Clients can use the get_surface_feedback request to get dmabuf feedbackfor a particular surface. If the client wants to retrieve feedback nottied to a surface, they can use the get_default_feedback request.<br/><br/>
+    /// The following are required from clients:<br/><br/>
+    /// - Clients must ensure that either all data in the dma-buf iscoherent for all subsequent read access or that coherency iscorrectly handled by the underlying kernel-side dma-bufimplementation.<br/><br/>
+    /// - Don't make any more attachments after sending the buffer to thecompositor. Making more attachments later increases the risk ofthe compositor not being able to use (re-import) an existingdmabuf-based wl_buffer.<br/><br/>
+    /// The underlying graphics stack must ensure the following:<br/><br/>
+    /// - The dmabuf file descriptors relayed to the server will stay validfor the whole lifetime of the wl_buffer. This means the server mayat any time use those fds to import the dmabuf into any kernelsub-system that might accept it.<br/><br/>
+    /// However, when the underlying graphics stack fails to deliver thepromise, because of e.g. a device hot-unplug which raises internalerrors, after the wl_buffer has been successfully created thecompositor must not raise protocol errors to the client when dmabufimport later fails.<br/><br/>
+    /// To create a wl_buffer from one or more dmabufs, a client creates azwp_linux_dmabuf_params_v1 object with a zwp_linux_dmabuf_v1.create_paramsrequest. All planes required by the intended format are added withthe 'add' request. Finally, a 'create' or 'create_immed' request isissued, which has the following outcome depending on the import success.<br/><br/>
+    /// The 'create' request,- on success, triggers a 'created' event which provides the finalwl_buffer to the client.- on failure, triggers a 'failed' event to convey that the servercannot use the dmabufs received from the client.<br/><br/>
+    /// For the 'create_immed' request,- on success, the server immediately imports the added dmabufs tocreate a wl_buffer. No event is sent from the server in this case.- on failure, the server can choose to either:- terminate the client by raising a fatal error.- mark the wl_buffer as failed, and send a 'failed' event to theclient. If the client uses a failed wl_buffer as an argument to anyrequest, the behaviour is compositor implementation-defined.<br/><br/>
+    /// For all DRM formats and unless specified in another protocol extension,pre-multiplied alpha is used for pixel values.<br/><br/>
+    /// Warning! The protocol described in this file is experimental andbackward incompatible changes may be made. Backward compatible changesmay be added together with the corresponding interface version bump.Backward incompatible changes are done by bumping the version number inthe protocol and interface names and resetting the interface version.Once the protocol is to be declared stable, the 'z' prefix and theversion number in the protocol and interface names are removed and theinterface version number is reset.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpLinuxDmabufV1 : WlProxy
     {
@@ -122,10 +55,7 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         }
 
         /// <summary>
-        /// This temporary object is used to collect multiple dmabuf handles into
-        /// a single batch to create a wl_buffer. It can only be used once and
-        /// should be destroyed after a 'created' or 'failed' event has been
-        /// received.
+        /// This temporary object is used to collect multiple dmabuf handles intoa single batch to create a wl_buffer. It can only be used once andshould be destroyed after a 'created' or 'failed' event has beenreceived.<br/><br/>
         /// </summary>
         public NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxBufferParamsV1 CreateParams()
         {
@@ -137,10 +67,7 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         }
 
         /// <summary>
-        /// This request creates a new wp_linux_dmabuf_feedback object not bound
-        /// to a particular surface. This object will deliver feedback about dmabuf
-        /// parameters to use if the client doesn't support per-surface feedback
-        /// (see get_surface_feedback).
+        /// This request creates a new wp_linux_dmabuf_feedback object not boundto a particular surface. This object will deliver feedback about dmabufparameters to use if the client doesn't support per-surface feedback(see get_surface_feedback).<br/><br/>
         /// </summary>
         public NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 GetDefaultFeedback()
         {
@@ -154,13 +81,8 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         }
 
         /// <summary>
-        /// This request creates a new wp_linux_dmabuf_feedback object for the
-        /// specified wl_surface. This object will deliver feedback about dmabuf
-        /// parameters to use for buffers attached to this surface.
-        /// <br/>
-        /// <br/>
-        /// If the surface is destroyed before the wp_linux_dmabuf_feedback object,
-        /// the feedback object becomes inert.
+        /// This request creates a new wp_linux_dmabuf_feedback object for thespecified wl_surface. This object will deliver feedback about dmabufparameters to use for buffers attached to this surface.<br/><br/>
+        /// If the surface is destroyed before the wp_linux_dmabuf_feedback object,the feedback object becomes inert.<br/><br/>
         /// </summary>
         public NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 GetSurfaceFeedback(NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -179,50 +101,18 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// This event advertises one buffer format that the server supports.
-            /// All the supported formats are advertised once when the client
-            /// binds to this interface. A roundtrip after binding guarantees
-            /// that the client has received all supported formats.
-            /// <br/>
-            /// <br/>
-            /// For the definition of the format codes, see the
-            /// zwp_linux_buffer_params_v1::create request.
-            /// <br/>
-            /// <br/>
-            /// Starting version 4, the format event is deprecated and must not be
-            /// sent by compositors. Instead, use get_default_feedback or
-            /// get_surface_feedback.
+            /// This event advertises one buffer format that the server supports.All the supported formats are advertised once when the clientbinds to this interface. A roundtrip after binding guaranteesthat the client has received all supported formats.<br/><br/>
+            /// For the definition of the format codes, see thezwp_linux_buffer_params_v1::create request.<br/><br/>
+            /// Starting version 4, the format event is deprecated and must not besent by compositors. Instead, use get_default_feedback orget_surface_feedback.<br/><br/>
             /// </summary>
             void OnFormat(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufV1 eventSender, uint @format);
 
             /// <summary>
-            /// This event advertises the formats that the server supports, along with
-            /// the modifiers supported for each format. All the supported modifiers
-            /// for all the supported formats are advertised once when the client
-            /// binds to this interface. A roundtrip after binding guarantees that
-            /// the client has received all supported format-modifier pairs.
-            /// <br/>
-            /// <br/>
-            /// For legacy support, DRM_FORMAT_MOD_INVALID (that is, modifier_hi ==
-            /// 0x00ffffff and modifier_lo == 0xffffffff) is allowed in this event.
-            /// It indicates that the server can support the format with an implicit
-            /// modifier. When a plane has DRM_FORMAT_MOD_INVALID as its modifier, it
-            /// is as if no explicit modifier is specified. The effective modifier
-            /// will be derived from the dmabuf.
-            /// <br/>
-            /// <br/>
-            /// A compositor that sends valid modifiers and DRM_FORMAT_MOD_INVALID for
-            /// a given format supports both explicit modifiers and implicit modifiers.
-            /// <br/>
-            /// <br/>
-            /// For the definition of the format and modifier codes, see the
-            /// zwp_linux_buffer_params_v1::create and zwp_linux_buffer_params_v1::add
-            /// requests.
-            /// <br/>
-            /// <br/>
-            /// Starting version 4, the modifier event is deprecated and must not be
-            /// sent by compositors. Instead, use get_default_feedback or
-            /// get_surface_feedback.
+            /// This event advertises the formats that the server supports, along withthe modifiers supported for each format. All the supported modifiersfor all the supported formats are advertised once when the clientbinds to this interface. A roundtrip after binding guarantees thatthe client has received all supported format-modifier pairs.<br/><br/>
+            /// For legacy support, DRM_FORMAT_MOD_INVALID (that is, modifier_hi ==0x00ffffff and modifier_lo == 0xffffffff) is allowed in this event.It indicates that the server can support the format with an implicitmodifier. When a plane has DRM_FORMAT_MOD_INVALID as its modifier, itis as if no explicit modifier is specified. The effective modifierwill be derived from the dmabuf.<br/><br/>
+            /// A compositor that sends valid modifiers and DRM_FORMAT_MOD_INVALID fora given format supports both explicit modifiers and implicit modifiers.<br/><br/>
+            /// For the definition of the format and modifier codes, see thezwp_linux_buffer_params_v1::create and zwp_linux_buffer_params_v1::addrequests.<br/><br/>
+            /// Starting version 4, the modifier event is deprecated and must not besent by compositors. Instead, use get_default_feedback orget_surface_feedback.<br/><br/>
             /// </summary>
             void OnModifier(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufV1 eventSender, uint @format, uint @modifierHi, uint @modifierLo);
         }
@@ -266,22 +156,9 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
     }
 
     /// <summary>
-    /// This temporary object is a collection of dmabufs and other
-    /// parameters that together form a single logical buffer. The temporary
-    /// object may eventually create one wl_buffer unless cancelled by
-    /// destroying it before requesting 'create'.
-    /// <br/>
-    /// <br/>
-    /// Single-planar formats only require one dmabuf, however
-    /// multi-planar formats may require more than one dmabuf. For all
-    /// formats, an 'add' request must be called once per plane (even if the
-    /// underlying dmabuf fd is identical).
-    /// <br/>
-    /// <br/>
-    /// You must use consecutive plane indices ('plane_idx' argument for 'add')
-    /// from zero to the number of planes used by the drm_fourcc format code.
-    /// All planes required by the format must be given exactly once, but can
-    /// be given in any order. Each plane index can be set only once.
+    /// This temporary object is a collection of dmabufs and otherparameters that together form a single logical buffer. The temporaryobject may eventually create one wl_buffer unless cancelled bydestroying it before requesting 'create'.<br/><br/>
+    /// Single-planar formats only require one dmabuf, howevermulti-planar formats may require more than one dmabuf. For allformats, an 'add' request must be called once per plane (even if theunderlying dmabuf fd is identical).<br/><br/>
+    /// You must use consecutive plane indices ('plane_idx' argument for 'add')from zero to the number of planes used by the drm_fourcc format code.All planes required by the format must be given exactly once, but canbe given in any order. Each plane index can be set only once.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpLinuxBufferParamsV1 : WlProxy
     {
@@ -315,25 +192,10 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         }
 
         /// <summary>
-        /// This request adds one dmabuf to the set in this
-        /// zwp_linux_buffer_params_v1.
-        /// <br/>
-        /// <br/>
-        /// The 64-bit unsigned value combined from modifier_hi and modifier_lo
-        /// is the dmabuf layout modifier. DRM AddFB2 ioctl calls this the
-        /// fb modifier, which is defined in drm_mode.h of Linux UAPI.
-        /// This is an opaque token. Drivers use this token to express tiling,
-        /// compression, etc. driver-specific modifications to the base format
-        /// defined by the DRM fourcc code.
-        /// <br/>
-        /// <br/>
-        /// Starting from version 4, the invalid_format protocol error is sent if
-        /// the format + modifier pair was not advertised as supported.
-        /// <br/>
-        /// <br/>
-        /// This request raises the PLANE_IDX error if plane_idx is too large.
-        /// The error PLANE_SET is raised if attempting to set a plane that
-        /// was already set.
+        /// This request adds one dmabuf to the set in thiszwp_linux_buffer_params_v1.<br/><br/>
+        /// The 64-bit unsigned value combined from modifier_hi and modifier_lois the dmabuf layout modifier. DRM AddFB2 ioctl calls this thefb modifier, which is defined in drm_mode.h of Linux UAPI.This is an opaque token. Drivers use this token to express tiling,compression, etc. driver-specific modifications to the base formatdefined by the DRM fourcc code.<br/><br/>
+        /// Starting from version 4, the invalid_format protocol error is sent ifthe format + modifier pair was not advertised as supported.<br/><br/>
+        /// This request raises the PLANE_IDX error if plane_idx is too large.The error PLANE_SET is raised if attempting to set a plane thatwas already set.<br/><br/>
         /// </summary>
         public void Add(int @fd, uint @planeIdx, uint @offset, uint @stride, uint @modifierHi, uint @modifierLo)
         {
@@ -349,74 +211,16 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         }
 
         /// <summary>
-        /// This asks for creation of a wl_buffer from the added dmabuf
-        /// buffers. The wl_buffer is not created immediately but returned via
-        /// the 'created' event if the dmabuf sharing succeeds. The sharing
-        /// may fail at runtime for reasons a client cannot predict, in
-        /// which case the 'failed' event is triggered.
-        /// <br/>
-        /// <br/>
-        /// The 'format' argument is a DRM_FORMAT code, as defined by the
-        /// libdrm's drm_fourcc.h. The Linux kernel's DRM sub-system is the
-        /// authoritative source on how the format codes should work.
-        /// <br/>
-        /// <br/>
-        /// The 'flags' is a bitfield of the flags defined in enum "flags".
-        /// 'y_invert' means the that the image needs to be y-flipped.
-        /// <br/>
-        /// <br/>
-        /// Flag 'interlaced' means that the frame in the buffer is not
-        /// progressive as usual, but interlaced. An interlaced buffer as
-        /// supported here must always contain both top and bottom fields.
-        /// The top field always begins on the first pixel row. The temporal
-        /// ordering between the two fields is top field first, unless
-        /// 'bottom_first' is specified. It is undefined whether 'bottom_first'
-        /// is ignored if 'interlaced' is not set.
-        /// <br/>
-        /// <br/>
-        /// This protocol does not convey any information about field rate,
-        /// duration, or timing, other than the relative ordering between the
-        /// two fields in one buffer. A compositor may have to estimate the
-        /// intended field rate from the incoming buffer rate. It is undefined
-        /// whether the time of receiving wl_surface.commit with a new buffer
-        /// attached, applying the wl_surface state, wl_surface.frame callback
-        /// trigger, presentation, or any other point in the compositor cycle
-        /// is used to measure the frame or field times. There is no support
-        /// for detecting missed or late frames/fields/buffers either, and
-        /// there is no support whatsoever for cooperating with interlaced
-        /// compositor output.
-        /// <br/>
-        /// <br/>
-        /// The composited image quality resulting from the use of interlaced
-        /// buffers is explicitly undefined. A compositor may use elaborate
-        /// hardware features or software to deinterlace and create progressive
-        /// output frames from a sequence of interlaced input buffers, or it
-        /// may produce substandard image quality. However, compositors that
-        /// cannot guarantee reasonable image quality in all cases are recommended
-        /// to just reject all interlaced buffers.
-        /// <br/>
-        /// <br/>
-        /// Any argument errors, including non-positive width or height,
-        /// mismatch between the number of planes and the format, bad
-        /// format, bad offset or stride, may be indicated by fatal protocol
-        /// errors: INCOMPLETE, INVALID_FORMAT, INVALID_DIMENSIONS,
-        /// OUT_OF_BOUNDS.
-        /// <br/>
-        /// <br/>
-        /// Dmabuf import errors in the server that are not obvious client
-        /// bugs are returned via the 'failed' event as non-fatal. This
-        /// allows attempting dmabuf sharing and falling back in the client
-        /// if it fails.
-        /// <br/>
-        /// <br/>
-        /// This request can be sent only once in the object's lifetime, after
-        /// which the only legal request is destroy. This object should be
-        /// destroyed after issuing a 'create' request. Attempting to use this
-        /// object after issuing 'create' raises ALREADY_USED protocol error.
-        /// <br/>
-        /// <br/>
-        /// It is not mandatory to issue 'create'. If a client wants to
-        /// cancel the buffer creation, it can just destroy this object.
+        /// This asks for creation of a wl_buffer from the added dmabufbuffers. The wl_buffer is not created immediately but returned viathe 'created' event if the dmabuf sharing succeeds. The sharingmay fail at runtime for reasons a client cannot predict, inwhich case the 'failed' event is triggered.<br/><br/>
+        /// The 'format' argument is a DRM_FORMAT code, as defined by thelibdrm's drm_fourcc.h. The Linux kernel's DRM sub-system is theauthoritative source on how the format codes should work.<br/><br/>
+        /// The 'flags' is a bitfield of the flags defined in enum "flags".'y_invert' means the that the image needs to be y-flipped.<br/><br/>
+        /// Flag 'interlaced' means that the frame in the buffer is notprogressive as usual, but interlaced. An interlaced buffer assupported here must always contain both top and bottom fields.The top field always begins on the first pixel row. The temporalordering between the two fields is top field first, unless'bottom_first' is specified. It is undefined whether 'bottom_first'is ignored if 'interlaced' is not set.<br/><br/>
+        /// This protocol does not convey any information about field rate,duration, or timing, other than the relative ordering between thetwo fields in one buffer. A compositor may have to estimate theintended field rate from the incoming buffer rate. It is undefinedwhether the time of receiving wl_surface.commit with a new bufferattached, applying the wl_surface state, wl_surface.frame callbacktrigger, presentation, or any other point in the compositor cycleis used to measure the frame or field times. There is no supportfor detecting missed or late frames/fields/buffers either, andthere is no support whatsoever for cooperating with interlacedcompositor output.<br/><br/>
+        /// The composited image quality resulting from the use of interlacedbuffers is explicitly undefined. A compositor may use elaboratehardware features or software to deinterlace and create progressiveoutput frames from a sequence of interlaced input buffers, or itmay produce substandard image quality. However, compositors thatcannot guarantee reasonable image quality in all cases are recommendedto just reject all interlaced buffers.<br/><br/>
+        /// Any argument errors, including non-positive width or height,mismatch between the number of planes and the format, badformat, bad offset or stride, may be indicated by fatal protocolerrors: INCOMPLETE, INVALID_FORMAT, INVALID_DIMENSIONS,OUT_OF_BOUNDS.<br/><br/>
+        /// Dmabuf import errors in the server that are not obvious clientbugs are returned via the 'failed' event as non-fatal. Thisallows attempting dmabuf sharing and falling back in the clientif it fails.<br/><br/>
+        /// This request can be sent only once in the object's lifetime, afterwhich the only legal request is destroy. This object should bedestroyed after issuing a 'create' request. Attempting to use thisobject after issuing 'create' raises ALREADY_USED protocol error.<br/><br/>
+        /// It is not mandatory to issue 'create'. If a client wants tocancel the buffer creation, it can just destroy this object.<br/><br/>
         /// </summary>
         public void Create(int @width, int @height, uint @format, FlagsEnum @flags)
         {
@@ -430,32 +234,10 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         }
 
         /// <summary>
-        /// This asks for immediate creation of a wl_buffer by importing the
-        /// added dmabufs.
-        /// <br/>
-        /// <br/>
-        /// In case of import success, no event is sent from the server, and the
-        /// wl_buffer is ready to be used by the client.
-        /// <br/>
-        /// <br/>
-        /// Upon import failure, either of the following may happen, as seen fit
-        /// by the implementation:
-        /// - the client is terminated with one of the following fatal protocol
-        /// errors:
-        /// - INCOMPLETE, INVALID_FORMAT, INVALID_DIMENSIONS, OUT_OF_BOUNDS,
-        /// in case of argument errors such as mismatch between the number
-        /// of planes and the format, bad format, non-positive width or
-        /// height, or bad offset or stride.
-        /// - INVALID_WL_BUFFER, in case the cause for failure is unknown or
-        /// plaform specific.
-        /// - the server creates an invalid wl_buffer, marks it as failed and
-        /// sends a 'failed' event to the client. The result of using this
-        /// invalid wl_buffer as an argument in any request by the client is
-        /// defined by the compositor implementation.
-        /// <br/>
-        /// <br/>
-        /// This takes the same arguments as a 'create' request, and obeys the
-        /// same restrictions.
+        /// This asks for immediate creation of a wl_buffer by importing theadded dmabufs.<br/><br/>
+        /// In case of import success, no event is sent from the server, and thewl_buffer is ready to be used by the client.<br/><br/>
+        /// Upon import failure, either of the following may happen, as seen fitby the implementation:- the client is terminated with one of the following fatal protocolerrors:- INCOMPLETE, INVALID_FORMAT, INVALID_DIMENSIONS, OUT_OF_BOUNDS,in case of argument errors such as mismatch between the numberof planes and the format, bad format, non-positive width orheight, or bad offset or stride.- INVALID_WL_BUFFER, in case the cause for failure is unknown orplaform specific.- the server creates an invalid wl_buffer, marks it as failed andsends a 'failed' event to the client. The result of using thisinvalid wl_buffer as an argument in any request by the client isdefined by the compositor implementation.<br/><br/>
+        /// This takes the same arguments as a 'create' request, and obeys thesame restrictions.<br/><br/>
         /// </summary>
         public NWayland.Protocols.Wayland.WlBuffer CreateImmed(int @width, int @height, uint @format, FlagsEnum @flags)
         {
@@ -475,23 +257,14 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// This event indicates that the attempted buffer creation was
-            /// successful. It provides the new wl_buffer referencing the dmabuf(s).
-            /// <br/>
-            /// <br/>
-            /// Upon receiving this event, the client should destroy the
-            /// zlinux_dmabuf_params object.
+            /// This event indicates that the attempted buffer creation wassuccessful. It provides the new wl_buffer referencing the dmabuf(s).<br/><br/>
+            /// Upon receiving this event, the client should destroy thezlinux_dmabuf_params object.<br/><br/>
             /// </summary>
             void OnCreated(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxBufferParamsV1 eventSender, WlBuffer @buffer);
 
             /// <summary>
-            /// This event indicates that the attempted buffer creation has
-            /// failed. It usually means that one of the dmabuf constraints
-            /// has not been fulfilled.
-            /// <br/>
-            /// <br/>
-            /// Upon receiving this event, the client should destroy the
-            /// zlinux_buffer_params object.
+            /// This event indicates that the attempted buffer creation hasfailed. It usually means that one of the dmabuf constraintshas not been fulfilled.<br/><br/>
+            /// Upon receiving this event, the client should destroy thezlinux_buffer_params object.<br/><br/>
             /// </summary>
             void OnFailed(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxBufferParamsV1 eventSender);
         }
@@ -513,32 +286,54 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// the dmabuf_batch object has already been used to create a wl_buffer<br/><br/>
+            /// </summary>
             AlreadyUsed = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// plane index out of bounds<br/><br/>
+            /// </summary>
             PlaneIdx = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// the plane index was already set<br/><br/>
+            /// </summary>
             PlaneSet = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// missing or too many planes to create a buffer<br/><br/>
+            /// </summary>
             Incomplete = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// format not supported<br/><br/>
+            /// </summary>
             InvalidFormat = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// invalid width or height<br/><br/>
+            /// </summary>
             InvalidDimensions = 5,
-            /// <summary></summary>
+            /// <summary>
+            /// offset + stride * height goes out of dmabuf bounds<br/><br/>
+            /// </summary>
             OutOfBounds = 6,
-            /// <summary></summary>
+            /// <summary>
+            /// invalid wl_buffer resulted from importing dmabufs via                the create_immed request on given buffer_params<br/><br/>
+            /// </summary>
             InvalidWlBuffer = 7
         }
 
         [Flags]
         public enum FlagsEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// contents are y-inverted<br/><br/>
+            /// </summary>
             YInvert = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// content is interlaced<br/><br/>
+            /// </summary>
             Interlaced = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// bottom field first<br/><br/>
+            /// </summary>
             BottomFirst = 4
         }
 
@@ -566,35 +361,11 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
     }
 
     /// <summary>
-    /// This object advertises dmabuf parameters feedback. This includes the
-    /// preferred devices and the supported formats/modifiers.
-    /// <br/>
-    /// <br/>
-    /// The parameters are sent once when this object is created and whenever they
-    /// change. The done event is always sent once after all parameters have been
-    /// sent. When a single parameter changes, all parameters are re-sent by the
-    /// compositor.
-    /// <br/>
-    /// <br/>
-    /// Compositors can re-send the parameters when the current client buffer
-    /// allocations are sub-optimal. Compositors should not re-send the
-    /// parameters if re-allocating the buffers would not result in a more optimal
-    /// configuration. In particular, compositors should avoid sending the exact
-    /// same parameters multiple times in a row.
-    /// <br/>
-    /// <br/>
-    /// The tranche_target_device and tranche_modifier events are grouped by
-    /// tranches of preference. For each tranche, a tranche_target_device, one
-    /// tranche_flags and one or more tranche_modifier events are sent, followed
-    /// by a tranche_done event finishing the list. The tranches are sent in
-    /// descending order of preference. All formats and modifiers in the same
-    /// tranche have the same preference.
-    /// <br/>
-    /// <br/>
-    /// To send parameters, the compositor sends one main_device event, tranches
-    /// (each consisting of one tranche_target_device event, one tranche_flags
-    /// event, tranche_modifier events and then a tranche_done event), then one
-    /// done event.
+    /// This object advertises dmabuf parameters feedback. This includes thepreferred devices and the supported formats/modifiers.<br/><br/>
+    /// The parameters are sent once when this object is created and whenever theychange. The done event is always sent once after all parameters have beensent. When a single parameter changes, all parameters are re-sent by thecompositor.<br/><br/>
+    /// Compositors can re-send the parameters when the current client bufferallocations are sub-optimal. Compositors should not re-send theparameters if re-allocating the buffers would not result in a more optimalconfiguration. In particular, compositors should avoid sending the exactsame parameters multiple times in a row.<br/><br/>
+    /// The tranche_target_device and tranche_formats events are grouped bytranches of preference. For each tranche, a tranche_target_device, onetranche_flags and one or more tranche_formats events are sent, followedby a tranche_done event finishing the list. The tranches are sent indescending order of preference. All formats and modifiers in the sametranche have the same preference.<br/><br/>
+    /// To send parameters, the compositor sends one main_device event, tranches(each consisting of one tranche_target_device event, one tranche_flagsevent, tranche_formats events and then a tranche_done event), then onedone event.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpLinuxDmabufFeedbackV1 : WlProxy
     {
@@ -632,155 +403,58 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// This event is sent after all parameters of a wp_linux_dmabuf_feedback
-            /// object have been sent.
-            /// <br/>
-            /// <br/>
-            /// This allows changes to the wp_linux_dmabuf_feedback parameters to be
-            /// seen as atomic, even if they happen via multiple events.
+            /// This event is sent after all parameters of a wp_linux_dmabuf_feedbackobject have been sent.<br/><br/>
+            /// This allows changes to the wp_linux_dmabuf_feedback parameters to beseen as atomic, even if they happen via multiple events.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 eventSender);
 
             /// <summary>
-            /// This event provides a file descriptor which can be memory-mapped to
-            /// access the format and modifier table.
-            /// <br/>
-            /// <br/>
-            /// The table contains a tightly packed array of consecutive format +
-            /// modifier pairs. Each pair is 16 bytes wide. It contains a format as a
-            /// 32-bit unsigned integer, followed by 4 bytes of unused padding, and a
-            /// modifier as a 64-bit unsigned integer. The native endianness is used.
-            /// <br/>
-            /// <br/>
-            /// The client must map the file descriptor in read-only private mode.
-            /// <br/>
-            /// <br/>
-            /// Compositors are not allowed to mutate the table file contents once this
-            /// event has been sent. Instead, compositors must create a new, separate
-            /// table file and re-send feedback parameters. Compositors are allowed to
-            /// store duplicate format + modifier pairs in the table.
+            /// This event provides a file descriptor which can be memory-mapped toaccess the format and modifier table.<br/><br/>
+            /// The table contains a tightly packed array of consecutive format +modifier pairs. Each pair is 16 bytes wide. It contains a format as a32-bit unsigned integer, followed by 4 bytes of unused padding, and amodifier as a 64-bit unsigned integer. The native endianness is used.<br/><br/>
+            /// The client must map the file descriptor in read-only private mode.<br/><br/>
+            /// Compositors are not allowed to mutate the table file contents once thisevent has been sent. Instead, compositors must create a new, separatetable file and re-send feedback parameters. Compositors are allowed tostore duplicate format + modifier pairs in the table.<br/><br/>
             /// </summary>
             void OnFormatTable(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 eventSender, int @fd, uint @size);
 
             /// <summary>
-            /// This event advertises the main device that the server prefers to use
-            /// when direct scan-out to the target device isn't possible. The
-            /// advertised main device may be different for each
-            /// wp_linux_dmabuf_feedback object, and may change over time.
-            /// <br/>
-            /// <br/>
-            /// There is exactly one main device. The compositor must send at least
-            /// one preference tranche with tranche_target_device equal to main_device.
-            /// <br/>
-            /// <br/>
-            /// Clients need to create buffers that the main device can import and
-            /// read from, otherwise creating the dmabuf wl_buffer will fail (see the
-            /// wp_linux_buffer_params.create and create_immed requests for details).
-            /// The main device will also likely be kept active by the compositor,
-            /// so clients can use it instead of waking up another device for power
-            /// savings.
-            /// <br/>
-            /// <br/>
-            /// In general the device is a DRM node. The DRM node type (primary vs.
-            /// render) is unspecified. Clients must not rely on the compositor sending
-            /// a particular node type. Clients cannot check two devices for equality
-            /// by comparing the dev_t value.
-            /// <br/>
-            /// <br/>
-            /// If explicit modifiers are not supported and the client performs buffer
-            /// allocations on a different device than the main device, then the client
-            /// must force the buffer to have a linear layout.
+            /// This event advertises the main device that the server prefers to usewhen direct scan-out to the target device isn't possible. Theadvertised main device may be different for eachwp_linux_dmabuf_feedback object, and may change over time.<br/><br/>
+            /// There is exactly one main device. The compositor must send at leastone preference tranche with tranche_target_device equal to main_device.<br/><br/>
+            /// Clients need to create buffers that the main device can import andread from, otherwise creating the dmabuf wl_buffer will fail (see thewp_linux_buffer_params.create and create_immed requests for details).The main device will also likely be kept active by the compositor,so clients can use it instead of waking up another device for powersavings.<br/><br/>
+            /// In general the device is a DRM node. The DRM node type (primary vs.render) is unspecified. Clients must not rely on the compositor sendinga particular node type. Clients cannot check two devices for equalityby comparing the dev_t value.<br/><br/>
+            /// If explicit modifiers are not supported and the client performs bufferallocations on a different device than the main device, then the clientmust force the buffer to have a linear layout.<br/><br/>
             /// </summary>
             void OnMainDevice(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 eventSender, ReadOnlySpan<byte> @device);
 
             /// <summary>
-            /// This event splits tranche_target_device and tranche_modifier events in
-            /// preference tranches. It is sent after a set of tranche_target_device
-            /// and tranche_modifier events; it represents the end of a tranche. The
-            /// next tranche will have a lower preference.
+            /// This event splits tranche_target_device and tranche_formats events inpreference tranches. It is sent after a set of tranche_target_deviceand tranche_formats events; it represents the end of a tranche. Thenext tranche will have a lower preference.<br/><br/>
             /// </summary>
             void OnTrancheDone(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 eventSender);
 
             /// <summary>
-            /// This event advertises the target device that the server prefers to use
-            /// for a buffer created given this tranche. The advertised target device
-            /// may be different for each preference tranche, and may change over time.
-            /// <br/>
-            /// <br/>
-            /// There is exactly one target device per tranche.
-            /// <br/>
-            /// <br/>
-            /// The target device may be a scan-out device, for example if the
-            /// compositor prefers to directly scan-out a buffer created given this
-            /// tranche. The target device may be a rendering device, for example if
-            /// the compositor prefers to texture from said buffer.
-            /// <br/>
-            /// <br/>
-            /// The client can use this hint to allocate the buffer in a way that makes
-            /// it accessible from the target device, ideally directly. The buffer must
-            /// still be accessible from the main device, either through direct import
-            /// or through a potentially more expensive fallback path. If the buffer
-            /// can't be directly imported from the main device then clients must be
-            /// prepared for the compositor changing the tranche priority or making
-            /// wl_buffer creation fail (see the wp_linux_buffer_params.create and
-            /// create_immed requests for details).
-            /// <br/>
-            /// <br/>
-            /// If the device is a DRM node, the DRM node type (primary vs. render) is
-            /// unspecified. Clients must not rely on the compositor sending a
-            /// particular node type. Clients cannot check two devices for equality by
-            /// comparing the dev_t value.
-            /// <br/>
-            /// <br/>
-            /// This event is tied to a preference tranche, see the tranche_done event.
+            /// This event advertises the target device that the server prefers to usefor a buffer created given this tranche. The advertised target devicemay be different for each preference tranche, and may change over time.<br/><br/>
+            /// There is exactly one target device per tranche.<br/><br/>
+            /// The target device may be a scan-out device, for example if thecompositor prefers to directly scan-out a buffer created given thistranche. The target device may be a rendering device, for example ifthe compositor prefers to texture from said buffer.<br/><br/>
+            /// The client can use this hint to allocate the buffer in a way that makesit accessible from the target device, ideally directly. The buffer muststill be accessible from the main device, either through direct importor through a potentially more expensive fallback path. If the buffercan't be directly imported from the main device then clients must beprepared for the compositor changing the tranche priority or makingwl_buffer creation fail (see the wp_linux_buffer_params.create andcreate_immed requests for details).<br/><br/>
+            /// If the device is a DRM node, the DRM node type (primary vs. render) isunspecified. Clients must not rely on the compositor sending aparticular node type. Clients cannot check two devices for equality bycomparing the dev_t value.<br/><br/>
+            /// This event is tied to a preference tranche, see the tranche_done event.<br/><br/>
             /// </summary>
             void OnTrancheTargetDevice(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 eventSender, ReadOnlySpan<byte> @device);
 
             /// <summary>
-            /// This event advertises the format + modifier combinations that the
-            /// compositor supports.
-            /// <br/>
-            /// <br/>
-            /// It carries an array of indices, each referring to a format + modifier
-            /// pair in the last received format table (see the format_table event).
-            /// Each index is a 16-bit unsigned integer in native endianness.
-            /// <br/>
-            /// <br/>
-            /// For legacy support, DRM_FORMAT_MOD_INVALID is an allowed modifier.
-            /// It indicates that the server can support the format with an implicit
-            /// modifier. When a buffer has DRM_FORMAT_MOD_INVALID as its modifier, it
-            /// is as if no explicit modifier is specified. The effective modifier
-            /// will be derived from the dmabuf.
-            /// <br/>
-            /// <br/>
-            /// A compositor that sends valid modifiers and DRM_FORMAT_MOD_INVALID for
-            /// a given format supports both explicit modifiers and implicit modifiers.
-            /// <br/>
-            /// <br/>
-            /// Compositors must not send duplicate format + modifier pairs within the
-            /// same tranche or across two different tranches with the same target
-            /// device and flags.
-            /// <br/>
-            /// <br/>
-            /// This event is tied to a preference tranche, see the tranche_done event.
-            /// <br/>
-            /// <br/>
-            /// For the definition of the format and modifier codes, see the
-            /// wp_linux_buffer_params.create request.
+            /// This event advertises the format + modifier combinations that thecompositor supports.<br/><br/>
+            /// It carries an array of indices, each referring to a format + modifierpair in the last received format table (see the format_table event).Each index is a 16-bit unsigned integer in native endianness.<br/><br/>
+            /// For legacy support, DRM_FORMAT_MOD_INVALID is an allowed modifier.It indicates that the server can support the format with an implicitmodifier. When a buffer has DRM_FORMAT_MOD_INVALID as its modifier, itis as if no explicit modifier is specified. The effective modifierwill be derived from the dmabuf.<br/><br/>
+            /// A compositor that sends valid modifiers and DRM_FORMAT_MOD_INVALID fora given format supports both explicit modifiers and implicit modifiers.<br/><br/>
+            /// Compositors must not send duplicate format + modifier pairs within thesame tranche or across two different tranches with the same targetdevice and flags.<br/><br/>
+            /// This event is tied to a preference tranche, see the tranche_done event.<br/><br/>
+            /// For the definition of the format and modifier codes, see thewp_linux_buffer_params.create request.<br/><br/>
             /// </summary>
             void OnTrancheFormats(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 eventSender, ReadOnlySpan<byte> @indices);
 
             /// <summary>
-            /// This event sets tranche-specific flags.
-            /// <br/>
-            /// <br/>
-            /// The scanout flag is a hint that direct scan-out may be attempted by the
-            /// compositor on the target device if the client appropriately allocates a
-            /// buffer. How to allocate a buffer that can be scanned out on the target
-            /// device is implementation-defined.
-            /// <br/>
-            /// <br/>
-            /// This event is tied to a preference tranche, see the tranche_done event.
+            /// This event sets tranche-specific flags.<br/><br/>
+            /// The scanout flag is a hint that direct scan-out may be attempted by thecompositor on the target device if the client appropriately allocates abuffer. How to allocate a buffer that can be scanned out on the targetdevice is implementation-defined.<br/><br/>
+            /// This event is tied to a preference tranche, see the tranche_done event.<br/><br/>
             /// </summary>
             void OnTrancheFlags(NWayland.Protocols.LinuxDmabufUnstableV1.ZwpLinuxDmabufFeedbackV1 eventSender, TrancheFlagsEnum @flags);
         }
@@ -818,7 +492,9 @@ namespace NWayland.Protocols.LinuxDmabufUnstableV1
         [Flags]
         public enum TrancheFlagsEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// direct scan-out tranche<br/><br/>
+            /// </summary>
             Scanout = 1
         }
 

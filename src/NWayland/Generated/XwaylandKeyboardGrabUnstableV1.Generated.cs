@@ -8,7 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.XwaylandKeyboardGrabUnstableV1
 {
     /// <summary>
-    /// A global interface used for grabbing the keyboard.
+    /// A global interface used for grabbing the keyboard.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpXwaylandKeyboardGrabManagerV1 : WlProxy
     {
@@ -37,28 +37,10 @@ namespace NWayland.Protocols.XwaylandKeyboardGrabUnstableV1
         }
 
         /// <summary>
-        /// The grab_keyboard request asks for a grab of the keyboard, forcing
-        /// the keyboard focus for the given seat upon the given surface.
-        /// <br/>
-        /// <br/>
-        /// The protocol provides no guarantee that the grab is ever satisfied,
-        /// and does not require the compositor to send an error if the grab
-        /// cannot ever be satisfied. It is thus possible to request a keyboard
-        /// grab that will never be effective.
-        /// <br/>
-        /// <br/>
-        /// The protocol:
-        /// <br/>
-        /// <br/>
-        /// * does not guarantee that the grab itself is applied for a surface,
-        /// the grab request may be silently ignored by the compositor,
-        /// * does not guarantee that any events are sent to this client even
-        /// if the grab is applied to a surface,
-        /// * does not guarantee that events sent to this client are exhaustive,
-        /// a compositor may filter some events for its own consumption,
-        /// * does not guarantee that events sent to this client are continuous,
-        /// a compositor may change and reroute keyboard events while the grab
-        /// is nominally active.
+        /// The grab_keyboard request asks for a grab of the keyboard, forcingthe keyboard focus for the given seat upon the given surface.<br/><br/>
+        /// The protocol provides no guarantee that the grab is ever satisfied,and does not require the compositor to send an error if the grabcannot ever be satisfied. It is thus possible to request a keyboardgrab that will never be effective.<br/><br/>
+        /// The protocol:<br/><br/>
+        /// * does not guarantee that the grab itself is applied for a surface,the grab request may be silently ignored by the compositor,* does not guarantee that any events are sent to this client evenif the grab is applied to a surface,* does not guarantee that events sent to this client are exhaustive,a compositor may filter some events for its own consumption,* does not guarantee that events sent to this client are continuous,a compositor may change and reroute keyboard events while the grabis nominally active.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XwaylandKeyboardGrabUnstableV1.ZwpXwaylandKeyboardGrabV1 GrabKeyboard(NWayland.Protocols.Wayland.WlSurface @surface, NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -109,7 +91,7 @@ namespace NWayland.Protocols.XwaylandKeyboardGrabUnstableV1
     }
 
     /// <summary>
-    /// A global interface used for grabbing the keyboard.
+    /// A global interface used for grabbing the keyboard.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpXwaylandKeyboardGrabV1 : WlProxy
     {

@@ -8,8 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.XdgForeignUnstableV2
 {
     /// <summary>
-    /// A global interface used for exporting surfaces that can later be imported
-    /// using xdg_importer.
+    /// A global interface used for exporting surfaces that can later be importedusing xdg_importer.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZxdgExporterV2 : WlProxy
     {
@@ -38,16 +37,8 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
         }
 
         /// <summary>
-        /// The export_toplevel request exports the passed surface so that it can later be
-        /// imported via xdg_importer. When called, a new xdg_exported object will
-        /// be created and xdg_exported.handle will be sent immediately. See the
-        /// corresponding interface and event for details.
-        /// <br/>
-        /// <br/>
-        /// A surface may be exported multiple times, and each exported handle may
-        /// be used to create an xdg_imported multiple times. Only xdg_toplevel
-        /// equivalent surfaces may be exported, otherwise an invalid_surface
-        /// protocol error is sent.
+        /// The export_toplevel request exports the passed surface so that it can later beimported via xdg_importer. When called, a new xdg_exported object willbe created and xdg_exported.handle will be sent immediately. See thecorresponding interface and event for details.<br/><br/>
+        /// A surface may be exported multiple times, and each exported handle maybe used to create an xdg_imported multiple times. Only xdg_toplevelequivalent surfaces may be exported, otherwise an invalid_surfaceprotocol error is sent.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XdgForeignUnstableV2.ZxdgExportedV2 ExportToplevel(NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -72,12 +63,13 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
         }
 
         /// <summary>
-        /// These errors can be emitted in response to invalid xdg_exporter
-        /// requests.
+        /// These errors can be emitted in response to invalid xdg_exporterrequests.<br/><br/>
         /// </summary>
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// surface is not an xdg_toplevel<br/><br/>
+            /// </summary>
             InvalidSurface = 0
         }
 
@@ -105,9 +97,7 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
     }
 
     /// <summary>
-    /// A global interface used for importing surfaces exported by xdg_exporter.
-    /// With this interface, a client can create a reference to a surface of
-    /// another client.
+    /// A global interface used for importing surfaces exported by xdg_exporter.With this interface, a client can create a reference to a surface ofanother client.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZxdgImporterV2 : WlProxy
     {
@@ -136,11 +126,7 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
         }
 
         /// <summary>
-        /// The import_toplevel request imports a surface from any client given a handle
-        /// retrieved by exporting said surface using xdg_exporter.export_toplevel.
-        /// When called, a new xdg_imported object will be created. This new object
-        /// represents the imported surface, and the importing client can
-        /// manipulate its relationship using it. See xdg_imported for details.
+        /// The import_toplevel request imports a surface from any client given a handleretrieved by exporting said surface using xdg_exporter.export_toplevel.When called, a new xdg_imported object will be created. This new objectrepresents the imported surface, and the importing client canmanipulate its relationship using it. See xdg_imported for details.<br/><br/>
         /// </summary>
         public NWayland.Protocols.XdgForeignUnstableV2.ZxdgImportedV2 ImportToplevel(string @handle)
         {
@@ -189,10 +175,7 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
     }
 
     /// <summary>
-    /// An xdg_exported object represents an exported reference to a surface. The
-    /// exported surface may be referenced as long as the xdg_exported object not
-    /// destroyed. Destroying the xdg_exported invalidates any relationship the
-    /// importer may have established using xdg_imported.
+    /// An xdg_exported object represents an exported reference to a surface. Theexported surface may be referenced as long as the xdg_exported object notdestroyed. Destroying the xdg_exported invalidates any relationship theimporter may have established using xdg_imported.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZxdgExportedV2 : WlProxy
     {
@@ -224,10 +207,7 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// The handle event contains the unique handle of this exported surface
-            /// reference. It may be shared with any client, which then can use it to
-            /// import the surface by calling xdg_importer.import_toplevel. A handle
-            /// may be used to import the surface multiple times.
+            /// The handle event contains the unique handle of this exported surfacereference. It may be shared with any client, which then can use it toimport the surface by calling xdg_importer.import_toplevel. A handlemay be used to import the surface multiple times.<br/><br/>
             /// </summary>
             void OnHandle(NWayland.Protocols.XdgForeignUnstableV2.ZxdgExportedV2 eventSender, string @handle);
         }
@@ -268,9 +248,7 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
     }
 
     /// <summary>
-    /// An xdg_imported object represents an imported reference to surface exported
-    /// by some client. A client can use this interface to manipulate
-    /// relationships between its own surfaces and the imported surface.
+    /// An xdg_imported object represents an imported reference to surface exportedby some client. A client can use this interface to manipulaterelationships between its own surfaces and the imported surface.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZxdgImportedV2 : WlProxy
     {
@@ -301,11 +279,7 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
         }
 
         /// <summary>
-        /// Set the imported surface as the parent of some surface of the client.
-        /// The passed surface must be an xdg_toplevel equivalent, otherwise an
-        /// invalid_surface protocol error is sent. Calling this function sets up
-        /// a surface to surface relation with the same stacking and positioning
-        /// semantics as xdg_toplevel.set_parent.
+        /// Set the imported surface as the parent of some surface of the client.The passed surface must be an xdg_toplevel equivalent, otherwise aninvalid_surface protocol error is sent. Calling this function sets upa surface to surface relation with the same stacking and positioningsemantics as xdg_toplevel.set_parent.<br/><br/>
         /// </summary>
         public void SetParentOf(NWayland.Protocols.Wayland.WlSurface @surface)
         {
@@ -320,10 +294,7 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
         public interface IEvents
         {
             /// <summary>
-            /// The imported surface handle has been destroyed and any relationship set
-            /// up has been invalidated. This may happen for various reasons, for
-            /// example if the exported surface or the exported surface handle has been
-            /// destroyed, if the handle used for importing was invalid.
+            /// The imported surface handle has been destroyed and any relationship setup has been invalidated. This may happen for various reasons, forexample if the exported surface or the exported surface handle has beendestroyed, if the handle used for importing was invalid.<br/><br/>
             /// </summary>
             void OnDestroyed(NWayland.Protocols.XdgForeignUnstableV2.ZxdgImportedV2 eventSender);
         }
@@ -341,12 +312,13 @@ namespace NWayland.Protocols.XdgForeignUnstableV2
         }
 
         /// <summary>
-        /// These errors can be emitted in response to invalid xdg_imported
-        /// requests.
+        /// These errors can be emitted in response to invalid xdg_importedrequests.<br/><br/>
         /// </summary>
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// surface is not an xdg_toplevel<br/><br/>
+            /// </summary>
             InvalidSurface = 0
         }
 

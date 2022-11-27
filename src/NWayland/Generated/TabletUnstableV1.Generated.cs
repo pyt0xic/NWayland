@@ -8,9 +8,7 @@ using NWayland.Interop;
 namespace NWayland.Protocols.TabletUnstableV1
 {
     /// <summary>
-    /// An object that provides access to the graphics tablets available on this
-    /// system. All tablets are associated with a seat, to get access to the
-    /// actual tablets, use wp_tablet_manager.get_tablet_seat.
+    /// An object that provides access to the graphics tablets available on thissystem. All tablets are associated with a seat, to get access to theactual tablets, use wp_tablet_manager.get_tablet_seat.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletManagerV1 : WlProxy
     {
@@ -31,8 +29,7 @@ namespace NWayland.Protocols.TabletUnstableV1
         }
 
         /// <summary>
-        /// Get the wp_tablet_seat object for the given seat. This object
-        /// provides access to all graphics tablets in this seat.
+        /// Get the wp_tablet_seat object for the given seat. This objectprovides access to all graphics tablets in this seat.<br/><br/>
         /// </summary>
         public NWayland.Protocols.TabletUnstableV1.ZwpTabletSeatV1 GetTabletSeat(NWayland.Protocols.Wayland.WlSeat @seat)
         {
@@ -88,9 +85,7 @@ namespace NWayland.Protocols.TabletUnstableV1
     }
 
     /// <summary>
-    /// An object that provides access to the graphics tablets available on this
-    /// seat. After binding to this interface, the compositor sends a set of
-    /// wp_tablet_seat.tablet_added and wp_tablet_seat.tool_added events.
+    /// An object that provides access to the graphics tablets available on thisseat. After binding to this interface, the compositor sends a set ofwp_tablet_seat.tablet_added and wp_tablet_seat.tool_added events.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletSeatV1 : WlProxy
     {
@@ -123,18 +118,12 @@ namespace NWayland.Protocols.TabletUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// This event is sent whenever a new tablet becomes available on this
-            /// seat. This event only provides the object id of the tablet, any
-            /// static information about the tablet (device name, vid/pid, etc.) is
-            /// sent through the wp_tablet interface.
+            /// This event is sent whenever a new tablet becomes available on thisseat. This event only provides the object id of the tablet, anystatic information about the tablet (device name, vid/pid, etc.) issent through the wp_tablet interface.<br/><br/>
             /// </summary>
             void OnTabletAdded(NWayland.Protocols.TabletUnstableV1.ZwpTabletSeatV1 eventSender, ZwpTabletV1 @id);
 
             /// <summary>
-            /// This event is sent whenever a tool that has not previously been used
-            /// with a tablet comes into use. This event only provides the object id
-            /// of the tool; any static information about the tool (capabilities,
-            /// type, etc.) is sent through the wp_tablet_tool interface.
+            /// This event is sent whenever a tool that has not previously been usedwith a tablet comes into use. This event only provides the object idof the tool; any static information about the tool (capabilities,type, etc.) is sent through the wp_tablet_tool interface.<br/><br/>
             /// </summary>
             void OnToolAdded(NWayland.Protocols.TabletUnstableV1.ZwpTabletSeatV1 eventSender, ZwpTabletToolV1 @id);
         }
@@ -178,29 +167,10 @@ namespace NWayland.Protocols.TabletUnstableV1
     }
 
     /// <summary>
-    /// An object that represents a physical tool that has been, or is
-    /// currently in use with a tablet in this seat. Each wp_tablet_tool
-    /// object stays valid until the client destroys it; the compositor
-    /// reuses the wp_tablet_tool object to indicate that the object's
-    /// respective physical tool has come into proximity of a tablet again.
-    /// <br/>
-    /// <br/>
-    /// A wp_tablet_tool object's relation to a physical tool depends on the
-    /// tablet's ability to report serial numbers. If the tablet supports
-    /// this capability, then the object represents a specific physical tool
-    /// and can be identified even when used on multiple tablets.
-    /// <br/>
-    /// <br/>
-    /// A tablet tool has a number of static characteristics, e.g. tool type,
-    /// hardware_serial and capabilities. These capabilities are sent in an
-    /// event sequence after the wp_tablet_seat.tool_added event before any
-    /// actual events from this tool. This initial event sequence is
-    /// terminated by a wp_tablet_tool.done event.
-    /// <br/>
-    /// <br/>
-    /// Tablet tool events are grouped by wp_tablet_tool.frame events.
-    /// Any events received before a wp_tablet_tool.frame event should be
-    /// considered part of the same hardware state change.
+    /// An object that represents a physical tool that has been, or iscurrently in use with a tablet in this seat. Each wp_tablet_toolobject stays valid until the client destroys it; the compositorreuses the wp_tablet_tool object to indicate that the object'srespective physical tool has come into proximity of a tablet again.<br/><br/>
+    /// A wp_tablet_tool object's relation to a physical tool depends on thetablet's ability to report serial numbers. If the tablet supportsthis capability, then the object represents a specific physical tooland can be identified even when used on multiple tablets.<br/><br/>
+    /// A tablet tool has a number of static characteristics, e.g. tool type,hardware_serial and capabilities. These capabilities are sent in anevent sequence after the wp_tablet_seat.tool_added event before anyactual events from this tool. This initial event sequence isterminated by a wp_tablet_tool.done event.<br/><br/>
+    /// Tablet tool events are grouped by wp_tablet_tool.frame events.Any events received before a wp_tablet_tool.frame event should beconsidered part of the same hardware state change.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletToolV1 : WlProxy
     {
@@ -241,43 +211,12 @@ namespace NWayland.Protocols.TabletUnstableV1
         }
 
         /// <summary>
-        /// Sets the surface of the cursor used for this tool on the given
-        /// tablet. This request only takes effect if the tool is in proximity
-        /// of one of the requesting client's surfaces or the surface parameter
-        /// is the current pointer surface. If there was a previous surface set
-        /// with this request it is replaced. If surface is NULL, the cursor
-        /// image is hidden.
-        /// <br/>
-        /// <br/>
-        /// The parameters hotspot_x and hotspot_y define the position of the
-        /// pointer surface relative to the pointer location. Its top-left corner
-        /// is always at (x, y) - (hotspot_x, hotspot_y), where (x, y) are the
-        /// coordinates of the pointer location, in surface-local coordinates.
-        /// <br/>
-        /// <br/>
-        /// On surface.attach requests to the pointer surface, hotspot_x and
-        /// hotspot_y are decremented by the x and y parameters passed to the
-        /// request. Attach must be confirmed by wl_surface.commit as usual.
-        /// <br/>
-        /// <br/>
-        /// The hotspot can also be updated by passing the currently set pointer
-        /// surface to this request with new values for hotspot_x and hotspot_y.
-        /// <br/>
-        /// <br/>
-        /// The current and pending input regions of the wl_surface are cleared,
-        /// and wl_surface.set_input_region is ignored until the wl_surface is no
-        /// longer used as the cursor. When the use as a cursor ends, the current
-        /// and pending input regions become undefined, and the wl_surface is
-        /// unmapped.
-        /// <br/>
-        /// <br/>
-        /// This request gives the surface the role of a cursor. The role
-        /// assigned by this request is the same as assigned by
-        /// wl_pointer.set_cursor meaning the same surface can be
-        /// used both as a wl_pointer cursor and a wp_tablet cursor. If the
-        /// surface already has another role, it raises a protocol error.
-        /// The surface may be used on multiple tablets and across multiple
-        /// seats.
+        /// Sets the surface of the cursor used for this tool on the giventablet. This request only takes effect if the tool is in proximityof one of the requesting client's surfaces or the surface parameteris the current pointer surface. If there was a previous surface setwith this request it is replaced. If surface is NULL, the cursorimage is hidden.<br/><br/>
+        /// The parameters hotspot_x and hotspot_y define the position of thepointer surface relative to the pointer location. Its top-left corneris always at (x, y) - (hotspot_x, hotspot_y), where (x, y) are thecoordinates of the pointer location, in surface-local coordinates.<br/><br/>
+        /// On surface.attach requests to the pointer surface, hotspot_x andhotspot_y are decremented by the x and y parameters passed to therequest. Attach must be confirmed by wl_surface.commit as usual.<br/><br/>
+        /// The hotspot can also be updated by passing the currently set pointersurface to this request with new values for hotspot_x and hotspot_y.<br/><br/>
+        /// The current and pending input regions of the wl_surface are cleared,and wl_surface.set_input_region is ignored until the wl_surface is nolonger used as the cursor. When the use as a cursor ends, the currentand pending input regions become undefined, and the wl_surface isunmapped.<br/><br/>
+        /// This request gives the surface the role of a cursor. The roleassigned by this request is the same as assigned bywl_pointer.set_cursor meaning the same surface can beused both as a wl_pointer cursor and a wp_tablet cursor. If thesurface already has another role, it raises a protocol error.The surface may be used on multiple tablets and across multipleseats.<br/><br/>
         /// </summary>
         public void SetCursor(uint @serial, NWayland.Protocols.Wayland.WlSurface? @surface, int @hotspotX, int @hotspotY)
         {
@@ -301,250 +240,121 @@ namespace NWayland.Protocols.TabletUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// The tool type is the high-level type of the tool and usually decides
-            /// the interaction expected from this tool.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// The tool type is the high-level type of the tool and usually decidesthe interaction expected from this tool.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnType(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, TypeEnum @toolType);
 
             /// <summary>
-            /// If the physical tool can be identified by a unique 64-bit serial
-            /// number, this event notifies the client of this serial number.
-            /// <br/>
-            /// <br/>
-            /// If multiple tablets are available in the same seat and the tool is
-            /// uniquely identifiable by the serial number, that tool may move
-            /// between tablets.
-            /// <br/>
-            /// <br/>
-            /// Otherwise, if the tool has no serial number and this event is
-            /// missing, the tool is tied to the tablet it first comes into
-            /// proximity with. Even if the physical tool is used on multiple
-            /// tablets, separate wp_tablet_tool objects will be created, one per
-            /// tablet.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// If the physical tool can be identified by a unique 64-bit serialnumber, this event notifies the client of this serial number.<br/><br/>
+            /// If multiple tablets are available in the same seat and the tool isuniquely identifiable by the serial number, that tool may movebetween tablets.<br/><br/>
+            /// Otherwise, if the tool has no serial number and this event ismissing, the tool is tied to the tablet it first comes intoproximity with. Even if the physical tool is used on multipletablets, separate wp_tablet_tool objects will be created, one pertablet.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnHardwareSerial(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @hardwareSerialHi, uint @hardwareSerialLo);
 
             /// <summary>
-            /// This event notifies the client of a hardware id available on this tool.
-            /// <br/>
-            /// <br/>
-            /// The hardware id is a device-specific 64-bit id that provides extra
-            /// information about the tool in use, beyond the wl_tool.type
-            /// enumeration. The format of the id is specific to tablets made by
-            /// Wacom Inc. For example, the hardware id of a Wacom Grip
-            /// Pen (a stylus) is 0x802.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// This event notifies the client of a hardware id available on this tool.<br/><br/>
+            /// The hardware id is a device-specific 64-bit id that provides extrainformation about the tool in use, beyond the wl_tool.typeenumeration. The format of the id is specific to tablets made byWacom Inc. For example, the hardware id of a Wacom GripPen (a stylus) is 0x802.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnHardwareIdWacom(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @hardwareIdHi, uint @hardwareIdLo);
 
             /// <summary>
-            /// This event notifies the client of any capabilities of this tool,
-            /// beyond the main set of x/y axes and tip up/down detection.
-            /// <br/>
-            /// <br/>
-            /// One event is sent for each extra capability available on this tool.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet_tool.done event.
+            /// This event notifies the client of any capabilities of this tool,beyond the main set of x/y axes and tip up/down detection.<br/><br/>
+            /// One event is sent for each extra capability available on this tool.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet_tool.done event.<br/><br/>
             /// </summary>
             void OnCapability(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, CapabilityEnum @capability);
 
             /// <summary>
-            /// This event signals the end of the initial burst of descriptive
-            /// events. A client may consider the static description of the tool to
-            /// be complete and finalize initialization of the tool.
+            /// This event signals the end of the initial burst of descriptiveevents. A client may consider the static description of the tool tobe complete and finalize initialization of the tool.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender);
 
             /// <summary>
-            /// This event is sent when the tool is removed from the system and will
-            /// send no further events. Should the physical tool come back into
-            /// proximity later, a new wp_tablet_tool object will be created.
-            /// <br/>
-            /// <br/>
-            /// It is compositor-dependent when a tool is removed. A compositor may
-            /// remove a tool on proximity out, tablet removal or any other reason.
-            /// A compositor may also keep a tool alive until shutdown.
-            /// <br/>
-            /// <br/>
-            /// If the tool is currently in proximity, a proximity_out event will be
-            /// sent before the removed event. See wp_tablet_tool.proximity_out for
-            /// the handling of any buttons logically down.
-            /// <br/>
-            /// <br/>
-            /// When this event is received, the client must wp_tablet_tool.destroy
-            /// the object.
+            /// This event is sent when the tool is removed from the system and willsend no further events. Should the physical tool come back intoproximity later, a new wp_tablet_tool object will be created.<br/><br/>
+            /// It is compositor-dependent when a tool is removed. A compositor mayremove a tool on proximity out, tablet removal or any other reason.A compositor may also keep a tool alive until shutdown.<br/><br/>
+            /// If the tool is currently in proximity, a proximity_out event will besent before the removed event. See wp_tablet_tool.proximity_out forthe handling of any buttons logically down.<br/><br/>
+            /// When this event is received, the client must wp_tablet_tool.destroythe object.<br/><br/>
             /// </summary>
             void OnRemoved(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender);
 
             /// <summary>
-            /// Notification that this tool is focused on a certain surface.
-            /// <br/>
-            /// <br/>
-            /// This event can be received when the tool has moved from one surface to
-            /// another, or when the tool has come back into proximity above the
-            /// surface.
-            /// <br/>
-            /// <br/>
-            /// If any button is logically down when the tool comes into proximity,
-            /// the respective button event is sent after the proximity_in event but
-            /// within the same frame as the proximity_in event.
+            /// Notification that this tool is focused on a certain surface.<br/><br/>
+            /// This event can be received when the tool has moved from one surface toanother, or when the tool has come back into proximity above thesurface.<br/><br/>
+            /// If any button is logically down when the tool comes into proximity,the respective button event is sent after the proximity_in event butwithin the same frame as the proximity_in event.<br/><br/>
             /// </summary>
             void OnProximityIn(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @serial, NWayland.Protocols.TabletUnstableV1.ZwpTabletV1 @tablet, NWayland.Protocols.Wayland.WlSurface @surface);
 
             /// <summary>
-            /// Notification that this tool has either left proximity, or is no
-            /// longer focused on a certain surface.
-            /// <br/>
-            /// <br/>
-            /// When the tablet tool leaves proximity of the tablet, button release
-            /// events are sent for each button that was held down at the time of
-            /// leaving proximity. These events are sent before the proximity_out
-            /// event but within the same wp_tablet.frame.
-            /// <br/>
-            /// <br/>
-            /// If the tool stays within proximity of the tablet, but the focus
-            /// changes from one surface to another, a button release event may not
-            /// be sent until the button is actually released or the tool leaves the
-            /// proximity of the tablet.
+            /// Notification that this tool has either left proximity, or is nolonger focused on a certain surface.<br/><br/>
+            /// When the tablet tool leaves proximity of the tablet, button releaseevents are sent for each button that was held down at the time ofleaving proximity. These events are sent before the proximity_outevent but within the same wp_tablet.frame.<br/><br/>
+            /// If the tool stays within proximity of the tablet, but the focuschanges from one surface to another, a button release event may notbe sent until the button is actually released or the tool leaves theproximity of the tablet.<br/><br/>
             /// </summary>
             void OnProximityOut(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender);
 
             /// <summary>
-            /// Sent whenever the tablet tool comes in contact with the surface of the
-            /// tablet.
-            /// <br/>
-            /// <br/>
-            /// If the tool is already in contact with the tablet when entering the
-            /// input region, the client owning said region will receive a
-            /// wp_tablet.proximity_in event, followed by a wp_tablet.down
-            /// event and a wp_tablet.frame event.
-            /// <br/>
-            /// <br/>
-            /// Note that this event describes logical contact, not physical
-            /// contact. On some devices, a compositor may not consider a tool in
-            /// logical contact until a minimum physical pressure threshold is
-            /// exceeded.
+            /// Sent whenever the tablet tool comes in contact with the surface of thetablet.<br/><br/>
+            /// If the tool is already in contact with the tablet when entering theinput region, the client owning said region will receive awp_tablet.proximity_in event, followed by a wp_tablet.downevent and a wp_tablet.frame event.<br/><br/>
+            /// Note that this event describes logical contact, not physicalcontact. On some devices, a compositor may not consider a tool inlogical contact until a minimum physical pressure threshold isexceeded.<br/><br/>
             /// </summary>
             void OnDown(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @serial);
 
             /// <summary>
-            /// Sent whenever the tablet tool stops making contact with the surface of
-            /// the tablet, or when the tablet tool moves out of the input region
-            /// and the compositor grab (if any) is dismissed.
-            /// <br/>
-            /// <br/>
-            /// If the tablet tool moves out of the input region while in contact
-            /// with the surface of the tablet and the compositor does not have an
-            /// ongoing grab on the surface, the client owning said region will
-            /// receive a wp_tablet.up event, followed by a wp_tablet.proximity_out
-            /// event and a wp_tablet.frame event. If the compositor has an ongoing
-            /// grab on this device, this event sequence is sent whenever the grab
-            /// is dismissed in the future.
-            /// <br/>
-            /// <br/>
-            /// Note that this event describes logical contact, not physical
-            /// contact. On some devices, a compositor may not consider a tool out
-            /// of logical contact until physical pressure falls below a specific
-            /// threshold.
+            /// Sent whenever the tablet tool stops making contact with the surface ofthe tablet, or when the tablet tool moves out of the input regionand the compositor grab (if any) is dismissed.<br/><br/>
+            /// If the tablet tool moves out of the input region while in contactwith the surface of the tablet and the compositor does not have anongoing grab on the surface, the client owning said region willreceive a wp_tablet.up event, followed by a wp_tablet.proximity_outevent and a wp_tablet.frame event. If the compositor has an ongoinggrab on this device, this event sequence is sent whenever the grabis dismissed in the future.<br/><br/>
+            /// Note that this event describes logical contact, not physicalcontact. On some devices, a compositor may not consider a tool outof logical contact until physical pressure falls below a specificthreshold.<br/><br/>
             /// </summary>
             void OnUp(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender);
 
             /// <summary>
-            /// Sent whenever a tablet tool moves.
+            /// Sent whenever a tablet tool moves.<br/><br/>
             /// </summary>
             void OnMotion(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, WlFixed @x, WlFixed @y);
 
             /// <summary>
-            /// Sent whenever the pressure axis on a tool changes. The value of this
-            /// event is normalized to a value between 0 and 65535.
-            /// <br/>
-            /// <br/>
-            /// Note that pressure may be nonzero even when a tool is not in logical
-            /// contact. See the down and up events for more details.
+            /// Sent whenever the pressure axis on a tool changes. The value of thisevent is normalized to a value between 0 and 65535.<br/><br/>
+            /// Note that pressure may be nonzero even when a tool is not in logicalcontact. See the down and up events for more details.<br/><br/>
             /// </summary>
             void OnPressure(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @pressure);
 
             /// <summary>
-            /// Sent whenever the distance axis on a tool changes. The value of this
-            /// event is normalized to a value between 0 and 65535.
-            /// <br/>
-            /// <br/>
-            /// Note that distance may be nonzero even when a tool is not in logical
-            /// contact. See the down and up events for more details.
+            /// Sent whenever the distance axis on a tool changes. The value of thisevent is normalized to a value between 0 and 65535.<br/><br/>
+            /// Note that distance may be nonzero even when a tool is not in logicalcontact. See the down and up events for more details.<br/><br/>
             /// </summary>
             void OnDistance(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @distance);
 
             /// <summary>
-            /// Sent whenever one or both of the tilt axes on a tool change. Each tilt
-            /// value is in 0.01 of a degree, relative to the z-axis of the tablet.
-            /// The angle is positive when the top of a tool tilts along the
-            /// positive x or y axis.
+            /// Sent whenever one or both of the tilt axes on a tool change. Each tiltvalue is in 0.01 of a degree, relative to the z-axis of the tablet.The angle is positive when the top of a tool tilts along thepositive x or y axis.<br/><br/>
             /// </summary>
             void OnTilt(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, int @tiltX, int @tiltY);
 
             /// <summary>
-            /// Sent whenever the z-rotation axis on the tool changes. The
-            /// rotation value is in 0.01 of a degree clockwise from the tool's
-            /// logical neutral position.
+            /// Sent whenever the z-rotation axis on the tool changes. Therotation value is in 0.01 of a degree clockwise from the tool'slogical neutral position.<br/><br/>
             /// </summary>
             void OnRotation(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, int @degrees);
 
             /// <summary>
-            /// Sent whenever the slider position on the tool changes. The
-            /// value is normalized between -65535 and 65535, with 0 as the logical
-            /// neutral position of the slider.
-            /// <br/>
-            /// <br/>
-            /// The slider is available on e.g. the Wacom Airbrush tool.
+            /// Sent whenever the slider position on the tool changes. Thevalue is normalized between -65535 and 65535, with 0 as the logicalneutral position of the slider.<br/><br/>
+            /// The slider is available on e.g. the Wacom Airbrush tool.<br/><br/>
             /// </summary>
             void OnSlider(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, int @position);
 
             /// <summary>
-            /// Sent whenever the wheel on the tool emits an event. This event
-            /// contains two values for the same axis change. The degrees value is
-            /// in 0.01 of a degree in the same orientation as the
-            /// wl_pointer.vertical_scroll axis. The clicks value is in discrete
-            /// logical clicks of the mouse wheel. This value may be zero if the
-            /// movement of the wheel was less than one logical click.
-            /// <br/>
-            /// <br/>
-            /// Clients should choose either value and avoid mixing degrees and
-            /// clicks. The compositor may accumulate values smaller than a logical
-            /// click and emulate click events when a certain threshold is met.
-            /// Thus, wl_tablet_tool.wheel events with non-zero clicks values may
-            /// have different degrees values.
+            /// Sent whenever the wheel on the tool emits an event. This eventcontains two values for the same axis change. The degrees value isin 0.01 of a degree in the same orientation as thewl_pointer.vertical_scroll axis. The clicks value is in discretelogical clicks of the mouse wheel. This value may be zero if themovement of the wheel was less than one logical click.<br/><br/>
+            /// Clients should choose either value and avoid mixing degrees andclicks. The compositor may accumulate values smaller than a logicalclick and emulate click events when a certain threshold is met.Thus, wl_tablet_tool.wheel events with non-zero clicks values mayhave different degrees values.<br/><br/>
             /// </summary>
             void OnWheel(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, int @degrees, int @clicks);
 
             /// <summary>
-            /// Sent whenever a button on the tool is pressed or released.
-            /// <br/>
-            /// <br/>
-            /// If a button is held down when the tool moves in or out of proximity,
-            /// button events are generated by the compositor. See
-            /// wp_tablet_tool.proximity_in and wp_tablet_tool.proximity_out for
-            /// details.
+            /// Sent whenever a button on the tool is pressed or released.<br/><br/>
+            /// If a button is held down when the tool moves in or out of proximity,button events are generated by the compositor. Seewp_tablet_tool.proximity_in and wp_tablet_tool.proximity_out fordetails.<br/><br/>
             /// </summary>
             void OnButton(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @serial, uint @button, ButtonStateEnum @state);
 
             /// <summary>
-            /// Marks the end of a series of axis and/or button updates from the
-            /// tablet. The Wayland protocol requires axis updates to be sent
-            /// sequentially, however all events within a frame should be considered
-            /// one hardware event.
+            /// Marks the end of a series of axis and/or button updates from thetablet. The Wayland protocol requires axis updates to be sentsequentially, however all events within a frame should be consideredone hardware event.<br/><br/>
             /// </summary>
             void OnFrame(NWayland.Protocols.TabletUnstableV1.ZwpTabletToolV1 eventSender, uint @time);
         }
@@ -616,75 +426,98 @@ namespace NWayland.Protocols.TabletUnstableV1
         }
 
         /// <summary>
-        /// Describes the physical type of a tool. The physical type of a tool
-        /// generally defines its base usage.
-        /// <br/>
-        /// <br/>
-        /// The mouse tool represents a mouse-shaped tool that is not a relative
-        /// device but bound to the tablet's surface, providing absolute
-        /// coordinates.
-        /// <br/>
-        /// <br/>
-        /// The lens tool is a mouse-shaped tool with an attached lens to
-        /// provide precision focus.
+        /// Describes the physical type of a tool. The physical type of a toolgenerally defines its base usage.<br/><br/>
+        /// The mouse tool represents a mouse-shaped tool that is not a relativedevice but bound to the tablet's surface, providing absolutecoordinates.<br/><br/>
+        /// The lens tool is a mouse-shaped tool with an attached lens toprovide precision focus.<br/><br/>
         /// </summary>
         public enum TypeEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// Pen<br/><br/>
+            /// </summary>
             Pen = 0x140,
-            /// <summary></summary>
+            /// <summary>
+            /// Eraser<br/><br/>
+            /// </summary>
             Eraser = 0x141,
-            /// <summary></summary>
+            /// <summary>
+            /// Brush<br/><br/>
+            /// </summary>
             Brush = 0x142,
-            /// <summary></summary>
+            /// <summary>
+            /// Pencil<br/><br/>
+            /// </summary>
             Pencil = 0x143,
-            /// <summary></summary>
+            /// <summary>
+            /// Airbrush<br/><br/>
+            /// </summary>
             Airbrush = 0x144,
-            /// <summary></summary>
+            /// <summary>
+            /// Finger<br/><br/>
+            /// </summary>
             Finger = 0x145,
-            /// <summary></summary>
+            /// <summary>
+            /// Mouse<br/><br/>
+            /// </summary>
             Mouse = 0x146,
-            /// <summary></summary>
+            /// <summary>
+            /// Lens<br/><br/>
+            /// </summary>
             Lens = 0x147
         }
 
         /// <summary>
-        /// Describes extra capabilities on a tablet.
-        /// <br/>
-        /// <br/>
-        /// Any tool must provide x and y values, extra axes are
-        /// device-specific.
+        /// Describes extra capabilities on a tablet.<br/><br/>
+        /// Any tool must provide x and y values, extra axes aredevice-specific.<br/><br/>
         /// </summary>
         public enum CapabilityEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// Tilt axes<br/><br/>
+            /// </summary>
             Tilt = 1,
-            /// <summary></summary>
+            /// <summary>
+            /// Pressure axis<br/><br/>
+            /// </summary>
             Pressure = 2,
-            /// <summary></summary>
+            /// <summary>
+            /// Distance axis<br/><br/>
+            /// </summary>
             Distance = 3,
-            /// <summary></summary>
+            /// <summary>
+            /// Z-rotation axis<br/><br/>
+            /// </summary>
             Rotation = 4,
-            /// <summary></summary>
+            /// <summary>
+            /// Slider axis<br/><br/>
+            /// </summary>
             Slider = 5,
-            /// <summary></summary>
+            /// <summary>
+            /// Wheel axis<br/><br/>
+            /// </summary>
             Wheel = 6
         }
 
         /// <summary>
-        /// Describes the physical state of a button that produced the button event.
+        /// Describes the physical state of a button that produced the button event.<br/><br/>
         /// </summary>
         public enum ButtonStateEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// button is not pressed<br/><br/>
+            /// </summary>
             Released = 0,
-            /// <summary></summary>
+            /// <summary>
+            /// button is pressed<br/><br/>
+            /// </summary>
             Pressed = 1
         }
 
         public enum ErrorEnum
         {
-            /// <summary></summary>
+            /// <summary>
+            /// given wl_surface has another role<br/><br/>
+            /// </summary>
             Role = 0
         }
 
@@ -712,15 +545,8 @@ namespace NWayland.Protocols.TabletUnstableV1
     }
 
     /// <summary>
-    /// The wp_tablet interface represents one graphics tablet device. The
-    /// tablet interface itself does not generate events; all events are
-    /// generated by wp_tablet_tool objects when in proximity above a tablet.
-    /// <br/>
-    /// <br/>
-    /// A tablet has a number of static characteristics, e.g. device name and
-    /// pid/vid. These capabilities are sent in an event sequence after the
-    /// wp_tablet_seat.tablet_added event. This initial event sequence is
-    /// terminated by a wp_tablet.done event.
+    /// The wp_tablet interface represents one graphics tablet device. Thetablet interface itself does not generate events; all events aregenerated by wp_tablet_tool objects when in proximity above a tablet.<br/><br/>
+    /// A tablet has a number of static characteristics, e.g. device name andpid/vid. These capabilities are sent in an event sequence after thewp_tablet_seat.tablet_added event. This initial event sequence isterminated by a wp_tablet.done event.<br/><br/>
     /// </summary>
     public sealed unsafe partial class ZwpTabletV1 : WlProxy
     {
@@ -756,53 +582,31 @@ namespace NWayland.Protocols.TabletUnstableV1
         public interface IEvents
         {
             /// <summary>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet.done event.
+            /// This event is sent in the initial burst of events before thewp_tablet.done event.<br/><br/>
             /// </summary>
             void OnName(NWayland.Protocols.TabletUnstableV1.ZwpTabletV1 eventSender, string @name);
 
             /// <summary>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet.done event.
+            /// This event is sent in the initial burst of events before thewp_tablet.done event.<br/><br/>
             /// </summary>
             void OnId(NWayland.Protocols.TabletUnstableV1.ZwpTabletV1 eventSender, uint @vid, uint @pid);
 
             /// <summary>
-            /// A system-specific device path that indicates which device is behind
-            /// this wp_tablet. This information may be used to gather additional
-            /// information about the device, e.g. through libwacom.
-            /// <br/>
-            /// <br/>
-            /// A device may have more than one device path. If so, multiple
-            /// wp_tablet.path events are sent. A device may be emulated and not
-            /// have a device path, and in that case this event will not be sent.
-            /// <br/>
-            /// <br/>
-            /// The format of the path is unspecified, it may be a device node, a
-            /// sysfs path, or some other identifier. It is up to the client to
-            /// identify the string provided.
-            /// <br/>
-            /// <br/>
-            /// This event is sent in the initial burst of events before the
-            /// wp_tablet.done event.
+            /// A system-specific device path that indicates which device is behindthis wp_tablet. This information may be used to gather additionalinformation about the device, e.g. through libwacom.<br/><br/>
+            /// A device may have more than one device path. If so, multiplewp_tablet.path events are sent. A device may be emulated and nothave a device path, and in that case this event will not be sent.<br/><br/>
+            /// The format of the path is unspecified, it may be a device node, asysfs path, or some other identifier. It is up to the client toidentify the string provided.<br/><br/>
+            /// This event is sent in the initial burst of events before thewp_tablet.done event.<br/><br/>
             /// </summary>
             void OnPath(NWayland.Protocols.TabletUnstableV1.ZwpTabletV1 eventSender, string @path);
 
             /// <summary>
-            /// This event is sent immediately to signal the end of the initial
-            /// burst of descriptive events. A client may consider the static
-            /// description of the tablet to be complete and finalize initialization
-            /// of the tablet.
+            /// This event is sent immediately to signal the end of the initialburst of descriptive events. A client may consider the staticdescription of the tablet to be complete and finalize initializationof the tablet.<br/><br/>
             /// </summary>
             void OnDone(NWayland.Protocols.TabletUnstableV1.ZwpTabletV1 eventSender);
 
             /// <summary>
-            /// Sent when the tablet has been removed from the system. When a tablet
-            /// is removed, some tools may be removed.
-            /// <br/>
-            /// <br/>
-            /// When this event is received, the client must wp_tablet.destroy
-            /// the object.
+            /// Sent when the tablet has been removed from the system. When a tabletis removed, some tools may be removed.<br/><br/>
+            /// When this event is received, the client must wp_tablet.destroythe object.<br/><br/>
             /// </summary>
             void OnRemoved(NWayland.Protocols.TabletUnstableV1.ZwpTabletV1 eventSender);
         }
