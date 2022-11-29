@@ -4,7 +4,6 @@ using Avalonia.FreeDesktop;
 using Avalonia.Platform;
 using Avalonia.Utilities;
 using Avalonia.Wayland.FreeDesktop;
-using NWayland.Interop;
 using NWayland.Protocols.Wayland;
 
 namespace Avalonia.Wayland

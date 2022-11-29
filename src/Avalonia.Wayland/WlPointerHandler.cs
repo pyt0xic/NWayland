@@ -60,7 +60,7 @@ namespace Avalonia.Wayland
             _pointerWindow = _platform.WlScreens.WindowFromSurface(surface);
             if (_pointerWindow?.InputRoot is null)
                 return;
-            _pointerPosition = new Point((int)surfaceX, (int)surfaceY);
+            _pointerPosition = new Point((int)surfaceX, (int)surfaceY) / _pointerWindow.RenderScaling;
             var args = new RawPointerEventArgs(MouseDevice, 0, _pointerWindow.InputRoot, RawPointerEventType.Move, _pointerPosition, _wlInputDevice.RawInputModifiers);
             _pointerWindow.Input?.Invoke(args);
         }
@@ -82,7 +82,7 @@ namespace Avalonia.Wayland
         {
             if (_pointerWindow?.InputRoot is null)
                 return;
-            _pointerPosition = new Point((int)surfaceX, (int)surfaceY);
+            _pointerPosition = new Point((int)surfaceX, (int)surfaceY) / _pointerWindow.RenderScaling;
             var args = new RawPointerEventArgs(MouseDevice, time, _pointerWindow.InputRoot, RawPointerEventType.Move, _pointerPosition, _wlInputDevice.RawInputModifiers);
             _pointerWindow.Input?.Invoke(args);
         }

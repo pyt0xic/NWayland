@@ -1,1 +1,1 @@
-Taken from https://github.com/affederaffe/Avalonia, still a PR. For 0.10 compatibility.
+Taken from https://github.com/affederaffe/Avalonia/tree/6ae32e6302db2bd9eb1e4665160c6644d5b5422b, still a PR. For 0.10 compatibility.

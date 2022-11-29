@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
 using Avalonia.Input;
@@ -12,15 +13,17 @@ using Avalonia.Rendering;
 using Avalonia.Utilities;
 using Avalonia.Wayland.Egl;
 using Avalonia.Wayland.Framebuffer;
+using NWayland.Protocols.FractionalScaleV1;
 using NWayland.Protocols.Wayland;
 using NWayland.Protocols.XdgShell;
 
 namespace Avalonia.Wayland
 {
-    internal abstract class WlWindow : IWindowBaseImpl, ITopLevelImplWithTextInputMethod, WlSurface.IEvents, WlCallback.IEvents, XdgSurface.IEvents
+    internal abstract class WlWindow : IWindowBaseImpl, ITopLevelImplWithTextInputMethod, WlSurface.IEvents, WlCallback.IEvents, XdgSurface.IEvents, WpFractionalScaleV1.IEvents
     {
         private readonly AvaloniaWaylandPlatform _platform;
         private readonly WlFramebufferSurface _wlFramebufferSurface;
+        private readonly WpFractionalScaleV1? _wpFractionalScale;
         private readonly IntPtr _eglWindow;
 
         private WlCallback? _frameCallback;
@@ -29,18 +32,21 @@ namespace Avalonia.Wayland
         {
             _platform = platform;
             WlSurface = platform.WlCompositor.CreateSurface();
-            WlSurface.Events = this;
             XdgSurface = platform.XdgWmBase.GetXdgSurface(WlSurface);
             XdgSurface.Events = this;
             MouseDevice = platform.WlInputDevice != null && platform.WlInputDevice.PointerHandler != null && platform.WlInputDevice.PointerHandler.MouseDevice != null ? platform.WlInputDevice.PointerHandler.MouseDevice : new MouseDevice();
 
-            platform.WlScreens.AddWindow(this);
+            if (platform.WpFractionalScaleManager is not null)
+            {
+                _wpFractionalScale = platform.WpFractionalScaleManager.GetFractionalScale(WlSurface);
+                _wpFractionalScale.Events = this;
+            }
 
             TextInputMethod = platform.WlTextInputMethod;
 
             var screens = _platform.WlScreens.AllScreens;
             ClientSize = screens.Count > 0
-                ? new Size(screens[0].WorkingArea.Width * 0.75, screens[0].WorkingArea.Height * 0.7)
+                ? new Size(screens[0].Bounds.Width * 0.75, screens[0].Bounds.Height * 0.7)
                 : new Size(400, 600);
 
             _wlFramebufferSurface = new WlFramebufferSurface(platform, this);
@@ -56,13 +62,15 @@ namespace Avalonia.Wayland
             }
 
             Surfaces = surfaces.ToArray();
+
+            platform.WlScreens.AddWindow(this);
         }
 
         public IPlatformHandle Handle { get; }
 
         public ITextInputMethodImpl? TextInputMethod { get; }
 
-        public Size MaxAutoSizeHint => WlOutput is null ? Size.Infinity : _platform.WlScreens.ScreenFromOutput(WlOutput).Bounds.Size.ToSize(1);
+        public Size MaxAutoSizeHint => _platform.WlScreens.AllScreens.Select(static s => s.Bounds.Size.ToSize(s.PixelDensity)).OrderByDescending(static x => x.Width + x.Height).FirstOrDefault();
 
         public Size ClientSize { get; private set; }
 
@@ -134,9 +142,9 @@ namespace Avalonia.Wayland
 
         public void SetInputRoot(IInputRoot inputRoot) => InputRoot = inputRoot;
 
-        public Point PointToClient(PixelPoint point) => point.ToPoint(1);
+        public Point PointToClient(PixelPoint point) => point.ToPoint(RenderScaling);
 
-        public PixelPoint PointToScreen(Point point) => new((int)point.X, (int)point.Y);
+        public PixelPoint PointToScreen(Point point) => new((int)(point.X * RenderScaling), (int)(point.Y * RenderScaling));
 
         public void SetCursor(ICursorImpl? cursor) => _platform.WlInputDevice.PointerHandler?.SetCursor(cursor as WlCursor);
 
@@ -172,25 +180,16 @@ namespace Avalonia.Wayland
                 DoResize(clientSize);
         }
 
-        public void OnEnter(WlSurface eventSender, WlOutput output)
-        {
-            WlOutput = output;
-            var screen = _platform.WlScreens.ScreenFromOutput(output);
-            if (MathUtilities.AreClose(screen.PixelDensity, RenderScaling))
-                return;
-            RenderScaling = screen.PixelDensity;
-            ScalingChanged?.Invoke(RenderScaling);
-            WlSurface?.SetBufferScale((int)RenderScaling);
-        }
-
-        public void OnLeave(WlSurface eventSender, WlOutput output) => WlOutput = null;
-
         public void OnDone(WlCallback eventSender, uint callbackData)
         {
             _frameCallback!.Dispose();
             _frameCallback = null;
             DoPaint();
         }
+
+        public void OnEnter(WlSurface eventSender, WlOutput output) => WlOutput = output;
+
+        public void OnLeave(WlSurface eventSender, WlOutput output) => WlOutput = null;
 
         public void OnConfigure(XdgSurface eventSender, uint serial)
         {
@@ -202,11 +201,18 @@ namespace Avalonia.Wayland
                 DoPaint();
         }
 
+        public void OnPreferredScale(WpFractionalScaleV1 eventSender, uint scale)
+        {
+            RenderScaling = scale / 120d;
+            ScalingChanged?.Invoke(RenderScaling);
+        }
+
         public virtual void Dispose()
         {
             _platform.WlScreens.RemoveWindow(this);
             if (_eglWindow != IntPtr.Zero)
                 LibWaylandEgl.wl_egl_window_destroy(_eglWindow);
+            _wpFractionalScale?.Dispose();
             _wlFramebufferSurface.Dispose();
             XdgSurface.Dispose();
             var surf = WlSurface;
@@ -220,7 +226,10 @@ namespace Avalonia.Wayland
             if (_frameCallback is not null)
                 return;
             _frameCallback = WlSurface?.Frame();
-            _frameCallback.Events = this;
+            if (_frameCallback != null)
+            {
+                _frameCallback.Events = this;
+            }            
         }
 
         private void DoResize(Size size)

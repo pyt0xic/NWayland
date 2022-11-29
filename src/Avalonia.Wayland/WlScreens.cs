@@ -75,9 +75,9 @@ namespace Avalonia.Wayland
 
         internal sealed class WlScreen : Screen, WlOutput.IEvents, IDisposable
         {
-            private static ConcurrentDictionary<string, FieldInfo> cache = new();
+            private static readonly ConcurrentDictionary<string, FieldInfo> cache = new();
 
-            public WlScreen(WlOutput wlOutput) : base(0, PixelRect.Empty, PixelRect.Empty, true)
+            public WlScreen(WlOutput wlOutput) : base(default, default, default, default(bool))
             {
                 WlOutput = wlOutput;
                 wlOutput.Events = this;
@@ -87,8 +87,7 @@ namespace Avalonia.Wayland
 
             public void OnGeometry(WlOutput eventSender, int x, int y, int physicalWidth, int physicalHeight, WlOutput.SubpixelEnum subpixel, string make, string model, WlOutput.TransformEnum transform)
             {
-                var value = new PixelRect(x, y, Bounds.Width, Bounds.Height);
-                SetProperty(nameof(WorkingArea), value);
+                var value = new PixelRect(x, y, Bounds.Width, Bounds.Height);                
                 SetProperty(nameof(Bounds), value);
             }
 
@@ -107,8 +106,7 @@ namespace Avalonia.Wayland
             {
                 if (flags.HasAllFlags(WlOutput.ModeEnum.Current))
                 {
-                    var value = new PixelRect(Bounds.X, Bounds.Y, width, height);
-                    SetProperty(nameof(WorkingArea), value);
+                    var value = new PixelRect(Bounds.X, Bounds.Y, width, height);                    
                     SetProperty(nameof(Bounds), value);
                 }
             }

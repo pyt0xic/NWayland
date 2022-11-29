@@ -30,7 +30,6 @@ namespace Avalonia.Wayland.FreeDesktop
         FBIOGET_FSCREENINFO = 0x4602,
         FBIOGET_VBLANK = 0x80204612u,
         FBIO_WAITFORVSYNC = 0x40044620,
-        /// <exclude />
         FBIOPAN_DISPLAY = 0x4606
     }
 
