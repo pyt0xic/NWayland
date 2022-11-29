@@ -76,7 +76,10 @@ namespace Avalonia.Wayland
             triggerEvent.Pointer.Capture(null);
             var dataSource = _platform.WlDataDeviceManager.CreateDataSource();
             _currentDataSourceHandler = new WlDataSourceHandler(_platform, dataSource, data, allowedEffects);
-            _wlDataDevice.StartDrag(dataSource, wlWindow.WlSurface, null, _platform.WlInputDevice.Serial);
+            if (wlWindow.WlSurface != null)
+            {
+                _wlDataDevice.StartDrag(dataSource, wlWindow.WlSurface, null, _platform.WlInputDevice.Serial);
+            }
             return _currentDataSourceHandler.DnD;
         }
 
@@ -232,7 +235,7 @@ namespace Avalonia.Wayland
                     else
                     {
                         _wlDataSource.Offer(format);
-                    }                    
+                    }
                 }
             }
 

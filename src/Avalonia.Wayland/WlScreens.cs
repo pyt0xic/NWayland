@@ -44,12 +44,21 @@ namespace Avalonia.Wayland
 
         internal WlWindow? WindowFromSurface(WlSurface? wlSurface) => wlSurface is not null && _wlWindows.TryGetValue(wlSurface, out var wlWindow) ? wlWindow : null;
 
-        internal void AddWindow(WlWindow window) => _wlWindows.Add(window.WlSurface, window);
+        internal void AddWindow(WlWindow window)
+        {
+            if (window.WlSurface != null)
+            {
+                _wlWindows.Add(window.WlSurface, window);
+            }            
+        }
 
         internal void RemoveWindow(WlWindow window)
         {
             _platform.WlInputDevice.InvalidateFocus(window);
-            _wlWindows.Remove(window.WlSurface);
+            if (window.WlSurface != null)
+            {
+                _wlWindows.Remove(window.WlSurface);
+            }            
         }
 
         private void OnGlobalAdded(WlRegistryHandler.GlobalInfo globalInfo)
@@ -87,7 +96,7 @@ namespace Avalonia.Wayland
 
             public void OnGeometry(WlOutput eventSender, int x, int y, int physicalWidth, int physicalHeight, WlOutput.SubpixelEnum subpixel, string make, string model, WlOutput.TransformEnum transform)
             {
-                var value = new PixelRect(x, y, Bounds.Width, Bounds.Height);                
+                var value = new PixelRect(x, y, Bounds.Width, Bounds.Height);
                 SetProperty(nameof(Bounds), value);
             }
 
@@ -106,7 +115,7 @@ namespace Avalonia.Wayland
             {
                 if (flags.HasAllFlags(WlOutput.ModeEnum.Current))
                 {
-                    var value = new PixelRect(Bounds.X, Bounds.Y, width, height);                    
+                    var value = new PixelRect(Bounds.X, Bounds.Y, width, height);
                     SetProperty(nameof(Bounds), value);
                 }
             }

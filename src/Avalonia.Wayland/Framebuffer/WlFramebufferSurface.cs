@@ -60,7 +60,7 @@ namespace Avalonia.Wayland.Framebuffer
 
             public bool Available { get; private set; }
 
-            public WlFramebuffer GetFramebuffer(WlSurface wlSurface, int width, int height, int stride)
+            public WlFramebuffer GetFramebuffer(WlSurface? wlSurface, int width, int height, int stride)
             {
                 Available = false;
                 var size = stride * height;

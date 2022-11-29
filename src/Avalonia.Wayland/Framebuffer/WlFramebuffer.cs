@@ -22,9 +22,9 @@ namespace Avalonia.Wayland.Framebuffer
 
         public void Dispose()
         {
-            _wlSurface.Attach(_wlBuffer, 0, 0);
-            _wlSurface.DamageBuffer(0, 0, Size.Width, Size.Height);
-            _wlSurface.Commit();
+            _wlSurface?.Attach(_wlBuffer, 0, 0);
+            _wlSurface?.DamageBuffer(0, 0, Size.Width, Size.Height);
+            _wlSurface?.Commit();
         }
 
         public IntPtr Address { get; }

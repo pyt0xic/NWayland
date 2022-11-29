@@ -30,7 +30,8 @@ namespace Avalonia.Wayland
             _toplevelDecoration = platform.ZxdgDecorationManager?.GetToplevelDecoration(_xdgToplevel);
             if (_toplevelDecoration is not null)
                 _toplevelDecoration.Events = this;
-            _exported = platform.ZxdgExporter?.ExportToplevel(WlSurface);
+            if (WlSurface != null)
+                _exported = platform.ZxdgExporter?.ExportToplevel(WlSurface);
             if (_exported is not null)
                 _exported.Events = this;
         }
